@@ -1,1613 +1,928 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>國小三年級字形辨析大闖關</title>
+  <title>國小三年級字音字形大闖關（800題標準校正版）</title>
   <style>
-    /* 全域設定與護眼主題色彩 */
-    :root {
-      --bg-warm: #FFFBEB;
-      --bg-card: #FFFFFF;
-      --text-main: #0F172A;
-      --text-muted: #475569;
-      --primary: #059669;
-      --primary-hover: #047857;
-      --accent-yellow: #FEF08A;
-      --accent-orange: #F97316;
-      --danger: #DC2626;
-      --danger-light: #FEE2E2;
-      --success-light: #DCFCE7;
-      --border-color: #E2E8F0;
-      --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-      --shadow-md: 0 6px 12px rgba(0,0,0,0.08);
-      --shadow-lg: 0 12px 24px rgba(0,0,0,0.12);
-      --font-family: system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", "Heiti TC", sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: var(--bg-warm);
-      color: var(--text-main);
-      font-family: var(--font-family);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background-color: #fffbeb;
+      color: #1e293b;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      padding: 16px;
-      line-height: 1.5;
-    }
-
-    /* 頂部導覽與功能列 */
-    header {
-      width: 100%;
-      max-width: 900px;
-      background: #FFFFFF;
-      border-radius: 20px;
-      padding: 16px 24px;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-      border: 2px solid #FEF3C7;
-    }
-
-    .brand-title {
-      font-size: 24px;
-      font-weight: 800;
-      color: #065F46;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn-tool {
-      background: #F1F5F9;
-      color: var(--text-main);
-      border: 2px solid #CBD5E1;
-      border-radius: 12px;
-      padding: 8px 16px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-    .btn-tool:hover {
-      background: #E2E8F0;
-      border-color: #94A3B8;
-    }
-    .btn-tool:active {
-      transform: scale(0.96);
-    }
-
-    /* 儀表板統計資訊 */
-    .dashboard {
-      width: 100%;
-      max-width: 900px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .stat-card {
-      background: #FFFFFF;
-      border-radius: 16px;
-      padding: 14px 18px;
-      border: 2px solid #E2E8F0;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .stat-label {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
-    .stat-value {
-      font-size: 26px;
-      font-weight: 900;
-      color: #047857;
-      margin-top: 4px;
-    }
-
-    /* 主作答與詳解區域容器 */
-    main {
-      width: 100%;
-      max-width: 900px;
-      min-height: 540px;
-      background: var(--bg-card);
-      border-radius: 28px;
-      box-shadow: var(--shadow-md);
-      border: 3px solid #D1FAE5;
-      padding: 32px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    /* 注音提示標籤 */
-    .zhuyin-badge {
-      background: #FEF3C7;
-      border: 2px solid #F59E0B;
-      color: #92400E;
-      font-size: 26px;
-      font-weight: 800;
-      padding: 6px 24px;
-      border-radius: 50px;
-      margin-bottom: 24px;
-      letter-spacing: 2px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    /* 題幹詞語 (56px ~ 64px 巨大字體) */
-    .question-prompt {
-      font-size: clamp(42px, 8vw, 64px);
-      font-weight: 900;
-      text-align: center;
-      letter-spacing: 8px;
-      line-height: 1.4;
-      margin-bottom: 40px;
-      color: #0F172A;
-      word-break: break-word;
-    }
-
-    /* 挖空醒目標示 */
-    .blank-box {
-      display: inline-block;
-      padding: 0 12px;
-      margin: 0 4px;
-      background: #FEF08A;
-      border: 3px dashed #F59E0B;
-      border-radius: 14px;
-      color: #B45309;
-      min-width: 1.2em;
-      text-align: center;
-      box-shadow: 0 2px 0 rgba(0,0,0,0.1);
-    }
-
-    /* 二選一選項按鈕區域 (48px ~ 56px 巨大字體) */
-    .options-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      width: 100%;
-      max-width: 600px;
-      margin-top: 10px;
-    }
-
-    .btn-choice {
-      font-size: clamp(42px, 7vw, 56px);
-      font-weight: 900;
-      padding: 24px 16px;
-      border-radius: 24px;
-      border: 3px solid #6EE7B7;
-      background: #F0FDF4;
-      color: #065F46;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 6px 0 #10B981, var(--shadow-md);
-      transition: transform 0.1s ease, background-color 0.15s ease, box-shadow 0.1s ease;
       user-select: none;
+      -webkit-user-select: none;
     }
-
-    .btn-choice:hover {
-      background: #DCFCE7;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 0 #10B981, var(--shadow-lg);
+    header {
+      background-color: #ffffff;
+      border-bottom: 4px solid #fcd34d;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      padding: 14px 20px;
     }
-
-    .btn-choice:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #10B981;
-    }
-
-    /* 詳解介面卡片 */
-    .detail-card {
-      width: 100%;
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      animation: fadeIn 0.25s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.97); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .feedback-banner {
-      font-size: 32px;
-      font-weight: 900;
-      padding: 10px 32px;
-      border-radius: 50px;
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .banner-correct {
-      background: var(--success-light);
-      border: 3px solid #10B981;
-      color: #047857;
-    }
-    .banner-wrong {
-      background: var(--danger-light);
-      border: 3px solid #EF4444;
-      color: #B91C1C;
-    }
-
-    .detail-word-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 24px;
-    }
-
-    .detail-target-word {
-      font-size: clamp(48px, 8vw, 68px);
-      font-weight: 900;
-      color: #065F46;
-      letter-spacing: 4px;
-    }
-
-    .btn-tts {
-      background: #EFF6FF;
-      border: 2px solid #3B82F6;
-      color: #1D4ED8;
-      font-size: 18px;
-      font-weight: 800;
-      border-radius: 50px;
-      padding: 8px 20px;
-      cursor: pointer;
-      display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-    .btn-tts:hover {
-      background: #DBEAFE;
-      transform: scale(1.05);
-    }
-    .btn-tts:active {
-      transform: scale(0.95);
-    }
-
-    /* 辨析詳細內容方塊 */
-    .analysis-box {
-      width: 100%;
-      background: #F8FAFC;
-      border: 2px solid #CBD5E1;
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 28px;
-    }
-
-    .analysis-row {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      font-size: 18px;
-      line-height: 1.6;
-    }
-
-    .analysis-pill {
-      font-weight: 800;
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 8px;
-      font-size: 15px;
-      margin-right: 6px;
-    }
-    .pill-green { background: #DCFCE7; color: #15803D; }
-    .pill-red { background: #FEE2E2; color: #B91C1C; }
-    .pill-blue { background: #DBEAFE; color: #1D4ED8; }
-
-    .btn-next {
-      background: #059669;
-      color: #FFFFFF;
-      font-size: 26px;
-      font-weight: 800;
-      padding: 16px 48px;
-      border-radius: 50px;
-      border: none;
-      box-shadow: 0 6px 0 #047857, var(--shadow-md);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      transition: all 0.15s ease;
-    }
-    .btn-next:hover {
-      background: #047857;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 0 #065F46;
-    }
-    .btn-next:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #065F46;
-    }
-
-    /* 回合結算成績單 */
-    .summary-card {
-      width: 100%;
-      text-align: center;
-    }
-    .summary-title {
-      font-size: 36px;
-      font-weight: 900;
-      color: #065F46;
-      margin-bottom: 16px;
-    }
-    .score-circle {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background: #ECFDF5;
-      border: 8px solid #10B981;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 24px auto;
-    }
-    .score-val {
-      font-size: 44px;
-      font-weight: 900;
-      color: #047857;
-      line-height: 1;
-    }
-    .score-sub {
-      font-size: 14px;
-      font-weight: 700;
-      color: #059669;
-      margin-top: 4px;
-    }
-
-    .mistake-list {
-      width: 100%;
-      max-height: 380px;
-      overflow-y: auto;
-      text-align: left;
-      border: 2px solid #E2E8F0;
-      border-radius: 16px;
-      padding: 16px;
-      background: #F8FAFC;
-      margin-bottom: 24px;
-    }
-    .mistake-item {
-      padding: 12px 14px;
-      border-bottom: 1px dashed #CBD5E1;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .mistake-item:last-child {
-      border-bottom: none;
-    }
-
-    /* 彈窗（Modal）樣式 */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 16px;
-      backdrop-filter: blur(2px);
-    }
-    .modal-container {
-      background: #FFFFFF;
-      width: 100%;
-      max-width: 820px;
-      max-height: 90vh;
-      border-radius: 24px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow-lg);
-    }
-    .modal-header {
-      display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
+      gap: 12px;
     }
-    .modal-title {
+    .title {
       font-size: 22px;
-      font-weight: 800;
-      color: #0F172A;
+      font-weight: 900;
+      color: #78350f;
     }
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 24px;
-      font-weight: bold;
-      color: #64748B;
+    .stats-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #475569;
+    }
+    .btn-header {
+      padding: 6px 14px;
+      font-weight: 700;
+      border-radius: 10px;
+      font-size: 13px;
       cursor: pointer;
+      transition: all 0.15s;
+      border: 1px solid transparent;
     }
-    .modal-body {
-      overflow-y: auto;
+    .btn-reset {
+      background-color: #fff1f2;
+      color: #e11d48;
+      border-color: #fecdd3;
+    }
+    .btn-import {
+      background-color: #f8fafc;
+      color: #334155;
+      border-color: #cbd5e1;
+    }
+    main {
+      max-width: 820px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 16px;
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      justify-content: center;
     }
-    .modal-textarea {
-      width: 100%;
-      height: 300px;
-      font-family: monospace;
-      font-size: 14px;
-      padding: 12px;
-      border-radius: 12px;
-      border: 2px solid #CBD5E1;
-      resize: vertical;
-      line-height: 1.4;
-    }
-    .modal-footer {
-      margin-top: 16px;
+    .game-stats {
       display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    /* 訊息提示 Notification Toast */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #0F172A;
-      color: #FFFFFF;
-      padding: 10px 24px;
-      border-radius: 50px;
-      font-size: 15px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 0 6px;
+      font-size: 17px;
       font-weight: 700;
-      box-shadow: var(--shadow-md);
-      z-index: 2000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
+      color: #475569;
     }
-    .toast.show {
-      opacity: 1;
+    .stage-tag {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-left: 6px;
     }
-
-    /* 響應式微調 */
+    .stage-p { background-color: #e0e7ff; color: #4338ca; }
+    .stage-s { background-color: #d1fae5; color: #065f46; }
+    .card {
+      background-color: #ffffff;
+      border-radius: 24px;
+      padding: 28px 20px;
+      border: 4px solid #fef08a;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+    .card-quiz {
+      border-color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+    }
+    .prompt-text {
+      font-size: 52px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: #0f172a;
+      padding: 32px 0;
+      line-height: 1.25;
+    }
+    .highlight-char {
+      color: #f59e0b;
+      background-color: #fef3c7;
+      padding: 2px 14px;
+      border-radius: 14px;
+      margin: 0 3px;
+    }
+    .blank-box {
+      display: inline-block;
+      color: #059669;
+      background-color: #ecfdf5;
+      padding: 2px 16px;
+      border: 3px dashed #34d399;
+      border-radius: 14px;
+      margin: 0 4px;
+    }
+    .grid-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
     @media (max-width: 640px) {
-      header {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .brand-title {
-        justify-content: center;
-      }
-      .header-actions {
-        justify-content: center;
-      }
-      main {
-        padding: 24px 16px;
-        min-height: 480px;
-      }
-      .options-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-      .btn-choice {
-        padding: 16px;
-      }
+      .grid-btns { grid-template-columns: 1fr; }
+      .prompt-text { font-size: 40px; }
     }
+    .opt-btn {
+      padding: 20px 14px;
+      background-color: #f8fafc;
+      border: 4px solid #e2e8f0;
+      border-radius: 20px;
+      font-size: 46px;
+      font-weight: 900;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .opt-btn:hover {
+      background-color: #eef2ff;
+      border-color: #818cf8;
+    }
+    .opt-btn:active { transform: scale(0.96); }
+    .btn-action {
+      width: 100%;
+      max-width: 380px;
+      padding: 16px 20px;
+      background-color: #f59e0b;
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: 900;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 6px 14px rgba(245, 158, 11, 0.25);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin: 0 auto;
+    }
+    .btn-action:hover { background-color: #d97706; }
+    .btn-action:active { transform: scale(0.97); }
+    .btn-next {
+      background-color: #4f46e5;
+      box-shadow: 0 6px 14px rgba(79, 70, 229, 0.2);
+    }
+    .btn-next:hover { background-color: #4338ca; }
+    .expl-box {
+      background-color: #f8fafc;
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .expl-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+    .expl-content {
+      font-size: 20px;
+      color: #1e293b;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 360px;
+      margin: 0 auto 20px auto;
+    }
+    .summary-item {
+      padding: 14px;
+      border-radius: 16px;
+      background-color: #fffbeb;
+      border: 1px solid #fde68a;
+    }
+    .summary-num {
+      font-size: 32px;
+      font-weight: 900;
+      color: #d97706;
+      margin-top: 4px;
+    }
+    .mistake-list {
+      max-height: 220px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      padding-right: 6px;
+    }
+    .mistake-card {
+      padding: 10px 14px;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      text-align: left;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(2px);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-box {
+      background-color: #ffffff;
+      border-radius: 20px;
+      max-width: 600px;
+      width: 100%;
+      padding: 20px;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      max-height: 85vh;
+    }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-  <!-- 頂部功能列 -->
   <header>
-    <div class="brand-title">
-      <span>🎒</span>
-      <span>國小三年級字形辨析大闖關</span>
-    </div>
-    <div class="header-actions">
-      <button class="btn-tool" id="btnResetRound" title="重置當前抽題進度">
-        <span>🔄</span> 重設本輪進度
-      </button>
-      <button class="btn-tool" id="btnManageBank" title="管理與編輯自訂題庫">
-        <span>⚙️</span> 題庫管理 / 匯入
-      </button>
+    <div class="header-inner">
+      <div>
+        <h1 class="title">🏆 三年級字音字形大闖關（800題總庫）</h1>
+        <div class="stats-row">
+          <span>🔊 字音進度：<strong id="cov-p" style="color: #4f46e5;">0/400</strong></span>
+          <span>✍️ 字形進度：<strong id="cov-s" style="color: #059669;">0/400</strong></span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button onclick="toggleModal(true)" class="btn-header btn-import">⚙️ 題庫管理</button>
+        <button onclick="resetPool()" class="btn-header btn-reset">🔄 重設進度</button>
+      </div>
     </div>
   </header>
 
-  <!-- 頂部學習儀表板 -->
-  <section class="dashboard">
-    <div class="stat-card">
-      <span class="stat-label">本輪作答題數</span>
-      <span class="stat-value" id="statAnswered">0 / 50</span>
+  <main>
+    <div id="game-stats" class="game-stats hidden">
+      <div>
+        第 <span id="current-q-idx" style="font-size: 24px; color: #d97706;">1</span> / <span id="round-total-idx">50</span> 題 
+        <span id="stage-badge" class="stage-tag stage-p">🔊 字音階段</span>
+      </div>
+      <div>
+        得分：<span id="current-score" style="font-size: 24px; color: #059669;">0</span>
+      </div>
     </div>
-    <div class="stat-card">
-      <span class="stat-label">題庫剩餘抽題數</span>
-      <span class="stat-value" id="statRemaining">0</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-label">目前正確率</span>
-      <span class="stat-value" id="statAccuracy">100%</span>
-    </div>
-    <div class="stat-card">
-      <span class="stat-label">全題庫覆蓋率</span>
-      <span class="stat-value" id="statCoverage">0 / 400</span>
-    </div>
-  </section>
 
-  <!-- 主要互動區域 -->
-  <main id="appContainer">
-    <!-- JS 會動態在此切換：作答視圖 / 詳解視圖 / 結算成績單 -->
+    <!-- 1. 開始介面 -->
+    <div id="screen-start" class="card">
+      <div style="font-size: 50px; margin-bottom: 8px;">🎯</div>
+      <h2 style="font-size: 26px; font-weight: 900; color: #1e293b; margin-bottom: 8px;">三年級字音字形 800 題大挑戰</h2>
+      <p style="font-size: 16px; color: #475569; margin-bottom: 20px; line-height: 1.5;">
+        每回合 50 題（<strong>前 25 題字音辨析</strong> ＋ <strong>後 25 題字形辨析</strong>）。<br>
+        採用獨立未抽牌堆無重複機制，16 個回合完全覆蓋且絕不重複！
+      </p>
+      <div style="background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 16px; padding: 14px; max-width: 440px; margin: 0 auto 20px auto; text-align: left; font-size: 14px; color: #334155; line-height: 1.8;">
+        <div style="display: flex; justify-content: space-between;"><span>• 字音題庫規模：</span><strong id="stat-p-remain" style="color: #4f46e5;">400 / 400</strong></div>
+        <div style="display: flex; justify-content: space-between;"><span>• 字形題庫規模：</span><strong id="stat-s-remain" style="color: #059669;">400 / 400</strong></div>
+        <div style="display: flex; justify-content: space-between;"><span>• 總覆蓋進度：</span><strong id="stat-rounds" style="color: #d97706;">第 1 / 16 回合</strong></div>
+      </div>
+      <button onclick="startRound()" class="btn-action">開始本回合測驗 (50題) 🚀</button>
+    </div>
+
+    <!-- 2. 做題介面 -->
+    <div id="screen-quiz" class="card card-quiz hidden">
+      <div id="quiz-hint" style="font-size: 18px; font-weight: 700; color: #64748b; margin-bottom: 6px;">
+        請選出目標字的正確注音：
+      </div>
+      <div id="quiz-prompt" class="prompt-text">--</div>
+      <div class="grid-btns">
+        <button id="opt-btn-0" onclick="handleChoice(0)" class="opt-btn">--</button>
+        <button id="opt-btn-1" onclick="handleChoice(1)" class="opt-btn">--</button>
+      </div>
+    </div>
+
+    <!-- 3. 詳解畫面 -->
+    <div id="screen-detail" class="card card-quiz hidden">
+      <div id="result-badge" style="align-self: center; padding: 4px 18px; border-radius: 9999px; font-size: 18px; font-weight: 900; margin-bottom: 14px;">
+        回答正確 🎉
+      </div>
+      <div style="margin-bottom: 20px;">
+        <div id="detail-word" style="font-size: 52px; font-weight: 900; color: #0f172a; margin-bottom: 8px;">--</div>
+        <div style="display: inline-flex; align-items: center; gap: 10px;">
+          <span id="detail-zhuyin" style="font-size: 26px; font-weight: 700; color: #4338ca; background-color: #eef2ff; padding: 4px 18px; border-radius: 12px; border: 1px solid #c7d2fe;">--</span>
+          <button onclick="speakCurrentWord()" style="padding: 6px 14px; background-color: #fef3c7; color: #92400e; border: none; border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer;">
+            🔊 朗讀發音
+          </button>
+        </div>
+      </div>
+      <div class="expl-box">
+        <div class="expl-title">【 標準解答與詞語 】</div>
+        <div id="detail-expl" class="expl-content">--</div>
+      </div>
+      <button onclick="nextQuestion()" class="btn-action btn-next">下一題 ➔</button>
+    </div>
+
+    <!-- 4. 回合結算介面 -->
+    <div id="screen-summary" class="card hidden">
+      <div style="font-size: 48px; margin-bottom: 6px;">🏅</div>
+      <h2 style="font-size: 26px; font-weight: 900; color: #1e293b; margin-bottom: 4px;">回合結束！成績單</h2>
+      <p style="color: #64748b; font-size: 15px; margin-bottom: 20px;">本回合 50 題測驗已順利完成</p>
+      
+      <div class="summary-grid">
+        <div class="summary-item">
+          <div style="font-size: 13px; font-weight: 700; color: #64748b;">最終得分</div>
+          <div id="final-score" class="summary-num">0</div>
+        </div>
+        <div class="summary-item" style="background-color: #ecfdf5; border-color: #a7f3d0;">
+          <div style="font-size: 13px; font-weight: 700; color: #64748b;">答對率</div>
+          <div id="final-rate" class="summary-num" style="color: #059669;">0%</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px; text-align: left;">
+        <h3 style="font-size: 16px; font-weight: 700; color: #334155; margin-bottom: 10px;">
+          ❌ 本回合錯題回顧 (<span id="mistake-count">0</span>)
+        </h3>
+        <div id="mistake-list" class="mistake-list"></div>
+      </div>
+
+      <button onclick="initScreen()" class="btn-action">返回首頁繼續挑戰 ➔</button>
+    </div>
   </main>
 
-  <!-- 題庫管理 Modal 彈窗 -->
-  <div class="modal-overlay" id="modalBank" style="display: none;">
-    <div class="modal-container">
-      <div class="modal-header">
-        <h3 class="modal-title">⚙️ 題庫管理與批次匯入</h3>
-        <button class="modal-close" id="btnCloseModal">&times;</button>
+  <!-- 題庫管理彈窗 -->
+  <div id="modal-import" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <h3 style="font-size: 18px; font-weight: 900; color: #1e293b;">📥 題庫管理與自訂擴充</h3>
+        <button onclick="toggleModal(false)" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #94a3b8;">✕</button>
       </div>
-      <div class="modal-body">
-        <p style="font-size: 14px; color: var(--text-muted);">
-          每行一題，以直線符號 <code>|</code> 依序分隔：<br>
-          <strong>形|題幹(挖空處使用（ ）)|目標字|正確國字|形近錯別字|注音提示|教育部簡編本釋義與詞語用法</strong>
-        </p>
-        <textarea class="modal-textarea" id="txtBankData" spellcheck="false"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-tool" id="btnRestoreDefault">恢復預設 400 題</button>
-        <button class="btn-tool" id="btnSaveBank" style="background:#059669; color:#FFF; border-color:#047857;">儲存題庫並重新洗牌</button>
+      <p style="font-size: 13px; color: #64748b; margin-bottom: 8px;">
+        題庫已載入教育部校正版 800 題（400 音 / 400 形）。亦可在此黏貼自訂題目。
+      </p>
+      <textarea id="import-text" style="width: 100%; flex: 1; min-height: 180px; padding: 10px; border: 1px solid #cbd5e1; border-radius: 12px; font-family: monospace; font-size: 12px; resize: none;" placeholder="貼上自訂 Pipe 格式題目..."></textarea>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+        <button onclick="restoreFullBank()" style="font-size: 13px; color: #4f46e5; background: none; border: none; cursor: pointer; font-weight: 700;">重設回 800 題完整校正庫</button>
+        <div style="display: flex; gap: 8px;">
+          <button onclick="toggleModal(false)" style="padding: 8px 14px; border: 1px solid #cbd5e1; border-radius: 10px; background: white; font-weight: 700;">取消</button>
+          <button onclick="executeImport()" style="padding: 8px 16px; background-color: #f59e0b; color: white; border: none; border-radius: 10px; font-weight: 900; cursor: pointer;">匯入變更</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- 提示訊息 Toast -->
-  <div class="toast" id="toastMessage"></div>
+  <footer style="text-align: center; font-size: 12px; color: #94a3b8; padding: 14px;">
+    國小三年級字音字形互動闖關系統 • 依據教育部標準音字校正
+  </footer>
 
   <script>
-    /* ==========================================================================
-       一、預載 400 題國小三年級高頻字形辨析題庫（Pipe 分隔壓縮字串）
-       格式：形|題幹|目標字|正確國字|形近錯別字|注音提示|釋義與形近辨析
-       ========================================================================== */
-    const DEFAULT_QUESTION_BANK = [
-      "形|名列前（ ）|茅|茅|矛|ㄇㄠˊ|名列前茅：比喻成績優異。茅為草名，故從艸；矛為長柄尖頭兵器。",
-      "形|自相（ ）盾|矛|矛|茅|ㄇㄠˊ|自相矛盾：比喻言語或行事互相牴觸。矛為古代進攻刺擊兵器，非艸部。",
-      "形|拔（ ）相助|刀|刀|力|ㄉㄠ|拔刀相助：拔出刀來幫助被欺負的人。刀是武器利刃，右上無撇出頭；力字一撇出頭。",
-      "形|竭盡心（ ）|力|力|刀|ㄌㄧˋ|竭盡心力：用盡所有的心智與力量。力字表示筋骨肌力，撇筆出頭。",
-      "形|（ ）拔弩張|劍|劍|僉|ㄐㄧㄢˋ|劍拔弩張：形容情勢非常緊張。劍為長刃兵器從刀部；僉為全眾之意無刀部。",
-      "形|綠草如（ ）|茵|茵|因|ㄧㄣ|綠草如茵：草地碧綠厚密如墊褥。茵指鋪墊褥子故從艸部；因非植物墊褥。",
-      "形|成（ ）結隊|群|群|郡|ㄑㄩㄣˊ|成群結隊：聚集眾多。群從羊部表示群體；郡為古代行政區劃從邑部。",
-      "形|刻（ ）求劍|舟|舟|丹|ㄓㄡ|刻舟求劍：比喻死板拘泥不知變通。舟為船隻之象形；丹指丹砂中央有一點。",
-      "形|雪中送（ ）|炭|炭|碳|ㄊㄢˋ|雪中送炭：及時給予支援援助。炭為木炭燃燒從火；碳為純化學非金屬元素。",
-      "形|濫（ ）充數|竽|竽|竿|ㄩˊ|濫竽充數：比喻沒有真實本領卻混在行家裡。竽為管樂器從于聲；竿為竹竿竹杖。",
-      "形|百尺（ ）頭|竿|竿|竽|ㄍㄢ|百尺竿頭：比喻造詣極高。竿指竹竿竹杖，不可誤為樂器之竽。",
-      "形|一（ ）知秋|葉|葉|枼|ㄧㄝˋ|一葉知秋：比喻從細微跡象推知大趨勢。葉為草木之葉片從艸部。",
-      "形|守株（ ）兔|待|待|侍|ㄉㄞˋ|守株待兔：比喻不知變通妄想僥倖。待為等待守候從彳部；侍為侍奉照料從亻部。",
-      "形|隨侍在（ ）|側|側|則|ㄘㄜˋ|隨侍在側：在身旁服侍。側為身旁偏側從人部；則為法則準則。",
-      "形|順（ ）推舟|水|水|冰|ㄕㄨㄟˇ|順水推舟：比喻順應客觀條件行事。水為江河流水；冰為凍結水有兩點水旁。",
-      "形|迎（ ）而解|刃|刃|刀|ㄖㄣˋ|迎刃而解：比喻事情順利獲解。刃為刀口鋒利處，刀上加一點指示；刀為整把刀刃。",
-      "形|集（ ）廣益|思|思|田|ㄙ|集思廣益：匯集眾人的智慧與思考。思為思考自心田；田指農田田地。",
-      "形|寸步難（ ）|行|行|彳|ㄒㄧㄥˊ|寸步難行：比喻處境極其艱難。行字左右兩部相合表示通達道路；彳僅為半邊。",
-      "形|走（ ）無路|投|投|技|ㄊㄡˊ|走投無路：比喻走投無處依附陷入絕境。投為投奔投靠殳聲；技為技藝手藝支聲。",
-      "形|千鈞一（ ）|髮|髮|發|ㄈㄚˇ|千鈞一髮：比喻處境萬分危急。髮為頭髮毛髮從髟部；發為出發射發從癶部。",
-      "形|按（ ）索驥|圖|圖|園|ㄊㄨˊ|按圖索驥：比喻照著線索尋找。圖為圖冊圖畫，內從鄙省；園為花園種植地。",
-      "形|畫蛇添（ ）|足|足|疋|ㄗㄨˊ|畫蛇添足：比喻做多餘的事反而弄巧成拙。足為下肢腳；疋為布匹單位或部首。",
-      "形|盲人（ ）象|摸|摸|莫|ㄇㄛ|盲人摸象：比喻只看局部以偏概全。摸為用手觸摸從手部；莫為古暮字無提手旁。",
-      "形|井底之（ ）|蛙|蛙|哇|ㄨㄚ|井底之蛙：比喻見識狹隘短淺的人。蛙為兩棲動物從虫部；哇為口部嘆詞語助詞。",
-      "形|望梅止（ ）|渴|渴|喝|ㄎㄜˇ|望梅止渴：比喻願望未遂以空想自慰。渴是口乾想飲從氵部；喝是張口飲用從口部。",
-      "形|揠苗（ ）長|助|助|力|ㄓㄨˋ|揠苗助長：比喻違反自然法則急於求成。助從力且聲，表輔助協助；力為單獨力量。",
-      "形|掩耳（ ）鈴|盜|盜|資|ㄉㄠˋ|掩耳盜鈴：比喻自欺欺人。盜為偷竊偷盜從皿次；資為財富物資從貝部。",
-      "形|心不在（ ）|焉|焉|烏|ㄧㄢ|心不在焉：心思渙散不集中。焉字下方四點代表鳥尾羽；烏為黑鳥眼珠與羽毛一色故中無一橫。",
-      "形|杞人（ ）天|憂|憂|優|ㄧㄡ|杞人憂天：比喻毫無根據的無端憂慮。憂為心中愁苦從心；優為優秀優雅從人。",
-      "形|亡羊（ ）牢|補|補|哺|ㄅㄨˇ|亡羊補牢：比喻失誤後及時彌補為時未晚。補為修補衣物從衣部；哺為餵哺從口部。",
-      "形|破釜（ ）舟|沉|沉|沈|ㄔㄣˊ|破釜沉舟：比喻決心戰鬥不留退路。沉為沒入水底標準字；沈多用於姓氏或古代水名。",
-      "形|金（ ）脫殼|蟬|蟬|蟬|ㄔㄢˊ|金蟬脫殼：比喻製造假象趁機脫逃。蟬為昆蟲從虫部單聲；不可誤寫無虫部。",
-      "形|拋（ ）引玉|磚|磚|專|ㄓㄨㄢ|拋磚引玉：謙稱以粗淺意見引出他人高見。磚為建築磚石從石部；專為專門專注。",
-      "形|開卷有（ ）|益|益|皿|ㄧˋ|開卷有益：讀書總會獲得益處。益字水在器皿上漫出引申增益；皿為盛器。",
-      "形|滄海一（ ）|粟|粟|栗|ㄙㄨˋ|滄海一粟：比喻極其渺小微不足道。粟為穀子小米從米部；栗為板栗栗子樹從木部。",
-      "形|火中取（ ）|栗|栗|粟|ㄌㄧˋ|火中取栗：比喻冒險出力結果一無所獲。栗為堅果栗子從木部；粟為糧食穀子從米部。",
-      "形|入木三（ ）|分|分|份|ㄈㄣ|入木三分：形容筆力雄勁或見解透徹。分指尺寸計量長度，不加人字旁；份為份額份量。",
-      "形|不（ ）而走|脛|脛|徑|ㄐㄧㄥˋ|不脛而走：比喻不用腿走卻傳播極快。脛為小腿從肉(月)部；徑為小路直路從彳部。",
-      "形|大相（ ）庭|逕|逕|徑|ㄐㄧㄥˋ|大相逕庭：比喻彼此差距甚遠。逕為門外路引申偏離從辵部；徑多指徑直小徑。",
-      "形|完璧（ ）趙|歸|歸|婦|ㄍㄨㄟ|完璧歸趙：比喻物歸原主完好無缺。歸為歸還送回從止；婦為已婚女子婦人從女。",
-      "形|指鹿為（ ）|馬|馬|鳥|ㄇㄚˇ|指鹿為馬：比喻顛倒黑白混淆是非。馬為四足長鬃走獸；鳥有尾羽與利爪。",
-      "形|紙上（ ）兵|談|談|淡|ㄊㄢˊ|紙上談兵：比喻不切實際空發議論。談為言論暢談從言部；淡為味道清淡平淡從水部。",
-      "形|懸梁刺（ ）|股|股|骨|ㄍㄨˇ|懸梁刺股：比喻刻苦發奮讀書。股為大腿從肉(月)部；骨為人體骨骼骨架。",
-      "形|臥（ ）嘗膽|薪|薪|辛|ㄒㄧㄣ|臥薪嘗膽：比喻刻苦發奮雪恥圖強。薪為薪柴草木從艸部；辛為辛苦辛辣辛部。",
-      "形|如火如（ ）|荼|荼|茶|ㄊㄨˊ|如火如荼：形容氣勢壯大熱烈。荼為白茅花從艸內有一橫；茶為飲用茶葉無此橫筆。",
-      "形|飲（ ）止渴|鴆|鴆|鳩|ㄓㄣˋ|飲鴆止渴：比喻只圖眼前利益不顧致命後患。鴆為毒鳥羽毛浸酒有毒冘聲；鳩為斑鳩九聲。",
-      "形|班門弄（ ）|斧|斧|父|ㄈㄨˇ|班門弄斧：比喻在行家面前賣弄技巧。斧為砍削斧頭斤部父聲；父為父親親長。",
-      "形|門庭若（ ）|市|市|巾|ㄕˋ|門庭若市：形容來往賓客極多熱鬧非凡。市為集市市場上有一點一橫；巾為織品毛巾。",
-      "形|風吹草（ ）|動|動|重|ㄉㄨㄥˋ|風吹草動：比喻微小的動態變故。動為動作變動從力重聲；重為重量沉重。",
-      "形|水（ ）石出|落|落|洛|ㄌㄨㄛˋ|水落石出：比喻事情真相徹底大白。落為落下凋落從艸部；洛為洛河地名從水部。",
-      "形|（ ）草除根|斬|斬|暫|ㄓㄢˇ|斬草除根：比喻除惡徹底不留後患。斬為砍斷斬決從車斤；暫為短暫暫且從日部。",
-      "形|爭分（ ）秒|奪|奪|奮|ㄉㄨㄛˊ|爭分奪秒：抓緊每分每秒爭取時間。奪字大鳥在手寸部；奮字下方為田部奮發。",
-      "形|心花（ ）放|怒|怒|怨|ㄋㄨˋ|心花怒放：形容心情極為歡喜暢快。怒在此形容花朵蓬勃盛開從奴心；怨為怨尤懷恨。",
-      "形|廢寢（ ）食|忘|忘|妄|ㄨㄤˋ|廢寢忘食：形容專注努力到不睡不吃。忘為忘記不記亡心；妄為荒誕虛妄亡女。",
-      "形|興高（ ）烈|采|采|彩|ㄘㄞˇ|興高采烈：形容興致勃勃神采飛揚。采指神采精神氣色；彩指光彩色彩有三撇旁。",
-      "形|神采（ ）奕|奕|奕|弈|ㄧˋ|神采奕奕：形容精力充沛神清氣爽。奕為光明盛大從亦大；弈為下圍棋從廾部。",
-      "形|胸有成（ ）|竹|竹|竿|ㄓㄨˊ|胸有成竹：比喻做事之前心中已有完整規劃。竹為象形竹子；竿為竹竿長竿竹部竿聲。",
-      "形|一諾千（ ）|金|金|銀|ㄐㄧㄣ|一諾千金：形容信守諾言說話極有信用。金為黃金金錢；銀為白銀金屬艮聲。",
-      "形|良藥（ ）口|苦|苦|若|ㄎㄨˇ|良藥苦口：比喻逆耳忠言能醫治毛病。苦為苦味植物古聲；若為如同假若若聲。",
-      "形|逆水行（ ）|舟|舟|船|ㄓㄡ|逆水行舟：比喻不努力進步就會後退。成語慣用單音節「舟」；船為雙音詞常用字。",
-      "形|水漲船（ ）|高|高|蒿|ㄍㄠ|水漲船高：比喻事物隨基礎提高而相應上升。高為高大高聳之象形；蒿為青蒿蒿草艸部。",
-      "形|熟能生（ ）|巧|巧|考|ㄑㄧㄠˇ|熟能生巧：反覆熟練就能掌握高明技巧。巧為巧妙靈巧從工丂聲；考為考試考驗考部。",
-      "形|滴水穿（ ）|石|石|右|ㄕˊ|滴水穿石：比喻持之以恒堅持到底定能成功。石為石頭岩石；右為方向左右之右。",
-      "形|鐵（ ）成針|杵|杵|析|ㄔㄨˇ|鐵杵成針：比喻只要肯下苦功必能成功。杵為搗米鐵杵木午聲；析為分開剖析木斤部。",
-      "形|愚公（ ）山|移|移|哆|ㄧˊ|愚公移山：比喻意志堅定克服巨大困難。移為移動挪移禾多聲；哆為哆嗦顫抖口部。",
-      "形|朝三（ ）四|暮|暮|幕|ㄇㄨˋ|朝三暮四：比喻心意不堅經常變卦。暮為太陽落入草叢傍晚；幕為帳幕布幕巾部。",
-      "形|塞翁失（ ）|馬|馬|馮|ㄇㄚˇ|塞翁失馬：比喻壞事可能帶來好事。馬為走獸駿馬；馮為姓氏或憑藉兩點水旁。",
-      "形|聞雞起（ ）|舞|舞|舛|ㄨˇ|聞雞起舞：比喻志士奮發自強勤奮習武。舞為跳舞起舞，下如兩足踏舞；舛為違背乖舛。",
-      "形|同舟共（ ）|濟|濟|擠|ㄐㄧˋ|同舟共濟：比喻團結互助共同戰勝困難。濟為渡河拯救水齊聲；擠為排擠擁擠手部。",
-      "形|乘風破（ ）|浪|浪|狼|ㄌㄤˋ|乘風破浪：比喻志向遠大奮勇前進。浪為巨浪波濤水良聲；狼為凶猛野獸犬部。",
-      "形|名不（ ）傳|虛|虛|處|ㄒㄩ|名不虛傳：傳揚的好名聲名符其實。虛為空虛虛妄虍丘；處為處所地方處罰。",
-      "形|買（ ）還珠|櫝|櫝|讀|ㄉㄨˊ|買櫝還珠：比喻目光短淺捨本逐末。櫝為精緻木盒木賣聲；讀為讀書誦讀言部。",
-      "形|價值連（ ）|城|城|成|ㄔㄥˊ|價值連城：比喻事物珍貴無比。城為城池堡壘土部成聲；成為成功成立成部。",
-      "形|望塵莫（ ）|及|及|急|ㄐㄧˊ|望塵莫及：比喻遠遠落後追趕不上。及字象人後伸手追及；急為焦急心急心部。",
-      "形|無微不（ ）|至|至|致|ㄓˋ|無微不至：形容關照體貼得極其周到。至為來到到達至部；致為送達招致攵部。",
-      "形|見微知（ ）|著|著|箸|ㄓㄨˋ|見微知著：看到細微苗頭預知事物發展。著為顯著彰顯艸部；箸為筷子竹部。",
-      "形|顧此失（ ）|彼|彼|波|ㄅㄧˇ|顧此失彼：比喻不能兼顧各方忙亂失策。彼為那個對方彳皮聲；波為水波波浪水部。",
-      "形|川流不（ ）|息|息|急|ㄒㄧˊ|川流不息：比喻行人車輛連續奔馳不斷。息為呼吸止息自心；急為急迫著急心部。",
-      "形|力不從（ ）|心|心|必|ㄒㄧㄣ|力不從心：心裡想做但能力跟不上。心為心臟思維；必為必定必須一撇貫心。",
-      "形|絡繹不（ ）|絕|絕|綠|ㄐㄩㄝˊ|絡繹不絕：形容往來人馬連續不斷。絕為斷絕停止纟色聲；綠為綠色色彩纟彖聲。",
-      "形|一鼓作（ ）|氣|氣|汽|ㄑㄧˋ|一鼓作氣：比喻趁著氣勢一口氣完成。氣指精神力氣氣概；汽為水蒸氣有三點水。",
-      "形|兢兢（ ）業|業|業|頁|ㄧㄝˋ|兢兢業業：形容做事謹慎認真勤奮負責。業為學業事業木架版板；頁為頭部長頁部。",
-      "形|任勞任（ ）|怨|怨|怒|ㄩㄢˋ|任勞任怨：承擔艱辛毫無怨言。怨為心懷怨尤冤心；怒為發怒憤怒奴心。",
-      "形|再接再（ ）|厲|厲|勵|ㄌㄧˋ|再接再厲：比喻勇往直前奮勇不懈。本指鬥雞磨礪尖嘴，故從砥石之厲；勵為獎勵勉勵。",
-      "形|隨波逐（ ）|流|流|瀏|ㄌㄧㄡˊ|隨波逐流：比喻缺乏定見隨附大眾。流為水流江流；瀏為瀏海或清晰金部。",
-      "形|目不暇（ ）|給|給|接|ㄐㄧˇ|目不暇給：形容景物豐富繁多來不及觀看。給指供給供應纟合聲；接為接引迎接受部。",
-      "形|不可思（ ）|議|議|義|ㄧˋ|不可思議：難以想像或理解其奇妙。議為討論評議言義聲；義為正義意義義部。",
-      "形|毛遂自（ ）|薦|薦|進|ㄐㄧㄢˋ|毛遂自薦：比喻勇於自我推薦擔當重任。薦為推舉推薦艸廌聲；進為前進前行辵部。",
-      "形|投桃報（ ）|李|李|季|ㄌㄧˇ|投桃報李：比喻互贈禮品友情回贈。李為李子樹木子；季為季節季風禾子。",
-      "形|拔苗助（ ）|長|長|常|ㄓㄤˇ|拔苗助長：強求速成反而招致損害。長為生長發育長大；常為平常恆常巾部。",
-      "形|如魚得（ ）|水|水|海|ㄕㄨㄟˇ|如魚得水：比喻得到最相投合的朋友或環境。水為溪流清水；海為廣大汪洋水部。",
-      "形|風馳（ ）掣|電|電|雷|ㄉㄧㄢˋ|風馳電掣：形容速度如閃電般迅捷。電為閃電雷電雨部申聲；雷為打雷雷雨雨田。",
-      "形|畫龍點（ ）|睛|睛|晴|ㄐㄧㄥ|畫龍點睛：在關鍵處點化一筆使作品靈動傳神。睛為眼球眼珠目部；晴為放晴天晴日部。",
-      "形|心如刀（ ）|割|割|害|ㄍㄜ|心如刀割：形容內心無比痛苦悲傷。割為切割割裂刀害聲；害為傷害危害宀部。",
-      "形|開門見（ ）|山|山|出|ㄕㄢ|開門見山：比喻說話或作文開門直奔主題。山為山嶽峰巒；出為走出外出山疊山。",
-      "形|一（ ）二鳥|石|石|右|ㄕˊ|一石二鳥：做一件事獲得雙重效果。石為岩石石頭；右為方向右側右手。",
-      "形|雪泥鴻（ ）|爪|爪|瓜|ㄓㄠˇ|雪泥鴻爪：比喻往事遺留下的痕跡。爪為鳥獸指爪爪部；瓜為瓜果甜瓜內有一點。",
-      "形|徒勞無（ ）|功|功|攻|ㄍㄨㄥ|徒勞無功：白白耗費力氣卻沒有任何成效。功為功效功勞工力；攻為進攻攻打攴部。",
-      "形|功虧一（ ）|簣|簣|潰|ㄎㄨㄟˋ|功虧一簣：比喻事情只差最後一步而失敗。簣為盛土竹筐竹貴聲；潰為堤防崩潰水部。",
-      "形|堤（ ）崩潰|防|防|紡|ㄈㄤˊ|堤防崩潰：形容事物潰散不可遏止。防為防水堤防阜部；紡為紡紗紡織纟部。",
-      "形|前車之（ ）|鑑|鑑|鑒|ㄐㄧㄢˋ|前車之鑑：比喻前人的失敗教訓值得借鏡。鑑為借鏡鏡子金部；或作鑒字金在底。",
-      "形|金碧輝（ ）|煌|煌|皇|ㄏㄨㄤˊ|金碧輝煌：形容建築物裝飾宏麗富麗堂皇。煌為火光明亮火皇聲；皇為皇帝君皇。",
-      "形|富麗堂（ ）|皇|皇|煌|ㄏㄨㄤˊ|富麗堂皇：形容盛大雄偉氣勢非凡。皇為盛大帝皇白王；煌為火光輝映火部。",
-      "形|（ ）苗助長|拔|拔|撥|ㄅㄚˊ|拔苗助長：急於求成反壞事。拔為拔出拔起手犮聲；撥為撥動撥弄手發聲。",
-      "形|（ ）雲見日|撥|撥|拔|ㄅㄛ|撥雲見日：比喻消除障礙撥開疑雲見光明。撥為撥開排除手發聲；拔為拉拔拔起。",
-      "形|不（ ）而遇|期|期|欺|ㄑㄧˊ|不期而遇：沒有約定卻意外相遇。期為預定時期月其聲；欺為欺騙欺詐欠部。",
-      "形|自（ ）欺人|欺|欺|期|ㄑㄧ|自欺欺人：以謊言欺騙自己和他人。欺為欺凌瞞騙欠部；期為日期期待月部。",
-      "形|兵荒馬（ ）|亂|亂|亂|ㄌㄨㄢˋ|兵荒馬亂：形容戰爭戰亂時期的混亂動盪。亂為混亂紊亂舌部。",
-      "形|情不自（ ）|禁|禁|噤|ㄐㄧㄣ|情不自禁：感情激動不由自主。禁為禁受禁令示部；噤為閉口不語口部。",
-      "形|（ ）若寒蟬|噤|噤|禁|ㄐㄧㄣˋ|噤若寒蟬：比喻嚇得不敢出聲。噤為閉口禁語口禁聲；禁非閉嘴口部。",
-      "形|一（ ）千金|擲|擲|提|ㄓˋ|一擲千金：比喻大手筆花錢豪邁奢侈。擲為投擲拋擲手鄭聲；提為提拿提攜手部。",
-      "形|耳（ ）目染|濡|濡|儒|ㄖㄨˊ|耳濡目染：不知不覺中受到感染薰陶。濡為浸染沾濕水部需聲；儒為儒雅讀書人亻部。",
-      "形|（ ）雅隨和|儒|儒|濡|ㄖㄨˊ|儒雅隨和：形容人格風度溫文敦厚。儒為學者儒生亻需聲；濡為浸潤雨水旁。",
-      "形|蛛絲（ ）跡|馬|馬|鳥|ㄇㄚˇ|蛛絲馬跡：比喻事情隱約可尋的線索。古指灶馬昆蟲之痕跡寫作馬；非飛禽鳥類。",
-      "形|盲（ ）瞎馬|人|人|入|ㄖㄣˊ|盲人瞎馬：比喻處境盲目冒險極端危險。人為人類盲人；入為進入尖頭朝上。",
-      "形|（ ）出廬山|初|初|禮|ㄔㄨ|初出廬山：比喻剛步入社會缺乏閱歷。初為開始衣部刀剪布裁衣之始；禮為禮貌禮節示部。",
-      "形|循（ ）漸進|序|序|預|ㄒㄩˋ|循序漸進：照著既定的次序步驟逐步前進。序為順序次序广予聲；預為事先預備頁部。",
-      "形|預祝（ ）功|成|成|城|ㄔㄥˊ|預祝成功：預先祝賀圓滿辦成。成為成就成事戈部；城為城牆城堡土部。",
-      "形|眾（ ）成城|志|志|誌|ㄓˋ|眾志成城：比喻同心協力無堅不摧。志為志向意志士心；誌為記錄標誌言部。",
-      "形|立（ ）圖強|志|志|誌|ㄓˋ|立志圖強：下定決心奮發求強。志為心之所向從士心；誌為雜誌碑誌言部。",
-      "形|風和日（ ）|麗|麗|厲|ㄌㄧˋ|風和日麗：形容春風柔和晴朗晴麗。麗為美麗明麗鹿角相偶之形；厲為嚴厲鋒利石部。",
-      "形|變本加（ ）|厲|厲|歷|ㄌㄧˋ|變本加厲：比喻事情發展更加嚴重惡化。厲為磨刀石引申深甚石部；歷為經歷閱歷止部。",
-      "形|（ ）史悠久|歷|歷|厲|ㄌㄧˋ|歷史悠久：形容走過的歲月源遠流長。歷指經歷過往厤部；厲為嚴肅厲害石部。",
-      "形|身（ ）其境|歷|歷|厲|ㄌㄧˋ|身歷其境：親自到了那個環境。歷為親自經歷經過；厲為嚴苛剛烈石部。",
-      "形|面面相（ ）|覷|覷|覻|ㄑㄩˋ|面面相覷：互相對看不知所措。覷為偷看窺視見部虛聲；不作俗體簡寫。",
-      "形|別開生（ ）|面|面|面積|ㄇㄧㄢˋ|別開生面：比喻開創全新的局面或形式。面為臉面格局面部。",
-      "形|恍（ ）大悟|然|然|燃|ㄖㄢˊ|恍然大悟：突然間完全領悟明白。然為如此這般樣子犬火；燃為燃燒柴火火部。",
-      "形|點（ ）燭光|燃|燃|然|ㄖㄢˊ|點燃燭光：引燃柴火燭光。燃為燃燒著火火然聲；然字原為烤肉象形多作語助詞。",
-      "形|臨（ ）磨槍|陣|陣|陳|ㄓㄣˋ|臨陣磨槍：事到臨頭才匆忙準備。陣為作戰陣列軍陣阜部車聲；陳為陳列陳述阜部東聲。",
-      "形|（ ）列整齊|陳|陳|陣|ㄔㄣˊ|陳列整齊：將物品有條理擺放出來。陳為陳放陳設阜東聲；陣為軍陣方陣阜車聲。",
-      "形|刻骨（ ）心|銘|銘|名|ㄇㄧㄥˊ|刻骨銘心：形容感受深切永難磨滅。銘為刻寫於金石器物金部名聲；名為姓名名稱。",
-      "形|（ ）列前茅|名|名|銘|ㄇㄧㄥˊ|名列前茅：成績名次排在最前面。名為名次名額夕口；銘為鐘鼎刻字金部。",
-      "形|（ ）天大謊|彌|彌|迷|ㄇㄧˊ|彌天大謊：形容天大的謊話。彌為遍布滿溢弓部爾聲；迷為迷失迷惘辵部。",
-      "形|（ ）途知返|迷|迷|彌|ㄇㄧˊ|迷途知返：走上岔路能懂得回頭悔改。迷為迷失道路辵米聲；彌為滿了充滿弓部。",
-      "形|破爛不（ ）|堪|堪|勘|ㄎㄢ|破爛不堪：形容東西殘破壞極。堪為忍受承受土部甚聲；勘為勘探校勘力部。",
-      "形|嚴密（ ）查|勘|勘|堪|ㄎㄢ|嚴密勘查：嚴格調查現場實際情形。勘為勘測勘審力部甚聲；堪為經受土部。",
-      "形|無可奈（ ）|何|何|河|ㄏㄜˊ|無可奈何：指對事物束手無策無法可想。何為如何代名詞亻可；河為河流江河水部。",
-      "形|過（ ）拆橋|河|河|何|ㄏㄜˊ|過河拆橋：比喻得到好處後反臉不認人。河為江河河流氵部；何為代詞亻部。",
-      "形|（ ）空見慣|司|司|同|ㄙ|司空見慣：形容見得多而覺得平常。司為主管掌管一司司部；同為一同相同口部。",
-      "形|志（ ）道合|同|同|司|ㄊㄨㄥˊ|志同道合：彼此志趣相同目標一致。同為共同相同口部；司為司機掌司司部。",
-      "形|（ ）骨嶙峋|瘦|瘦|叟|ㄕㄡˋ|瘦骨嶙峋：形容人極度消瘦皮包骨。瘦為身體瘦削疒叟聲；叟為年老長者又部。",
-      "形|老（ ）能行|叟|叟|瘦|ㄙㄡˇ|老叟能行：老爺爺還能走動。叟為老翁長者臼部；瘦為瘦小乾瘦疒部。",
-      "形|相得益（ ）|彰|彰|障|ㄓㄤ|相得益彰：兩相配合顯得更加出色。彰為顯著顯揚彡章聲；障為阻礙隔障阜部。",
-      "形|排除（ ）礙|障|障|彰|ㄓㄤˋ|排除障礙：移去前進路上的阻礙物。障為屏障障礙阜章聲；彰為明彰彰顯彡部。",
-      "形|千（ ）萬苦|辛|辛|幸|ㄒㄧㄣ|千辛萬苦：形容極其艱難痛苦。辛為辛苦辣味十部；幸為幸福幸運土部。",
-      "形|（ ）福美滿|幸|幸|辛|ㄒㄧㄥˋ|幸福美滿：形容家庭充實和樂歡喜。幸為吉祥幸運幸部；辛為辛勞艱辛辛部。",
-      "形|各抒己（ ）|見|見|貝|ㄐㄧㄢˋ|各抒己見：各自表達自己的意見主張。見為看見意見目人；貝為海貝寶貝貝部。",
-      "形|（ ）殼美麗|貝|貝|見|ㄅㄟˋ|貝殼美麗：沙灘上的海貝非常漂亮。貝為象形海貝；見為睜目觀看見部。",
-      "形|迫不（ ）待|及|及|急|ㄐㄧˊ|迫不及待：緊迫得不能再多等待。及為趕上企及又部；急為急迫焦急心部。",
-      "形|心（ ）如焚|急|急|及|ㄐㄧˊ|心急如焚：內心焦急得像火在燒一樣。急為焦急著急心部芻聲；及為趕上企及又部。",
-      "形|撲朔（ ）離|迷|迷|謎|ㄇㄧˊ|撲朔迷離：形容事物複雜難以辨清真相。迷為困惑難辨辵米聲；謎為謎語謎團言部。",
-      "形|解開（ ）團|謎|謎|迷|ㄇㄧˊ|解開謎團：把心中的謎題破解出來。謎為謎語題目言迷聲；迷為迷途迷航辵部。",
-      "形|理直氣（ ）|壯|壯|狀|ㄓㄨㄤˋ|理直氣壯：理由充分而胸懷大氣豪邁。壯為強壯壯盛士部丬聲；狀為形狀告狀犬部。",
-      "形|形（ ）各異|狀|狀|壯|ㄓㄨㄤˋ|形狀各異：外表模樣各有不同。狀為樣貌情狀犬部丬聲；壯為強壯茁壯士部。",
-      "形|汗流（ ）背|浹|浹|俠|ㄐㄧㄚˊ|汗流浹背：汗水濕透背部形容極度辛勞或慚愧。浹為通透透濕水夾聲；俠為俠客豪俠亻部。",
-      "形|行（ ）仗義|俠|俠|浹|ㄒㄧㄚˊ|行俠仗義：路見不平仗義解危。俠為武俠仗義之人亻夾聲；浹為濕透水部。",
-      "形|（ ）草如茵|綠|綠|緣|ㄌㄩˋ|綠草如茵：碧綠的嫩草茂密如褥。綠為翠綠色系纟彖聲；緣為因緣緣分纟部。",
-      "形|無（ ）無故|緣|緣|綠|ㄩㄢˊ|無緣無故：沒有任何理由根據。緣為原因緣由纟彖聲；綠為草木綠色。",
-      "形|（ ）延殘喘|苟|苟|荀|ㄍㄡˇ|苟延殘喘：勉強維持微弱的生命。苟為草率姑且艸句聲；荀為古國名或姓氏艸旬聲。",
-      "形|以退為（ ）|進|進|近|ㄐㄧㄣˋ|以退為進：以謙退讓步爭取主動推進。進為前進推進辵隹聲；近為距離接近辵斤聲。",
-      "形|平易（ ）人|近|近|進|ㄐㄧㄣˋ|平易近人：態度親切容易讓人親近。近為貼近靠近辵斤聲；進為往前邁進辵隹聲。",
-      "形|（ ）理名言|至|至|致|ㄓˋ|至理名言：最深刻正確的真理話語。至為極頂至高至部；致為送致達到攵部。",
-      "形|（ ）敬感謝|致|致|至|ㄓˋ|致敬感謝：向他人表達敬佩與感謝。致為送達表達攵部至聲；至為到達極致。",
-      "形|大汗（ ）流|淋|淋|霖|ㄌㄧㄣˊ|大汗淋漓：汗水濕透往下滴淌。淋為水流浸漬灑落水林聲；霖為久雨甘霖雨部。",
-      "形|久旱逢甘（ ）|霖|霖|淋|ㄌㄧㄣˊ|久旱逢甘霖：乾旱許久終於迎來及時雨。霖為連綿透雨雨林聲；淋為水淋澆淋水部。",
-      "形|旗開（ ）勝|得|得|德|ㄉㄜˊ|旗開得勝：剛開戰就取得勝利。得為獲得取得彳部亍寸；德為品德道德彳部直心。",
-      "形|品（ ）端正|德|德|得|ㄉㄜˊ|品德端正：行事道德端莊規矩。德為品行道義彳部直心；得為贏得獲取彳部。",
-      "形|（ ）苗助長|揠|揠|偃|ㄧㄚˋ|揠苗助長：拔起幼苗企圖助長。揠為手拔手部偃聲；偃為仰臥放倒亻部。",
-      "形|（ ）旗息鼓|偃|偃|揠|ㄧㄢˇ|偃旗息鼓：放倒旗幟停敲軍鼓比喻休戰。偃為倒伏倒下一人匽聲；揠為拔苗提手旁。",
-      "形|懸（ ）勒馬|崖|崖|涯|ㄧㄞˊ|懸崖勒馬：面臨險境及時回頭停止。崖為山崖陡壁山部厓聲；涯為水涯水邊水部。",
-      "形|天（ ）海角|涯|涯|崖|ㄧㄞˊ|天涯海角：極其遙遠邊際偏遠之地。涯為水邊極限邊際水厓聲；崖為山壁山部。",
-      "形|走（ ）闖蕩|江|江|汪|ㄐㄧㄤ|走江湖：在社會上奔走營生。江為大江江河水工聲；汪為汪洋汪汪水王聲。",
-      "形|一（ ）清水|汪|汪|江|ㄨㄤ|一汪清水：一泓清澈水池池塘。汪為水池廣大水王聲；江為大江長河水部。",
-      "形|（ ）壁江山|半|半|判|ㄅㄢˋ|半壁江山：指國土喪失大半殘留的部分。半為二分之一八部十；判為判決分開刀部。",
-      "形|裁判（ ）決|判|判|半|ㄆㄢˋ|裁判判決：法官或裁判分明斷決。判為劃分審判刀部半聲；半為一半分成兩半。",
-      "形|如願以（ ）|償|償|賞|ㄔㄤˊ|如願以償：如自己期望那樣完全實現。償為報償償付亻部賞聲；賞為獎賞欣賞貝部。",
-      "形|獎（ ）優秀|賞|賞|償|ㄕㄤˇ|獎賞優秀：給予優異者表揚與獎勵。賞為賜予金錢獎品貝尚聲；償為償還亻部。",
-      "形|不（ ）思索|假|假|暇|ㄐㄧㄚˇ|不假思索：不用思考立即就能反應行動。假為憑藉依靠亻部叚聲；暇為空閒時間日部。",
-      "形|目不（ ）給|暇|暇|假|ㄒㄧㄚˊ|目不暇給：美好景色繁多來不及全看。暇為空閒閒暇日部叚聲；假為借用不真亻部。",
-      "形|舉（ ）不定|棋|棋|旗|ㄑㄧˊ|舉棋不定：拿著棋子猶豫不決不知下哪。棋為棋盤圍棋木其聲；旗為旗幟標旗方部。",
-      "形|升起（ ）幟|旗|旗|棋|ㄑㄧˊ|升起旗幟：把班旗或國旗升至頂端。旗為旗幟彩旗方部其聲；棋為木質圍棋棋子。",
-      "形|功（ ）垂成|敗|敗|成|ㄅㄞˋ|功敗垂成：眼看就要成功卻突然失敗。敗為失敗破毀攵貝；成為成功辦成。",
-      "形|萬籟（ ）寂|俱|俱|具|ㄐㄩˋ|萬籟俱寂：四周寂靜得聽不到絲毫聲響。俱為全、皆全部亻具聲；具為工具器具八部。",
-      "形|生（ ）齊全|具|具|俱|ㄐㄩˋ|生具齊全：日常器材用具準備齊全。具為器具器材目部八；俱為皆全亻部。",
-      "形|出其不（ ）|意|意|億|ㄧˋ|出其不意：乘對方毫無防備突然行動。意為心意意念音心；億為數字一億亻部。",
-      "形|身價百（ ）|億|億|意|ㄧˋ|身價百億：形容身家財產達數百億元。億為千萬為億亻部意聲；意為心願想法心部。",
-      "形|情（ ）深厚|誼|誼|宜|ㄧˋ|情誼深厚：朋友間的情義極為濃厚。誼為合宜情誼言部宜聲；宜為適宜應該宀部。",
-      "形|適（ ）溫度|宜|宜|誼|ㄧˊ|適宜溫度：最適當舒服的生活溫度。宜為適當相稱宀部且聲；誼為友情言部。",
-      "形|天（ ）無縫|衣|衣|依|ㄧ|天衣無縫：比喻事物渾然天成毫無破綻。衣為衣服衣裳象形；依為依靠依賴亻部。",
-      "形|（ ）依不捨|依|依|衣|ㄧ|依依不捨：留戀不捨得分離告別。依為依戀靠著亻衣聲；衣為身穿衣衫。",
-      "形|（ ）風亮節|高|高|蒿|ㄍㄠ|高風亮節：形容人格風度清高堅貞。高為巍峨高大象形；蒿為雜草蓬蒿艸部。",
-      "形|綠（ ）蓬勃|蒿|蒿|高|ㄏㄠ|綠蒿蓬勃：田野間青蒿綠草欣欣向榮。蒿為香蒿蒿草艸高聲；高為身高高聳。",
-      "形|破（ ）為笑|涕|涕|梯|ㄊㄧˋ|破涕為笑：轉悲為喜停止哭泣笑出來。涕為眼淚涕淚水弟聲；梯為樓梯木部弟聲。",
-      "形|拾級登（ ）|梯|梯|涕|ㄊㄧ|拾級登梯：順著階梯一層層往上爬。梯為梯子木部弟聲；涕為眼淚水部。",
-      "形|心（ ）氣躁|浮|浮|蜉|ㄈㄨˊ|心浮氣躁：心神不定焦躁輕浮。浮為漂浮浮躁水部孚聲；蜉為蜉蝣昆蟲虫部。",
-      "形|朝生暮死（ ）蝣|蜉|蜉|浮|ㄈㄨˊ|蜉蝣短命：比喻生命極其短暫微小。蜉為昆蟲蜉蝣虫部孚聲；浮為水面漂浮水部。",
-      "形|風調（ ）順|雨|雨|雪|ㄩˇ|風調雨順：氣候規律農事豐收。雨為天上雨點降水雨部；雪為雪花雨下山羽。",
-      "形|冰天（ ）地|雪|雪|雨|ㄒㄩㄝˇ|冰天雪地：到處結冰積雪寒冷至極。雪為白雪積雪雨山聲；雨為天空落水雨部。",
-      "形|（ ）相授受|私|私|和|ㄙ|私相授受：暗中私自互相贈送接納。私為私下個人禾厶聲；和為和平調和禾口。",
-      "形|心平氣（ ）|和|和|私|ㄏㄜˊ|心平氣和：心態平和性情穩定不發怒。和為和氣調協禾口；私為自私隱私禾厶。",
-      "形|（ ）之泰然|處|處|外|ㄔㄨˇ|處之泰然：面對險境從容鎮定不慌亂。處為處置居住虍部；外為外部外面夕卜。",
-      "形|意（ ）驚喜|外|外|處|ㄨㄞˋ|意外驚喜：料想不到的額外驚喜。外為出乎意料之外夕卜；處為辦事處理虍部。",
-      "形|投（ ）問路|石|石|右|ㄕˊ|投石問路：比喻先作試探看清實情。石為石子石頭；右為方位左右手口。",
-      "形|手部左（ ）|右|右|石|ㄧㄡˋ|手分左右：人的左右雙手。右為方向口部又；石為砂石巨石石部。",
-      "形|不甘示（ ）|弱|弱|溺|ㄖㄨㄛˋ|不甘示弱：不甘心顯得軟弱落後。弱為瘦弱柔弱弓部；溺為沉溺落水水部。",
-      "形|沉（ ）愛河|溺|溺|弱|ㄋㄧˋ|沉溺愛河：過分陷入情感不知節制。溺為沉沒陷入水弱聲；弱為軟弱懦弱弓部。",
-      "形|（ ）目四望|縱|縱|從|ㄗㄨㄥˋ|縱目四望：放開目光向四方遠眺。縱為放縱縱身纟從聲；從為順從跟隨彳部。",
-      "形|服（ ）領導|從|從|縱|ツㄨㄥˊ|服從領導：聽從指揮順從帶領。從為聽從跟從彳人；縱為縱放縱火纟部。",
-      "形|步履蹣（ ）|跚|跚|冊|ㄕㄢ|步履蹣跚：形容走路搖擺不穩艱難。跚為腳步不穩足冊聲；冊為竹簡書冊冊部。",
-      "形|手（ ）成書|冊|冊|跚|ㄘㄜˋ|手冊成書：編訂一本實用的小冊子。冊為繩編竹簡之象形；跚為邁步瘸腿足部。",
-      "形|（ ）首稱臣|俯|俯|府|ㄈㄨˇ|俯首稱臣：低下頭向對方屈服臣服。俯為低頭向下亻部府聲；府為官府府衙广部。",
-      "形|官（ ）重地|府|府|俯|ㄈㄨˇ|官府重地：官衙機構行政所在地。府為官署公府广部付聲；俯為俯視低頭亻部。",
-      "形|微不足（ ）|道|道|導|ㄉㄠˋ|微不足道：渺小輕微不值一提。道為道理路途辵部首聲；導為引導指導寸部道聲。",
-      "形|引（ ）方向|導|導|道|ㄉㄠˇ|引導方向：帶領前行指引明路。導為導航教導寸部道聲；道為道路真理辵部。",
-      "形|落（ ）而逃|荒|荒|謊|ㄏㄨㄤ|落荒而逃：倉皇逃向荒野偏僻處。荒為荒野荒廢艸部亡川；謊為謊話假話言部。",
-      "形|彌天大（ ）|謊|謊|荒|ㄏㄨㄤˇ|彌天大謊：欺瞞天下的彌天假話。謊為虛假謊言言部荒聲；荒為雜草荒蕪艸部。",
-      "形|（ ）然失笑|莞|莞|完|ㄨㄢˇ|莞爾一笑：微微發笑形容愉悅情態。莞為莞爾微笑艸部完聲；完為完整結束宀部。",
-      "形|大功告（ ）|成|成|完|ㄨㄢˊ|大功告成：圓滿完成重大工程。成為成就成功戈部；完為完工完結宀部。",
-      "形|（ ）全一致|完|完|莞|ㄨㄢˊ|完全一致：所有方面全都毫無二致。完為完善無缺宀元聲；莞為莞草微莞艸部。",
-      "形|理屈（ ）窮|詞|詞|辭|ㄘˊ|理屈詞窮：理由站不住腳無話可回。詞為言詞詞彙言部司聲；辭為告別辭謝辛部。",
-      "形|不（ ）而別|辭|辭|詞|ㄘˊ|不辭而別：沒有打招呼告辭就私自離開。辭為告辭退職辛部；詞為單詞詞語言部。",
-      "形|（ ）水車薪|杯|杯|懷|ㄅㄟ|杯水車薪：比喻力量太小無濟於事。杯為酒杯茶杯木不聲；懷為胸懷懷抱心部。",
-      "形|滿（ ）熱忱|懷|懷|杯|ㄏㄨㄞˊ|滿懷熱忱：胸中充滿熱情熱血。懷為胸臆懷抱心部褱聲；杯為木製茶杯木部。",
-      "形|（ ）風送爽|清|清|晴|ㄑㄧㄥ|清風送爽：涼爽的微風吹來令人舒暢。清為清新清涼水青聲；晴為天晴晴朗日部。",
-      "形|天朗氣（ ）|清|清|晴|ㄑㄧㄥ|天朗氣清：天空晴朗氣候清新爽快。清為潔淨清新水部；晴為晴空無雲日部。",
-      "形|放（ ）無雲|晴|晴|清|ㄑㄧㄥˊ|放晴無雲：天空陽光普照沒有烏雲。晴為晴空日光日青聲；清為清澈純淨水部。",
-      "形|臨渴掘（ ）|井|井|阱|ㄐㄧㄥˇ|臨渴掘井：口渴才挖井比喻臨時準備。井為水井象形井部；阱為陷阱圈套阜部井聲。",
-      "形|落入陷（ ）|阱|阱|井|ㄐㄧㄥˇ|落入陷阱：被誘入捕獸陷坑。阱為捕獸坑穴阜井聲；井為汲水水井井字。",
-      "形|按（ ）就班|部|部|陪|ㄅㄨˋ|按部就班：按照規定次序步驟行事。部為部門部類邑部咅聲；陪為陪伴陪同阜部。",
-      "形|（ ）伴長輩|陪|陪|部|ㄆㄟˊ|陪伴長輩：在長輩身邊照顧守候。陪為陪伴陪同阜部咅聲；部為部首分部邑部。",
-      "形|安居（ ）業|樂|樂|藥|ㄌㄜˋ|安居樂業：生活安定愉快地工作。樂為快樂歡欣木部；藥為草藥藥物艸部樂聲。",
-      "形|對症下（ ）|藥|藥|樂|ㄧㄠˋ|對症下藥：針對具體病症用藥治療。藥為治病草藥艸樂聲；樂為音樂快樂木部。",
-      "形|生（ ）活虎|龍|龍|尤|ㄌㄨㄥˊ|生龍活虎：比喻精神旺盛充滿活力。龍為神龍巨龍龍部；尤為特異過錯尢部。",
-      "形|（ ）為突出|尤|尤|龍|ㄧㄡˊ|尤為突出：特別顯著尤其過人。尤為特別更加尢部一點；龍為祥龍首部身軀。",
-      "形|心曠神（ ）|怡|怡|台|ㄧˊ|心曠神怡：心情開朗舒暢無比愉悅。怡為心胸愉悅心部台聲；台為樓台平台口部。",
-      "形|平（ ）穩定|台|台|怡|ㄊㄞˊ|平台穩定：工作平台十分牢靠穩固。台為台面講台口部；怡為愉悅恬靜心部。",
-      "形|大顯身（ ）|手|手|首|ㄕㄡˇ|大顯身手：充分顯現出自己的本領技藝。手為手臂手指手部；首為腦袋首長首部。",
-      "形|昂（ ）挺胸|首|首|手|ㄕㄡˇ|昂首挺胸：高高抬起頭胸膛挺直。首為頭顱腦袋象形；手為肢體手部。",
-      "形|無所（ ）從|適|適|敵|ㄕˋ|無所適從：不知跟從哪一個才好。適為往、順應辵部啻聲；敵為敵人對手攴部。",
-      "形|克（ ）制勝|敵|敵|適|ㄉㄧˊ|克敵制勝：打敗敵人奪取最後勝利。敵為仇敵敵方攴部啻聲；適為合適適應辵部。",
-      "形|（ ）水穿石|滴|滴|摘|ㄉㄧ|滴水穿石：水滴持之以恆能穿透岩石。滴為水滴滴落水部啇聲；摘為採摘挑選手部。",
-      "形|採（ ）水果|摘|摘|滴|ㄓㄞ|採摘水果：親手從果樹上摘下果實。摘為採下拔取手啇聲；滴為滴答水滴水部。",
-      "形|千（ ）萬謝|感|感|憾|ㄍㄢˇ|千感謝萬：內心充滿感激表達謝意。感為感受感動咸心；憾為遺憾愧疚心感聲。",
-      "形|深感遺（ ）|憾|憾|感|ㄏㄢˋ|深感遺憾：心中感到惋惜後悔。憾為遺憾缺憾心部感聲；感為感恩感激心部。",
-      "形|（ ）然起敬|肅|肅|蕭|ㄙㄨˋ|肅然起敬：產生敬佩崇敬的心情。肅為嚴正嚴肅聿部；蕭為蕭索蕭條艸部肅聲。",
-      "形|（ ）條冷落|蕭|蕭|肅|ㄒㄧㄠ|蕭條冷落：形容市面淒清冷落無生氣。蕭為香蒿蕭條艸肅聲；肅為恭敬肅穆聿部。",
-      "形|大材（ ）用|小|小|少|ㄒㄧㄠˇ|大材小用：才能大卻放在次要崗位。小為微小細小小部；少為數量不多小撇出頭。",
-      "形|（ ）年壯志|少|少|小|ㄕㄠˋ|少年壯志：年輕人在年少時立下大志。少為年少不多小部一撇；小為體型微小。",
-      "形|名副其（ ）|實|實|貫|ㄕˊ|名副其實：名聲與實際情況完全相稱。實為充實實在宀部貫貫；貫為貫徹連貫貝部。",
-      "形|一（ ）而終|貫|貫|實|ㄍㄨㄢˋ|一貫而終：從頭到尾保持同樣原則。貫為貫穿連串貝部毌聲；實為真實充實宀部。",
-      "形|（ ）立無援|孤|孤|狐|ㄍㄨ|孤立無援：孤單一人無人能伸出援手。孤為幼無父孤兒子瓜聲；狐為狐狸走獸犬瓜聲。",
-      "形|兔死（ ）悲|狐|狐|孤|ㄏㄨˊ|兔死狐悲：比喻因同類受害而感到悲哀。狐為野獸狐狸犬部瓜聲；孤為孤獨孤單子部。",
-      "形|海闊天（ ）|空|空|穹|ㄎㄨㄥ|海闊天空：形容天地廣大比喻心胸開闊。空為虛空晴空穴部工聲；穹為天穹蒼穹穴弓聲。",
-      "形|蒼（ ）廣大|穹|穹|空|ㄑㄩㄥˊ|蒼穹廣大：高闊無際的藍天蒼天。穹為穹頂天頂穴部弓聲；空為空間空中穴工聲。",
-      "形|（ ）死如歸|視|視|規|ㄕˋ|視死如歸：把死亡看作回家一樣從容。視為觀看看待見部示聲；規為規則規範見部夫聲。",
-      "形|墨守成（ ）|規|規|視|ㄍㄨㄟ|墨守成規：拘泥老規矩不知創新改革。規為圓規法規見部夫聲；視為眼看注視見部。",
-      "形|（ ）之不理|置|置|直|ㄓˋ|置之不理：放在一旁完全不加理會。置為安放處置网部直聲；直為筆直剛直目部。",
-      "形|筆（ ）挺立|直|直|置|ㄓˊ|筆直挺立：像鉛筆般筆直挺立站好。直為端直不彎目部十；置為安置擱置网部。",
-      "形|滿腹經（ ）|綸|綸|輪|ㄌㄨㄣˊ|滿腹經綸：比喻政治才能或學識淵博。綸為青絲經緯纟部侖聲；輪為車輪輪子車部。",
-      "形|車（ ）滾動|輪|輪|綸|ㄌㄨㄣˊ|車輪滾動：車子底下的輪胎滾轉。輪為轉輪車輪車侖聲；綸為絲綸編織纟部。",
-      "形|（ ）草叢生|雜|雜|雜|ㄗㄚˊ|雜草叢生：各種野草雜亂生長在一塊。雜為繁雜混雜隹部衣部；不可少筆畫。",
-      "形|守口如（ ）|瓶|瓶|瓶|ㄆㄧㄥˊ|守口如瓶：比喻嘴巴嚴密絕不洩漏機密。瓶為盛水瓶罐瓦部并聲；不可誤寫。",
-      "形|（ ）旗斬將|搴|搴|拔|ㄑㄧㄢ|搴旗斬將：拔取敵旗斬殺敵將勇猛。搴為拔取手部塞省；拔為拔除拔草手犮聲。",
-      "形|（ ）羊補牢|亡|亡|盲|ㄨㄤˊ|亡羊補牢：及時補救為時未晚。亡為逃失喪失亡部；盲為眼盲看不見目部亡聲。",
-      "形|盲（ ）引路|人|人|入|ㄖㄣˊ|盲人引路：盲者為人引路比喻危險。人為人類盲人；入為進去尖頂在上。",
-      "形|（ ）水之魚|涸|涸|河|ㄏㄜˊ|涸轍之魚：比喻陷入絕境急待救援。涸為水乾涸渴求水固聲；河為河流江河水可聲。",
-      "形|山窮水（ ）|盡|盡|進|ㄐㄧㄣˋ|山窮水盡：比喻陷入絕境走投無路。盡為到底終結皿部聿聲；進為前進前進辵部。",
-      "形|（ ）步神速|進|進|盡|ㄐㄧㄣˋ|進步神速：學習成效突飛猛進。進為往前邁步辵隹聲；盡為竭盡終結皿部。",
-      "形|（ ）竽充數|濫|濫|籃|ㄌㄢˋ|濫竽充數：沒有真才實學混在其中。濫為過度氾濫水監聲；籃為竹籃球籃竹部。",
-      "形|打（ ）球賽|籃|籃|藍|ㄌㄢˊ|打籃球賽：在操場上進行籃球競賽。籃為竹編籃子竹部監聲；藍為藍色顏料艸部。",
-      "形|碧海（ ）天|藍|藍|籃|ㄌㄢˊ|碧海藍天：蔚藍大海與碧藍晴空。藍為植物青藍艸部監聲；籃為竹籃球籃竹部。",
-      "形|（ ）手起家|白|白|自|ㄅㄞˊ|白手起家：沒有依靠白手創出一番事業。白為潔白無物白部；自為自己自鼻部首上一點。",
-      "形|（ ）由自在|自|自|白|ㄗˋ|自由自在：隨心所欲毫無約束牽絆。自為自己自我自部；白為顏色潔白。",
-      "形|（ ）雲悠悠|白|白|百|ㄅㄞˊ|白雲悠悠：天上的白雲舒卷飄逸。白為白雲潔白；百為一百個數目上一橫。",
-      "形|（ ）戰百勝|百|百|白|ㄅㄞˇ|百戰百勝：每次戰役都取得勝利。百為數目一百百部；白為顏色空白白部。",
-      "形|（ ）影相隨|形|形|行|ㄒㄧㄥˊ|形影相隨：身體與影子寸步不離形容親密。形為外形身形彡部幵聲；行為行動行走彳亍。",
-      "形|嚴謹（ ）事|行|行|形|ㄒㄧㄥˊ|嚴謹行事：做事踏實規矩不草率。行為行為作為彳亍部；形為體形形狀彡部。",
-      "形|循規（ ）矩|蹈|蹈|踏|ㄉㄠˇ|循規蹈矩：遵守規矩不敢逾越法令。蹈為踐踏遵守足部舀聲；踏為踐踏踩踏足部沓聲。",
-      "形|腳（ ）實地|踏|踏|蹈|ㄊㄚˋ|腳踏實地：認真踏實不浮誇。踏為用腳踩地足沓聲；蹈為蹈行舞步足舀聲。",
-      "形|自討沒（ ）|趣|趣|取|ㄑㄩˋ|自討沒趣：自找難堪討個無聊。趣為趣味旨趣走部取聲；取為獲取拿到耳部又。",
-      "形|捨己（ ）義|取|取|趣|ㄑㄩˇ|捨己取義：為正義犧牲個人生命。取為拿取採取耳部又；趣為興致趣味走部。",
-      "形|（ ）而不捨|鍥|鍥|契|ㄑㄧㄝˋ|鍥而不捨：刻鏤不停比喻堅持到底。鍥為雕刻金部契聲；契為契約相合大部。",
-      "形|默（ ）十足|契|契|鍥|ㄑㄧˋ|默契十足：彼此配合極有默契。契為合得來投合大部㓞聲；鍥為刻鏤金屬金部。",
-      "形|出人（ ）地|頭|頭|投|ㄊㄡˊ|出人頭地：超越眾人取得卓越成就。頭為腦袋頭顱頁部豆聲；投為投擲投奔手部。",
-      "形|五體（ ）地|投|投|頭|ㄊㄡˊ|五體投地：比喻極度佩服崇敬。投為拋下置放手部殳聲；頭為首部長頁部。",
-      "形|（ ）理分明|條|條|條|ㄊㄧㄠˊ|條理分明：有條不紊層次分明清晰。條為條目枝條木部攸聲；不可少寫筆劃。",
-      "形|（ ）花盛開|鮮|鮮|鮮|ㄒㄧㄢ|鮮花盛開：新鮮花朵盛開爭豔。鮮為新鮮光鮮魚部羊聲；不可誤寫偏旁。",
-      "形|平步（ ）雲|青|青|清|ㄑㄧㄥ|平步青雲：比喻順利登上高位升遷極快。青為青雲碧空青部；清為清澈純淨水部。",
-      "形|山（ ）水秀|青|青|清|ㄑㄧㄥ|山青水秀：山嶺翠綠江水清澄秀美。青為山色蒼翠青部；秀為秀麗禾部。",
-      "形|一（ ）二楚|清|清|青|ㄑㄧㄥ|一清二楚：極為明白清晰毫無含糊。清為清楚明白水部青聲；青為綠色青草青部。",
-      "形|無聲無（ ）|息|息|急|ㄒㄧˊ|無聲無息：一點聲音氣息都沒有極其寂靜。息為嘆息氣息自心；急為焦急心急心部。",
-      "形|（ ）景交融|情|情|晴|ㄑㄧㄥˊ|情景交融：情感與景色和諧交匯。情為內心情意心部青聲；晴為天空晴天日部。",
-      "形|熱（ ）待客|情|情|晴|ㄑㄧㄥˊ|熱情待客：滿懷熱誠招待客人。情為感情熱情心部；晴為放晴無雲日部。",
-      "形|（ ）空萬里|晴|晴|情|ㄑㄧㄥˊ|晴空萬里：萬里晴空沒有一片烏雲。晴為晴空日光日青聲；情為心理感情心部。",
-      "形|（ ）理成章|順|順|須|ㄕㄨㄣˋ|順理成章：順著道理自然形成結局。順為順從暢通頁部川聲；須為胡鬚必須頁部彡聲。",
-      "形|莫（ ）有罪|須|須|順|ㄒㄩ|莫須有：毫無根據憑空捏造的罪名。須為必須需要頁彡聲；順為和順理順頁川聲。",
-      "形|風雨同（ ）|舟|舟|州|ㄓㄡ|風雨同舟：在風雨中同乘一船共渡險境。舟為船隻之象形；州為水中陸地沙洲川部。",
-      "形|九（ ）大地|州|州|舟|ㄓㄡ|九州大地：古指全中國之廣袤疆域。州為水中小島行政區川部；舟為船艇舟部。",
-      "形|一（ ）萬利|本|本|木|ㄅㄣˇ|一本萬利：用極小資本獲取巨大暴利。本為樹木根基木底加一橫；木為樹木象形。",
-      "形|花草樹（ ）|木|木|本|ㄇㄨˋ|花草樹木：庭園中的植物與樹木。木為草木樹木之象形；本為根本木加一橫指根。",
-      "形|落（ ）歸根|葉|葉|枼|ㄧㄝˋ|落葉歸根：飄落的樹葉掉回樹根比喻回歸故鄉。葉為植物葉片艸部葉；枼為薄木片木部。",
-      "形|不（ ）思索|假|假|霞|ㄐㄧㄚˇ|不假思索：不用停下考慮立即行動。假為憑藉依靠亻叚聲；霞為彩霞霞光雨部。",
-      "形|滿天彩（ ）|霞|霞|暇|ㄒㄧㄚˊ|滿天彩霞：傍晚天空泛起七彩晚霞。霞為日落彩雲雨部叚聲；暇為空閒閒暇日部。",
-      "形|目不暇（ ）|接|接|結|ㄐㄧㄝ|目不暇接：景致紛呈繁多眼睛看不過來。接為接待迎接手部妾聲；結為凝結結合纟部吉聲。",
-      "形|團（ ）友愛|結|結|接|ㄐㄧㄝˊ|團結友愛：同學們團結一心互相幫忙。結為打結凝聚纟部吉聲；接為接手迎接受部。",
-      "形|風馳（ ）掣|電|電|雷|ㄉㄧㄢˋ|風馳電掣：速度如疾風閃電迅捷無比。電為雷電閃電雨部申聲；雷為轟雷雷鳴雨田。",
-      "形|雷霆萬（ ）|鈞|鈞|釣|ㄐㄩㄣ|雷霆萬鈞：形容威力強大不可抵擋。鈞為三十斤古代重量單位金勻聲；釣為釣魚垂釣金勺聲。",
-      "形|隱（ ）垂釣|逸|逸|釣|ㄧˋ|隱逸垂釣：隱居世外悠閒在水邊釣魚。逸為安閒逃跑辵兔聲；釣為釣竿釣鉤金勺聲。",
-      "形|姜太公（ ）魚|釣|釣|鉤|ㄉㄧㄠˋ|姜太公釣魚：比喻心甘情願落入安排。釣為垂釣用鉤金勺聲；鉤為彎鉤掛鉤金句聲。",
-      "形|魚（ ）銳利|鉤|鉤|釣|ㄍㄡ|魚鉤銳利：魚線底下的鋼鉤非常尖銳。鉤為鐵鉤彎鉤金部句聲；釣為垂釣釣魚金勺聲。",
-      "形|不甘雌（ ）|伏|伏|優|ㄈㄨˊ|不甘雌伏：不甘心屈居下風軟弱無能。伏為俯伏隱伏人犬；優為優良優秀亻部憂聲。",
-      "形|學業（ ）良|優|優|伏|ㄧㄡ|學業優良：在課業表現上極為優秀出眾。優為品學優異亻憂聲；伏為趴下埋伏人犬相伏。",
-      "形|（ ）步青雲|平|平|蘋|ㄆㄧㄥˊ|平步青雲：比喻順利升任顯赫職位。平為平坦平順干部；蘋為蘋果浮萍艸部頻聲。",
-      "形|香甜（ ）果|蘋|蘋|平|ㄆㄧㄥˊ|香甜蘋果：果園中熟透的紅蘋果。蘋為蘋果水果艸部頻聲；平為平靜和平干部。",
-      "形|（ ）水相逢|萍|萍|平|ㄆㄧㄥˊ|萍水相逢：比喻本素不相識的人偶然相遇。萍為浮萍漂草艸部氵平；平為平順水平干部。",
-      "形|（ ）草如茵|綠|綠|錄|ㄌㄩˋ|綠草如茵：草坪綠油油一片極為茂盛。綠為綠色色彩纟彖聲；錄為謄錄錄取金部。",
-      "形|考試合（ ）|格|格|各|ㄍㄜˊ|考試合格：考試分數達到錄取標準。格為資格規格木部各聲；各為各自大家口部夊。",
-      "形|（ ）司其職|各|各|格|ㄍㄜˋ|各司其職：每個人負責自己的職責。各為每個人各自口部；格為格式人格木部各聲。",
-      "形|無微不（ ）|至|至|志|ㄓˋ|無微不至：體貼關懷極其周到毫無疏漏。至為到達極致至部；志為立志志向士心。",
-      "形|有（ ）竟成|志|志|至|ㄓˋ|有志者事竟成：只要有決心志向事情定能辦成。志為志願決心士心；至為到達至極至部。",
-      "形|循（ ）漸進|序|序|預|ㄒㄩˋ|循序漸進：按部就班一步一步邁進。序為次序規律广部予聲；預為預防預備頁部。",
-      "形|做好（ ）防|預|預|序|ㄩˋ|做好預防：在問題發生前事先做好防範。預為事先籌謀頁部予聲；序為先後順序广部。",
-      "形|（ ）風細雨|和|和|何|ㄏㄜˊ|和風細雨：微柔的春風與細密小雨比喻方式溫和。和為溫柔調和禾口；何為如何為何亻可。",
-      "形|如（ ）處置|何|何|和|ㄏㄜˊ|如何處置：這件事情要怎麼妥善辦理。何為疑問詞代詞亻可；和為和平和緩禾口。",
-      "形|（ ）然起敬|肅|肅|蕭|ㄙㄨˋ|肅然起敬：心中產生深深的敬意。肅為肅穆嚴整聿部；蕭為蕭條落寞艸肅聲。",
-      "形|（ ）條冷落|蕭|蕭|肅|ㄒㄧㄠ|蕭條冷落：市面凋零冷清毫無生氣。蕭為凋零蕭瑟艸肅聲；肅為端肅恭敬聿部。",
-      "形|胸有成（ ）|竹|竹|笛|ㄓㄨˊ|胸有成竹：比喻事前已有周密妥善的籌劃。竹為翠竹竹子象形；笛為竹笛橫笛竹部由聲。",
-      "形|吹奏短（ ）|笛|笛|竹|ㄉㄧˊ|吹奏短笛：在音樂課上吹奏竹笛樂器。笛為管樂樂器竹部由聲；竹為竹子竹材象形。",
-      "形|（ ）口拔牙|虎|虎|豹|ㄏㄨˇ|虎口拔牙：比喻冒著生命危險去辦極艱巨的事。虎為猛虎大蟲虍部；豹為金錢豹豹子豸部。",
-      "形|豺狼虎（ ）|豹|豹|虎|ㄅㄠˋ|豺狼虎豹：凶殘野獸比喻殘暴的惡人。豹為獵豹猛獸豸部勺聲；虎為猛虎虍部。",
-      "形|落荒而（ ）|逃|逃|挑|ㄊㄠˊ|落荒而逃：慌忙逃跑不知所措。逃為逃跑脫逃辵部兆聲；挑為挑選挑擔手部兆聲。",
-      "形|精挑細（ ）|選|選|逃|ㄒㄩㄢˇ|精挑細選：仔細挑選最好的東西。選為選拔揀選辵部巽聲；逃為逃奔逃遁辵兆聲。",
-      "形|（ ）目四望|縱|縱|叢|ㄗㄨㄥˋ|縱目四望：極目向四面八方遠望。縱為放縱放開眼光纟部；叢為叢聚草叢又部。",
-      "形|草（ ）深處|叢|叢|縱|ㄘㄨㄥˊ|草叢深處：茂密的草叢泥土深處。叢為聚生雜木叢聚又部；縱為放縱奔馳纟部。",
-      "形|井（ ）之蛙|底|底|低|ㄉㄧˇ|井底之蛙：比喻眼界短淺的人。底為底部最下层广部氐聲；低為低下高低亻部氐聲。",
-      "形|高（ ）不平|低|低|底|ㄉㄧ|高低不平：路面起伏凹凸不平整。低為低矮低下亻部氐聲；底為深底根基广部。",
-      "形|（ ）沙成塔|聚|聚|取|ㄐㄩˋ|聚沙成塔：積少成多逐步累積成大成就。聚為聚集結合耳部叒聲；取為獲取抓取耳部又。",
-      "形|捨己（ ）義|取|取|聚|ㄑㄩˇ|捨己取義：為大義犧牲自己身家利益。取為獲取求取耳部又；聚為聚集成群耳部。",
-      "形|雪中送（ ）|炭|炭|灰|ㄊㄢˋ|雪中送炭：給予困難中的人及時溫暖。炭為木炭燃燒從火；灰為爐灰灰燼火部手下火。",
-      "形|（ ）心喪氣|灰|灰|炭|ㄏㄨㄟ|灰心喪氣：遭遇挫折心神沮喪意志消沉。灰為草木灰火部手下火；炭為燃料黑炭山火部。",
-      "形|投（ ）報李|桃|桃|挑|ㄊㄠˊ|投桃報李：比喻互相贈送友好酬謝。桃為桃樹桃子木部兆聲；挑為挑擔手選提手旁。",
-      "形|（ ）燈夜戰|挑|挑|桃|ㄊㄧㄠˇ|挑燈夜戰：挑起油燈夜裡持續苦戰苦讀。挑為撥弄挑起手部兆聲；桃為桃果水果木部。",
-      "形|（ ）風亮節|高|高|亭|ㄍㄠ|高風亮節：讚頌志節清高亮節無瑕。高為高遠巍峨象形；亭為涼亭亭台高省丁聲。",
-      "形|十里長（ ）|亭|亭|高|ㄊㄧㄥˊ|十里長亭：古人送別親友長途驛亭。亭為涼亭屋舍高省丁聲；高為高度崇高高部。",
-      "形|（ ）手空拳|赤|赤|亦|ㄔˋ|赤手空拳：手裡沒有任何工具或武器。赤為紅色赤手大火象形；亦為也是同樣大腋下象形。",
-      "形|（ ）步亦趨|亦|亦|赤|ㄧˋ|亦步亦趨：比喻毫無主見事事模仿跟隨他人。亦為也、同樣大部兩點；赤為赤誠紅色赤部。",
-      "形|（ ）水相逢|萍|萍|評|ㄆㄧㄥˊ|萍水相逢：浮萍隨水漂流偶然相聚。萍為浮萍水草艸部氵平；評為評論文學評價言部平聲。",
-      "形|（ ）頭論足|評|評|萍|ㄆㄧㄥˊ|評頭論足：在旁隨意批評議論挑剔他人。評為評論批評言部平聲；萍為水中萍草艸部。",
-      "形|（ ）水車薪|杯|杯|懷|ㄅㄟ|杯水車薪：杯中微水救不了一車薪柴之火。杯為茶杯酒杯木不聲；懷為懷抱胸襟心部褱聲。",
-      "形|滿（ ）熱忱|懷|懷|杯|ㄏㄨㄞˊ|滿懷熱忱：胸中充滿澎湃激情。懷為胸中情懷心部；杯為木器杯盞木部。",
-      "形|大公無（ ）|私|私|利|ㄙ|大公無私：處事公平公正沒有半點私心。私為私利自己禾部厶聲；利為利益利刃禾部刀聲。",
-      "形|唯（ ）是圖|利|利|私|ㄌㄧˋ|唯利是圖：心裡只貪圖利益不在乎道義。利為財富利益禾部刀旁；私為隱私私心禾部厶旁。",
-      "形|心滿（ ）足|意|意|億|ㄧˋ|心滿意足：心願滿足十分快慰高興。意為心意願望音心；億為數量一億亻部意聲。",
-      "形|身家百（ ）|億|億|意|ㄧˋ|身家百億：財富極其巨大超過百億。億為數字單位亻意聲；意為心意主意心部。",
-      "形|（ ）竿見影|立|立|笠|ㄌㄧˋ|立竿見影：豎起竹竿立刻看見影子比喻見效極快。立為直立站立立部；笠為竹笠斗笠竹部立聲。",
-      "形|頭戴斗（ ）|笠|笠|立|ㄌㄧˋ|頭戴斗笠：農夫在田野裡戴著竹笠防曬。笠為竹編遮陽帽竹部立聲；立為站立挺立立部。",
-      "形|（ ）水樓台|近|近|進|ㄐㄧㄣˋ|近水樓台：比喻處於優勢地位容易先獲益。近為接近不遠辵斤聲；進為往前走辵隹聲。",
-      "形|突飛猛（ ）|進|進|近|ㄐㄧㄣˋ|突飛猛進：發展極為迅速進步極大。進為前進推進辵隹聲；近為靠近距離辵斤聲。",
-      "形|（ ）花盛開|鮮|鮮|線|ㄒㄧㄢ|鮮花盛開：剛摘下的鮮艷花朵美麗開放。鮮為新鮮鮮麗魚部羊聲；線為棉線絲線纟部戔聲。",
-      "形|穿針引（ ）|線|線|鮮|ㄒㄧㄢˋ|穿針引線：拿針線穿縫比喻在中間牽線撮合。線為絲線縫線纟戔聲；鮮為鮮美海鮮魚部。",
-      "形|良辰美（ ）|景|景|影|ㄐㄧㄥˇ|良辰美景：美好的時光與秀麗景色。景為陽光風景日京聲；影為影子影像彡部景聲。",
-      "形|如（ ）隨形|影|影|景|ㄧㄥˇ|如影隨形：像影子跟隨身體一刻不離。影為陰影影子彡景聲；景為日光景色日部。",
-      "形|心平氣（ ）|和|和|荷|ㄏㄜˊ|心平氣和：心境恬淡平和不急不躁。和為平和調和禾口；荷為荷花蓮花艸部何聲。",
-      "形|（ ）葉清香|荷|荷|和|ㄏㄜˊ|荷葉清香：池塘中的荷花荷葉清香飄送。荷為荷花植物艸部何聲；和為和氣調協禾口。",
-      "形|一（ ）知秋|葉|葉|業|ㄧㄝˋ|一葉知秋：一片落葉預示秋天來臨比喻細節知大勢。葉為草木樹葉艸枼聲；業為學業事業木架版板。",
-      "形|安居樂（ ）|業|業|葉|ㄧㄝˋ|安居樂業：人民生活安定愉快地經營事業。業為職業基業木部；葉為樹葉草葉艸部。",
-      "形|（ ）沙成塔|聚|聚|取|ㄐㄩˋ|聚沙成塔：顆顆細沙積累能成寶塔比喻持之以恒。聚為聚合會聚耳部；取為收取獲取耳部又。",
-      "形|唾手可（ ）|得|得|德|ㄉㄜˊ|唾手可得：極容易獲得成功拿到手。得為獲得取得彳亍寸；德為品行道德彳部直心。",
-      "形|同心（ ）力|協|協|脅|ㄒㄧㄝˊ|同心協力：大家齊心團結付出力量。協為協調合力十部三力；脅為威脅脅迫肉(月)部三力。",
-      "形|受到威（ ）|脅|脅|協|ㄒㄧㄝˊ|受到威脅：面對外在逼迫與危險挑戰。脅為腋下脅迫肉(月)三力；協為共同協助十部三力。",
-      "形|（ ）風送暖|春|春|椿|ㄔㄨㄣ|春風送暖：溫暖的春風吹拂大地。春為春天春季日部艸屯；椿為大椿樹木木部春聲。",
-      "形|大（ ）之年|椿|椿|春|ㄔㄨㄣ|大椿之年：比喻長壽年邁壽比南山。椿為古時長壽大樹木部春聲；春為一年之始春天日部。",
-      "形|順水推（ ）|舟|舟|州|ㄓㄡ|順水推舟：順應客觀局勢推動事情前進。舟為船隻艇舟舟部；州為水沙洲行政區川部。",
-      "形|綠（ ）成蔭|樹|樹|術|ㄕㄨˋ|綠樹成蔭：茂密的樹木遮出濃密樹蔭。樹為樹木草木木部尌聲；術為技術醫術行部朮聲。",
-      "形|醫（ ）高明|術|術|樹|ㄕㄨˋ|醫術高明：醫生的醫道本領極為出眾。術為本領方術行部朮聲；樹為草木樹木木部。",
-      "形|（ ）首稱臣|俯|俯|府|ㄈㄨˇ|俯首稱臣：低下頭稱臣表示臣服。俯為低頭俯視亻府聲；府為官署機構广付聲。",
-      "形|（ ）然起敬|肅|肅|蕭|ㄙㄨˋ|肅然起敬：生起無比嚴肅恭敬的情懷。肅為端莊嚴肅聿部；蕭為蕭索落葉艸部肅聲。",
-      "形|（ ）衣足食|豐|豐|風|ㄈㄥ|豐衣足食：生活穿著富足糧食充裕。豐為豐盛豐富豆部丰丰；風為風雨氣流風部凡聲。",
-      "形|（ ）和日麗|風|風|豐|ㄈㄥ|風和日麗：微風柔暖日光晴和美好。風為和風空氣流動風部；豐為豐收富足豆部。",
-      "形|百（ ）百中|發|發|髮|ㄈㄚ|百發百中：每次射箭開槍都命中目標。發為射發出發癶部殳；髮為頭髮毛髮髟部友聲。",
-      "形|白（ ）蒼蒼|髮|髮|發|ㄈㄚˇ|白髮蒼蒼：滿頭白髮形容年歲已高。髮為人體毛髮髟部友聲；發為發射出發癶部。",
-      "形|（ ）苗助長|拔|拔|跋|ㄅㄚˊ|拔苗助長：把秧苗拔高自作聰明反害禾苗。拔為拔出拔起手部犮聲；跋為跋山涉水足部犮聲。",
-      "形|（ ）山涉水|跋|跋|拔|ㄅㄚˊ|跋山涉水：翻過山嶺走過河水旅途辛苦。跋為步行涉水足部犮聲；拔為拔河拔出手部。",
-      "形|落荒而（ ）|逃|逃|挑|ㄊㄠˊ|落荒而逃：倉皇狼狽地朝野外逃竄。逃為逃走逃跑辵部兆聲；挑為挑選挑擔手部兆聲。",
-      "形|挑（ ）大梁|挑|挑|逃|ㄊㄧㄠ|挑起大梁：肩負起最重大的職責。挑為手挑扁擔手部兆聲；逃為脫身逃跑辵部。",
-      "形|（ ）理名言|至|至|致|ㄓˋ|至理名言：最深刻真切的經典教訓。至為頂點極致至部；致為送達引致攵部至聲。",
-      "形|（ ）力於學|致|致|至|ㄓˋ|致力於學：全力投入在學問鑽研上。致為全心投入攵部至聲；至為抵達來到至部。",
-      "形|走（ ）無路|投|投|頭|ㄊㄡˊ|走投無路：四處奔走無人收留陷絕境。投為投奔投靠手部殳聲；頭為腦袋頁部豆聲。",
-      "形|（ ）角崢嶸|頭|頭|投|ㄊㄡˊ|頭角崢嶸：年輕人才能顯著鋒芒畢露。頭為頭額頭角頁部豆聲；投為投擲投身手部。",
-      "形|臨渴掘（ ）|井|井|丼|ㄐㄧㄥˇ|臨渴掘井：口渴才挖井比喻未雨未籌。井為水井象形井字；丼為日本料理蓋飯碗井加點。",
-      "形|美味牛（ ）|丼|丼|井|ㄉㄨㄥˋ|美味牛丼：熱騰騰香噴噴的牛肉蓋飯。丼為日文引進蓋飯名井中加點；井為抽水水井。",
-      "形|（ ）足珍貴|彌|彌|迷|ㄇㄧˊ|彌足珍貴：更加值得珍惜寶貴。彌為更加遍布弓部爾聲；迷為迷路迷惑辵部米聲。",
-      "形|執（ ）不悟|迷|迷|彌|ㄇㄧˊ|執迷不悟：堅持錯誤的想法不願改過。迷為沉迷迷思辵部米聲；彌為彌滿填補弓部。",
-      "形|風（ ）草動|吹|吹|次|ㄔㄨㄟ|風吹草動：微風吹過草地微小動靜。吹為吹拂呼氣口部欠聲；次為次序第二次欠部二橫。",
-      "形|按（ ）就班|部|部|陪|ㄅㄨˋ|按部就班：按照既定步驟規律進行。部為分部部門邑部咅聲；陪為陪伴陪同阜部咅聲。",
-      "形|（ ）伴長輩|陪|陪|部|ㄆㄟˊ|陪伴長輩：留在長輩身邊親切照料。陪為陪伴相隨阜部咅聲；部為部隊部門邑部。",
-      "形|自討沒（ ）|趣|趣|取|ㄑㄩˋ|自討沒趣：自找難堪沒有討得樂趣。趣為趣味旨趣走部取聲；取為獲取奪取耳部又。",
-      "形|不可思（ ）|議|議|義|ㄧˋ|不可思議：玄妙深奧難以憑常理思考。議為評議討論言部義聲；義為大義正義八部王戈。",
-      "形|正（ ）凜然|義|義|議|ㄧˋ|正義凜然：充滿崇高正氣威嚴可敬。義為正道道義羊部我；議為會議議論言部義聲。",
-      "形|破爛不（ ）|堪|堪|湛|ㄎㄢ|破爛不堪：毀損極甚不能再使用。堪為承受經受土部甚聲；湛為清湛深湛水部甚聲。",
-      "形|精（ ）技藝|湛|湛|堪|ㄓㄢˋ|精湛技藝：技術極其高超深厚。湛為深厚精熟水部甚聲；堪為堪當經得起土部。",
-      "形|無微不（ ）|至|至|志|ㄓˋ|無微不至：關照得極細微毫無保留。至為來到到達至部；志為意志志願士心。",
-      "形|立（ ）成才|志|志|至|ㄓˋ|立志成才：下決心讓自己成為棟樑。志為心意志向士心；至為到達極頂至部。",
-      "形|如（ ）得水|魚|魚|漁|ㄩˊ|如魚得水：處在最適合自己的天地。魚為游魚象形魚部；漁為捕魚漁業水部魚聲。",
-      "形|（ ）翁垂釣|漁|漁|魚|ㄩˊ|漁翁垂釣：老漁夫在江邊垂釣捕魚。漁為捕魚勞作水部魚聲；魚為水中游魚魚類。",
-      "形|海闊天（ ）|空|空|穹|ㄎㄨㄥ|海闊天空：天地開朗心胸隨之豁達。空為虛空晴空穴部工聲；穹為天穹天頂穴部弓聲。",
-      "形|蒼（ ）廣闊|穹|穹|空|ㄑㄩㄥˊ|蒼穹廣闊：仰望藍天蒼茫高遠。穹為高穹天頂穴弓聲；空為空間大氣穴工聲。",
-      "形|（ ）雪迎春|踏|踏|蹈|ㄊㄚˋ|踏雪迎春：踩在皚皚白雪上迎接新春。踏為用腳踩踏足部沓聲；蹈為蹈步舞蹈足部舀聲。",
-      "形|赴湯（ ）火|蹈|蹈|踏|ㄉㄠˇ|赴湯蹈火：勇往直前不惜蹈火涉水。蹈為踐踩投入足部舀聲；踏為踩地踏實足部沓聲。",
-      "形|不（ ）而走|脛|脛|勁|ㄐㄧㄥˋ|不脛而走：消息沒長腿卻傳得飛快。脛為小腿骨腿部肉(月)巠；勁為剛勁力氣力部巠聲。",
-      "形|剛（ ）有力|勁|勁|脛|ㄐㄧㄣˋ|剛勁有力：筆力或動作雄健帶勁。勁為力道剛強力部巠聲；脛為人體小腿月部。",
-      "形|大相（ ）庭|逕|逕|徑|ㄐㄧㄥˋ|大相逕庭：差距巨大宛如兩處。逕為門外路辵部巠聲；徑為幽深小路彳部巠聲。",
-      "形|曲（ ）通幽|徑|徑|逕|ㄐㄧㄥˋ|曲徑通幽：彎曲的小路通向清幽深處。徑為窄小路徑彳部巠聲；逕為逕直行徑辵部。",
-      "形|（ ）骨嶙峋|瘦|瘦|叟|ㄕㄡˋ|瘦骨嶙峋：身體骨瘦如柴沒有贅肉。瘦為消瘦皮包骨疒部叟聲；叟為老人老叟臼部又。",
-      "形|童（ ）無欺|叟|叟|瘦|ㄙㄡˇ|童叟無欺：對小孩與老人一律誠信交易。叟為老年長者臼又；瘦為骨瘦如柴疒部。",
-      "形|興高（ ）烈|采|采|彩|ㄘㄞˇ|興高采烈：精神振奮氣氛熱絡歡欣。采為神采風采爪木；彩為五彩光彩彡部采聲。",
-      "形|張燈結（ ）|彩|彩|采|ㄘㄞˇ|張燈結彩：掛滿彩燈彩帶慶賀節慶。彩為彩色裝飾彡部采聲；采為神色風姿爪木。",
-      "形|（ ）花盛開|鮮|鮮|蘚|ㄒㄧㄢ|鮮花盛開：剛摘下的鮮艷花朵散發芬芳。鮮為新鮮光潔魚部羊聲；蘚為苔蘚地衣艸部鮮聲。",
-      "形|苔（ ）斑駁|蘚|蘚|鮮|ㄒㄧㄢˇ|苔蘚斑駁：古牆上長滿綠色苔蘚。蘚為植物苔蘚艸部鮮聲；鮮為鮮美新鮮魚部。",
-      "形|（ ）目四望|縱|縱|從|ㄗㄨㄥˋ|縱目四望：盡情放眼眺望四面八方。縱為放縱放開眼界纟從聲；從為順從聽從彳部。",
-      "形|何去何（ ）|從|從|縱|ツㄨㄥˊ|何去何從：面臨抉擇不知跟隨哪條道路。從為跟從走向彳人人；縱為縱橫奔放纟部。",
-      "形|風和日（ ）|麗|麗|儷|ㄌㄧˋ|風和日麗：天氣溫暖晴朗日光秀麗。麗為美麗光麗鹿角象形；儷為伉儷佳偶亻部麗聲。",
-      "形|伉（ ）情深|儷|儷|麗|ㄌㄧˋ|伉儷情深：夫妻之間感情深厚恩愛。儷為夫婦佳偶亻部麗聲；麗為美麗秀麗鹿部。",
-      "形|（ ）草除根|斬|斬|漸|ㄓㄢˇ|斬草除根：把壞苗草根斬盡不留隱患。斬為斬殺砍斷車斤；漸為逐漸漸進水部斬聲。",
-      "形|循序（ ）進|漸|漸|斬|ㄐㄧㄢˋ|循序漸進：按順序慢慢向前推展。漸為逐步演進水部斬聲；斬為砍斷決絕車斤。",
-      "形|（ ）空萬里|晴|晴|睛|ㄑㄧㄥˊ|晴空萬里：藍天白雲極為晴朗開闊。晴為晴空日光日部青聲；睛為眼球眼睛目部青聲。",
-      "形|聚精會（ ）|神|神|紳|ㄕㄣˊ|聚精會神：集中精神全神貫注做事。神為神采心神示部申聲；紳為紳士士紳纟部申聲。",
-      "形|鄉（ ）名流|紳|紳|神|ㄕㄣ|鄉紳名流：地方上有聲望的名流仕紳。紳為士紳階層纟部申聲；神為精神神靈示部。",
-      "形|一（ ）二鳥|石|石|拓|ㄕˊ|一石二鳥：一枚飛石打下兩隻鳥比喻雙贏。石為石頭硬石石部；拓為開拓拓印手部石聲。",
-      "形|開（ ）疆土|拓|拓|石|ㄊㄨㄛˋ|開拓疆土：向外開闢拓展大片土地。拓為開闢拓荒手部石聲；石為天然岩石石部。",
-      "形|（ ）沙成塔|聚|聚|撮|ㄐㄩˋ|聚沙成塔：積聚點滴微物終能匯成大成。聚為聚攏結合耳部；撮為用手撮取手部最聲。",
-      "形|（ ）衣足食|豐|豐|豔|ㄈㄥ|豐衣足食：衣服糧食非常充足富裕。豐為豐收飽滿豆部；豔為美豔光彩豐部色旁。",
-      "形|嬌（ ）動人|豔|豔|豐|ㄧㄢˋ|嬌豔動人：花朵或容貌美麗動人。豔為色彩美豔豐部色；豐為豐裕豐足豆部。",
-      "形|（ ）水樓台|近|近|匠|ㄐㄧㄣˋ|近水樓台：靠水樓台先得到月光照拂。近為接近不遠辵斤聲；匠為木匠巧匠匚部斤聲。",
-      "形|獨具（ ）心|匠|匠|近|ㄐㄧㄤˋ|獨具匠心：具有獨創精巧的構思藝術。匠為手藝工匠匚部斤聲；近為距離靠近辵部。",
-      "形|（ ）風送爽|清|清|倩|ㄑㄧㄥ|清風送爽：清爽宜人的微風陣陣拂面。清為清涼純淨水青聲；倩為倩影美麗亻部青聲。",
-      "形|美麗（ ）影|倩|倩|清|ㄑㄧㄢˋ|美麗倩影：女子優美動人的身段倒影。倩為美好容貌亻部青聲；清為清水澄淨水部。",
-      "形|（ ）苗助長|拔|拔|跋|ㄅㄚˊ|拔苗助長：將禾苗往上拉拔企圖速成。拔為手拔拉起手犮聲；跋為步行走山足犮聲。",
-      "形|落（ ）而逃|荒|荒|慌|ㄏㄨㄤ|落荒而逃：倉皇狼狽向荒野奔逃。荒為荒野草地艸部亡川；慌為驚慌慌亂心部荒聲。",
-      "形|心（ ）意亂|慌|慌|荒|ㄏㄨㄤ|心慌意亂：內心慌張無比思維大亂。慌為慌張驚恐心部荒聲；荒為荒地廢棄艸部。",
-      "形|微不足（ ）|道|道|造|ㄉㄠˋ|微不足道：事物極微小不值得放在嘴邊說。道為言說道理辵部首聲；造為製造創造辵部告聲。",
-      "形|粗製濫（ ）|造|造|道|ㄗㄠˋ|粗製濫造：製作草率品質極端低下。造為創造製作辵告聲；道為道路道理辵首聲。",
-      "形|順（ ）推舟|水|水|永|ㄕㄨㄟˇ|順水推舟：趁著水流順勢推動小舟。水為流水河流象形；永為長久永遠水有一撇。",
-      "形|（ ）垂不朽|永|永|水|ㄩㄥˇ|永垂不朽：光輝功業長久流傳不滅。永為長久永遠水上一撇；水為江河清水水部。",
-      "形|（ ）頭論足|評|評|坪|ㄆㄧㄥˊ|評頭論足：在旁指手畫腳隨意批評。評為評論批評言部平聲；坪為地坪草坪土部平聲。",
-      "形|綠草草（ ）|坪|坪|評|ㄆㄧㄥˊ|綠草草坪：公園裡寬闊平整的草地。坪為平坦土地土部平聲；評為言詞評價言部。",
-      "形|（ ）相授受|私|私|松|ㄙ|私相授受：暗地裡兩人私自交付物品。私為私心自利禾部厶聲；松為松樹長青木部公聲。",
-      "形|（ ）柏長青|松|松|私|ㄙㄨㄥ|松柏長青：比喻長青不老精神長存。松為松樹常綠木部公聲；私為自私隱私禾部。",
-      "形|自討沒（ ）|趣|趣|趨|ㄑㄩˋ|自討沒趣：自尋煩惱無聊討人嫌棄。趣為情趣興趣走部取聲；趨為走向趨勢走部芻聲。",
-      "形|（ ）炎附勢|趨|趨|趣|ㄑㄩ|趨炎附勢：逢迎巴結有權有勢之輩。趨為奔向迎合走部芻聲；趣為旨趣興致走取聲。",
-      "形|安居（ ）業|樂|樂|爍|ㄌㄜˋ|安居樂業：人民安定快活各營家業。樂為歡樂愉悅木部；爍為閃爍光芒火部樂聲。",
-      "形|閃（ ）生輝|爍|爍|樂|ㄕㄨㄛˋ|閃爍生輝：珠寶在光照下閃閃發亮。爍為光芒閃耀火部樂聲；樂為音樂快意木部。",
-      "形|（ ）目四望|縱|縱|慷|ㄗㄨㄥˋ|縱目四望：放寬眼界眺望無垠景致。縱為放縱遙望纟部從聲；慷為慷慨大方心部康聲。",
-      "形|（ ）慨解囊|慷|慷|縱|ㄎㄤˇ|慷慨解囊：大方拿出錢財救助貧苦。慷為慷慨胸懷心部康聲；縱為放縱馳騁纟部。",
-      "形|（ ）草如茵|綠|綠|緣|ㄌㄩˋ|綠草如茵：滿地碧草柔厚如同鋪毯。綠為綠意翠色纟部彖聲；緣為因緣前緣纟部彖聲。",
-      "形|百（ ）成鋼|煉|煉|練|ㄌㄧㄢˋ|百煉成鋼：經千錘百鍊終於鍛造成材。煉為高溫冶煉火部柬聲；練為熟練練習纟部柬聲。",
-      "形|勤加熟（ ）|練|練|煉|ㄌㄧㄢˋ|勤加熟練：認真反覆操作直到純熟。練為練習熟習纟部柬聲；煉為火煉鍛打火部。",
-      "形|（ ）人摸象|盲|盲|芒|ㄇㄤˊ|盲人摸象：雙目失明者單憑摸索評斷象形。盲為雙目失明目部亡聲；芒為植物尖芒草芒艸部。",
-      "形|鋒（ ）畢露|芒|芒|盲|ㄇㄤˊ|鋒芒畢露：才能尖銳顯露毫無收斂。芒為刀尖尖芒艸部亡聲；盲為雙眼眼盲目部。",
-      "形|（ ）綱挈領|提|提|題|ㄊㄧˊ|提綱挈領：抓住問題核心綱要。提為提起提拔手部是聲；題為題目主題頁部是聲。",
-      "形|大發主（ ）|題|題|提|ㄊㄧˊ|大發主題：寫作時緊密圍繞文章中心。題為考題文題頁部是聲；提為手提提攜手部。",
-      "形|想（ ）豐富|象|象|像|ㄒㄧㄤˋ|想像豐富：在心中生動構想各種圖像。象為大象景象象部；像為人像形像亻部象聲。",
-      "形|畫得真（ ）|像|像|象|ㄒㄧㄤˋ|畫得真像：畫出來的人像與真人極其相似。像為相似肖像亻部象聲；象為萬象大象象部。",
-      "形|（ ）無虛席|座|座|坐|ㄗㄨㄛˋ|座無虛席：座位坐得滿滿的形容賓客眾多。座為座位席位广部坐聲；坐為坐下就座土部兩人。",
-      "形|請（ ）就座|坐|坐|座|ㄗㄨㄛˋ|請坐就座：請客人坐到椅子上面。坐為動作就坐土部兩人；座為名詞座位广部坐聲。",
-      "形|不理不（ ）|睬|睬|採|ㄘㄞˇ|不理不睬：完全不理會對方不予理睬。睬為理會注目目部采聲；採為採集摘取手部采聲。",
-      "形|（ ）摘果實|採|採|睬|ㄘㄞˇ|採摘果實：用手摘取果樹熟透的甜果。採為摘取收集手部采聲；睬為理睬過問目部。",
-      "形|刻（ ）求劍|舟|舟|丹|ㄓㄡ|刻舟求劍：在行駛船上刻記求失劍太不知變通。舟為船舟象形；丹為丹砂井中有橫。",
-      "形|（ ）舟求劍|刻|刻|剋|ㄎㄜˋ|刻舟求劍：在木船邊緣劃刻痕跡。刻為刀刻雕鏤刀部亥聲；剋為剋制攻剋克部寸。",
-      "形|克服（ ）制|剋|剋|刻|ㄎㄜˋ|克服剋制：克制心中的衝動與慾念。剋為剋制勝過克部寸；刻為雕刻刻刀刀部。",
-      "形|樹（ ）搖曳|梢|梢|稍|ㄕㄠ|樹梢搖曳：樹枝的頂端隨微風擺動。梢為樹木枝梢木部肖聲；稍為稍許稍微禾部肖聲。",
-      "形|（ ）微調整|稍|稍|梢|ㄕㄠ|稍微調整：作極小程度的改進調整。稍為略微少許禾部肖聲；梢為枝頭樹梢木部。",
-      "形|幼（ ）無知|稚|稚|雉|ㄓˋ|幼稚無知：年紀細小見識尚淺。稚為稚氣年幼禾部隹聲；雉為野雞野雉隹部矢聲。",
-      "形|野（ ）飛舞|雉|雉|稚|ㄓˋ|野雉飛舞：林間色彩斑斕的雉雞。雉為鳥綱雉雞隹部矢聲；稚為年幼稚嫩禾部。",
-      "形|（ ）大精深|博|博|搏|ㄅㄛˊ|博大精深：學問胸襟廣大而深厚。博為廣博淵博十部專聲；搏為搏鬥搏擊手部專聲。",
-      "形|拼死（ ）鬥|搏|搏|博|ㄅㄛˊ|拼死搏鬥：全力出手同敵人展開搏打。搏為拳擊搏擊手部專聲；博為博覽博大十部。",
-      "形|朝三（ ）四|暮|暮|幕|ㄇㄨˋ|朝三暮四：心意反覆早晚想法各異。暮為日落傍晚草日草；幕為帳幕帷幕巾部莫聲。",
-      "形|謝（ ）退場|幕|幕|暮|ㄇㄨˋ|謝幕退場：表演完畢布幕垂落向觀眾致謝。幕為布幕帷幕巾部莫聲；暮為夕陽傍晚日部。",
-      "形|甘之如（ ）|飴|飴|怡|ㄧˊ|甘之如飴：感到像糖飴般甜美樂意承受辛勞。飴為麥芽糖飴食部台聲；怡為心胸愉悅心部台聲。",
-      "形|心曠神（ ）|怡|怡|飴|ㄧˊ|心曠神怡：心情無比開朗舒暢。怡為愉悅舒坦心部台聲；飴為香甜糖飴食部。",
-      "形|甜言（ ）語|蜜|蜜|密|ㄇㄧˋ|甜言蜜語：像蜂蜜般動聽誘人的話語。蜜為蜂蜜虫部宓聲；密為密集秘密山部宓聲。",
-      "形|親（ ）無間|密|密|蜜|ㄇㄧˋ|親密無間：關係極其密切毫無隔閡。密為緊密秘密山部宓聲；蜜為甜蜜蜂蜜虫部。",
-      "形|（ ）頭轉向|昏|昏|暈|ㄏㄨㄣ|昏頭轉向：神智昏亂迷糊分不清方向。昏為昏暗天昏日部氏聲；暈為暈眩光暈日部軍聲。",
-      "形|頭（ ）目眩|暈|暈|昏|ㄩㄣˋ|頭暈目眩：腦中暈眩眼睛發黑。暈為暈倒旋暈日部軍聲；昏為天昏昏黃日部氏聲。",
-      "形|（ ）張失措|慌|慌|荒|ㄏㄨㄤ|慌張失措：心神恐慌不知道該怎麼應對。慌為心慌恐懼心部荒聲；荒為雜草荒涼艸部。",
-      "形|前（ ）後果|因|因|茵|ㄧㄣ|前因後果：整件事的前後因由始末。因為緣由原因口部大；茵為綠茵地毯艸部因聲。",
-      "形|狡（ ）無比|猾|猾|滑|ㄏㄨㄚˊ|狡猾無比：為人奸巧詭詐不老實。猾為奸猾狡猾犬部骨聲；滑為滑溜光滑水部骨聲。",
-      "形|路面濕（ ）|滑|滑|猾|ㄏㄨㄚˊ|路面濕滑：下雨天路上泥濘非常光滑易跌。滑為光滑滑溜水部骨聲；猾為狡猾狡黠犬部。",
-      "形|走（ ）闖蕩|江|江|紅|ㄐㄧㄤ|走江湖：在江湖四方闖蕩謀生。江為大江江流水部工聲；紅為紅色綵帶纟部工聲。",
-      "形|萬紫千（ ）|紅|紅|江|ㄏㄨㄥˊ|萬紫千紅：百花齊放色彩無比艷麗。紅為紅色朱紅纟部工聲；江為大江巨川水部。",
-      "形|不甘示（ ）|弱|弱|溺|ㄖㄨㄛˋ|不甘示弱：不願意在別人面前表現軟弱。弱為軟弱羸弱弓部；溺為沉溺落水水部弱聲。",
-      "形|落入陷（ ）|阱|阱|井|ㄐㄧㄥˇ|落入陷阱：被誘入捕獵猛獸的深坑。阱為陷坑地阱阜部井聲；井為汲水水井井部。",
-      "形|（ ）然失笑|莞|莞|完|ㄨㄢˇ|莞爾失笑：忍不住微微一笑。莞為莞爾微笑艸部完聲；完為完好完整宀部元聲。",
-      "形|大功告（ ）|成|成|完|ㄨㄢˊ|大功告成：大事圓滿宣告完工。成為成就完成戈部；完為完結完畢宀部。",
-      "形|一（ ）知秋|葉|葉|夜|ㄧㄝˋ|一葉知秋：一片落葉可知深秋將至。葉為草木樹葉艸部；夜為夜晚黑夜夕部。",
-      "形|晝（ ）不停|夜|夜|葉|ㄧㄝˋ|晝夜不停：白天黑夜一刻不休不停運轉。夜為黑夜夜晚夕部亦聲；葉為植物葉片艸部。",
-      "形|（ ）水樓台|近|近|匠|ㄐㄧㄣˋ|近水樓台：地處優勢最先得著好處。近為接近不遠辵部斤聲；匠為能工巧匠匚部斤聲。",
-      "形|千（ ）萬謝|感|感|憾|ㄍㄢˇ|千感謝萬：內心由衷充滿感激道謝。感為感恩感激咸心；憾為遺憾愧疚心感聲。",
-      "形|遺（ ）終生|憾|憾|感|ㄏㄢˋ|遺憾終生：留下一生的悔恨與缺憾。憾為遺憾抱憾心部感聲；感為感動感激心部。",
-      "形|風（ ）日麗|和|和|荷|ㄏㄜˊ|風和日麗：微風柔和日光溫暖美好。和為和緩溫順禾口；荷為荷花蓮葉艸何聲。",
-      "形|破（ ）為笑|涕|涕|梯|ㄊㄧˋ|破涕為笑：擦乾眼淚轉憂為喜。涕為眼淚鼻涕水弟聲；梯為樓梯木部弟聲。",
-      "形|步步登（ ）|梯|梯|涕|ㄊㄧ|步步登梯：沿著扶梯一步步登向高處。梯為樓梯天梯木部弟聲；涕為眼淚淚水水部。",
-      "形|海闊天（ ）|空|空|穹|ㄎㄨㄥ|海闊天空：前途廣闊如同海空無垠。空為晴空廣闊穴工聲；穹為天穹蒼穹穴弓聲。",
-      "形|功（ ）垂成|敗|敗|成|ㄅㄞˋ|功敗垂成：臨近成功時突然遭遇挫敗。敗為敗北失敗攵貝；成為辦成成功戈部。",
-      "形|（ ）首稱臣|俯|俯|府|ㄈㄨˇ|俯首稱臣：低下頭顱俯首甘居屬下。俯為低首下垂亻府聲；府為官衙機構广付聲。",
-      "形|各（ ）己見|抒|抒|予|ㄕㄨ|各抒己見：各自抒發自己的想法看法。抒為抒發發洩手部予聲；予為給予授予予部。",
-      "形|免（ ）其難|強|強|牆|ㄑㄧㄤˇ|勉強其難：下大功夫承擔為難之事。強為強硬勉強弓部虫聲；牆為土牆牆垣土部嗇聲。",
-      "形|銅（ ）鐵壁|牆|牆|強|ㄑㄧㄤˊ|銅牆鐵壁：如銅牆般的防禦堅不可摧。牆為房屋牆壁土部嗇聲；強為堅強剛強弓部。",
-      "形|百（ ）成鋼|煉|煉|練|ㄌㄧㄢˋ|百煉成鋼：歷經萬千錘煉鍛造成才。煉為高溫冶煉火部柬聲；練為反覆練習纟部柬聲。",
-      "形|刻（ ）求劍|舟|舟|丹|ㄓㄡ|刻舟求劍：拘泥古法不知世事在變。舟為木舟船隻象形；丹為丹青硃砂井中加一橫。",
-      "形|自討沒（ ）|趣|趣|取|ㄑㄩˋ|自討沒趣：自取其辱毫無任何意趣。趣為樂趣興味走部取聲；取為選取奪取耳部又。",
-      "形|拔（ ）相助|刀|刀|力|ㄉㄠ|拔刀相助：拔出寶刀相助遭難者。刀為短刃寶刀右上不出頭；力為力道筋力撇出頭。",
-      "形|（ ）羊補牢|亡|亡|妄|ㄨㄤˊ|亡羊補牢：羊走失後趕緊修補羊圈。亡為走失亡失亡部；妄為虛妄妄想女部亡聲。",
-      "形|膽大（ ）為|妄|妄|亡|ㄨㄤˋ|膽大妄為：膽子極大毫無顧忌胡亂作為。妄為胡亂狂妄女部亡聲；亡為逃亡丟失亡部。",
-      "形|風馳（ ）掣|電|電|雷|ㄉㄧㄢˋ|風馳電掣：速度飛快如同奔電狂風。電為閃電雷電雨部申聲；雷為轟天雷響雨部田聲。",
-      "形|（ ）水相逢|萍|萍|平|ㄆㄧㄥˊ|萍水相逢：如同水上浮萍偶然相遇聚會。萍為浮萍植物艸部氵平；平為平靜和平干部。",
-      "形|（ ）草如茵|綠|綠|錄|ㄌㄩˋ|綠草如茵：滿地碧草柔厚如同坐毯。綠為綠色芳草纟部彖聲；錄為謄錄記錄金部录聲。",
-      "形|一（ ）二鳥|石|石|右|ㄕˊ|一石二鳥：一顆石頭打落兩隻鳥比喻雙贏。石為石頭岩石石部；右為左右手方向口部又。",
-      "形|（ ）竿見影|立|立|粒|ㄌㄧˋ|立竿見影：插竿於地立見日影比喻成效迅速。立為站立挺立立部；粒為米粒細粒米部立聲。",
-      "形|顆（ ）無收|粒|粒|立|ㄌㄧˋ|顆粒無收：歉收荒年連一粒稻穀也沒收成。粒為穀粒細粒米部立聲；立為矗立站立立部。",
-      "形|（ ）山涉水|跋|跋|拔|ㄅㄚˊ|跋山涉水：翻越高山涉過江水極其辛勞。跋為步行涉水足部犮聲；拔為拉拔挺拔手部犮聲。",
-      "形|（ ）草除根|斬|斬|暫|ㄓㄢˇ|斬草除根：將惡草連根斬斷徹底解決。斬為揮刀砍斷車斤；暫為短暫暫時日部斬聲。",
-      "形|（ ）時休息|暫|暫|斬|ㄓㄢˋ|暫時休息：在工作空檔短暫小憩片刻。暫為短時間內日部斬聲；斬為砍伐斬首車斤。",
-      "形|（ ）耳盜鈴|掩|掩|俺|ㄧㄢˇ|掩耳盜鈴：捂住自己耳朵去偷鈴鐺自欺欺人。掩為遮掩蒙蔽手部奄聲；俺為方言我人亻部奄聲。",
-      "形|水（ ）石出|落|落|洛|ㄌㄨㄛˋ|水落石出：潮水退落石塊浮現真相大白。落為落下墜落艸部洛聲；洛為洛水地名水部各聲。",
-      "形|百（ ）百中|發|發|髮|ㄈㄚ|百發百中：每一箭射出都能命中紅心。發為發射出發癶部殳聲；髮為滿頭毛髮髟部友聲。",
-      "形|（ ）髮童顏|鶴|鶴|鶴|ㄏㄜˋ|鶴髮童顏：白髮如同仙鶴容貌如孩童般紅潤。鶴為仙鶴白鶴鳥部隺聲；不可誤寫。",
-      "形|（ ）目四望|縱|縱|從|ㄗㄨㄥˋ|縱目四望：極目向四面八方遠眺舒懷。縱為放縱放寬纟部從聲；從為順從跟隨彳人人。",
-      "形|雪中送（ ）|炭|炭|碳|ㄊㄢˋ|雪中送炭：給予在寒冬受凍者及時溫暖。炭為木炭取暖從火山部；碳為化學元素石部炭聲。",
-      "形|（ ）水車薪|杯|杯|懷|ㄅㄟ|杯水車薪：端著一杯水救不了一車乾柴烈火。杯為茶杯酒器木部不聲；懷為胸襟心懷心部褱聲。",
-      "形|望梅止（ ）|渴|渴|喝|ㄎㄜˇ|望梅止渴：眼望青梅想像酸味止住口渴。渴為口渴乾涸水部曷聲；喝為大口飲水口部曷聲。",
-      "形|盡情大（ ）|喝|喝|渴|ㄏㄜ|盡情大喝：運動過後痛快喝下一大杯水。喝為張口飲用口部曷聲；渴為口中缺水水部曷聲。",
-      "形|（ ）舟求劍|刻|刻|剋|ㄎㄜˋ|刻舟求劍：不知水流舟動只管在船上劃記號。刻為用刀雕刻刀部亥聲；剋為剋扣制服克部寸。",
-      "形|（ ）心雕琢|精|精|晴|ㄐㄧㄥ|精心雕琢：花費細密心思反覆雕刻琢磨。精為精美純潔米部青聲；晴為晴朗日出日部青聲。",
-      "形|放（ ）無雲|晴|晴|精|ㄑㄧㄥˊ|放晴無雲：天空放晴沒有半點雨意。晴為天色晴朗日部青聲；精為精力精細米部青聲。",
-      "形|（ ）掌難鳴|孤|孤|狐|ㄍㄨ|孤掌難鳴：一隻手掌拍不出聲響比喻力薄。孤為孤單幼孤子部瓜聲；狐為野獸狐狸犬部瓜聲。",
-      "形|狡（ ）如鬼|狐|狐|孤|ㄏㄨˊ|狡狐如鬼：如野狐狸般奸詐詭計多端。狐為野狐狐狸犬部瓜聲；孤為孤立無伴子部瓜聲。",
-      "形|（ ）竿見影|立|立|笠|ㄌㄧˋ|立竿見影：立起竹竿日影立現比喻效果立顯。立為豎立端立立部；笠為竹編笠帽竹部立聲。",
-      "形|頭頂斗（ ）|笠|笠|立|ㄌㄧˋ|頭頂斗笠：走在豔陽田埂頭戴遮陽斗笠。笠為竹製遮笠竹部立聲；立為直立挺立立部。",
-      "形|（ ）理名言|至|至|致|ㄓˋ|至理名言：至高無上的真理箴言。至為極頂至高至部；致為送達引致攵部至聲。",
-      "形|細（ ）入微|緻|緻|至|ㄓˋ|細緻入微：觀察處理得非常周到細密。緻為細密精緻纟部致聲；至為到達極限至部。",
-      "形|（ ）草除根|斬|斬|暫|ㄓㄢˇ|斬草除根：把危害莊稼的野草根株斬盡。斬為砍斷斬除車斤；暫為暫定暫且日部斬聲。",
-      "形|（ ）風送爽|清|清|晴|ㄑㄧㄥ|清風送爽：秋風清涼吹拂令人心神開朗。清為清澈清新水部青聲；晴為天空晴天日部青聲。",
-      "形|（ ）雲悠悠|白|白|自|ㄅㄞˊ|白雲悠悠：長空萬里晴空中朵朵白雲浮動。白為白色白雲白部；自為自我自己自部。",
-      "形|（ ）知之明|自|自|白|ㄗˋ|自知之明：深刻了解自己的優點與不足。自為自我自己自鼻部；白為潔白顏色白部。",
-      "形|滿腹經（ ）|綸|綸|輪|ㄌㄨㄣˊ|滿腹經綸：胸懷大謀具備治國大才。綸為絲織經綸纟部侖聲；輪為輪胎車輪車部侖聲。",
-      "形|車（ ）飛轉|輪|輪|綸|ㄌㄨㄣˊ|車輪飛轉：單車的車輪在跑道上疾速轉動。輪為圓形車輪車部侖聲；綸為絲綸錦緞纟部侖聲。",
-      "形|大公無（ ）|私|私|利|ㄙ|大公無私：待人接物全憑正道毫無私念。私為私心隱私禾部厶聲；利為名利利益禾部刀旁。",
-      "形|急功近（ ）|利|利|私|ㄌㄧˋ|急功近利：急著想追求功名利益不顧長遠。利為利益功利禾部刀旁；私為私利自私禾部厶旁。",
-      "形|臨渴掘（ ）|井|井|阱|ㄐㄧㄥˇ|臨渴掘井：到了口乾舌燥才想起要掘水井。井為水井深井井部；阱為陷阱圈套阜部井聲。",
-      "形|掉入陷（ ）|阱|阱|井|ㄐㄧㄥˇ|掉入陷阱：不慎墜落獵人挖好的偽裝坑洞。阱為捕捉野獸的陷阱阜部井聲；井為汲水水井井部。"
+    // 依據《字音.md》400 題校正資料
+    const RAW_YIN_ITEMS = [
+      // 試卷 1
+      ["【將】兵","ㄐㄧㄤˋ"],["【興】奮","ㄒㄧㄥ"],["【刻】意","ㄎㄜˋ"],["【儘】管","ㄐㄧㄣˇ"],["【尾】巴","ㄨㄟˇ"],["【鎮】定","ㄓㄣˋ"],["【粗】糙","ㄘㄨ"],["【著】名","ㄓㄨˋ"],["【波】浪","ㄅㄛ"],["【寂】寞","ㄐㄧˊ"],
+      ["【蝦】蟆","ㄏㄚˊ"],["【創】傷","ㄔㄨㄤ"],["【掃】興","ㄙㄠˇ"],["【歹】徒","ㄉㄞˇ"],["【黏】土","ㄋㄧㄢˊ"],["【炮】烙","ㄆㄠˊ"],["【覆】蓋","ㄈㄨˋ"],["【蠕】動","ㄖㄨˊ"],["【沾】染","ㄓㄢ"],["【箭】步","ㄐㄧㄢˋ"],
+      ["【漆】黑","ㄑㄧ"],["【瞭】望台","ㄌㄧㄠˋ"],["【勒】緊褲帶","ㄌㄟ"],["【騎】虎難下","ㄑㄧˊ"],["【壁】壘分明","ㄅㄧˋ"],["【文】過飾非","ㄨㄣˋ"],["【落】在人後","ㄌㄨㄛˋ"],["【盛】氣凌人","ㄕㄥˋ"],["【遮】風擋雨","ㄓㄜ"],["【假】道而行","ㄐㄧㄚˇ"],
+      ["【滔】滔不絕","ㄊㄠ"],["【悶】悶不樂","ㄇㄣˋ"],["【稱】心如意","ㄔㄣˋ"],["【淺】顯易懂","ㄑㄧㄢˇ"],["【露】出馬腳","ㄌㄡˋ"],["【捉】襟見肘","ㄓㄨㄛ"],["【駐】顏有術","ㄓㄨˋ"],["【數】見不鮮","ㄕㄨㄛˋ"],["【參】差不齊","ㄘㄣ"],["【享】用大餐","ㄒㄧㄤˇ"],
+      ["【繪】畫比賽","ㄏㄨㄟˋ"],["【撐】開雨傘","ㄔㄥ"],["老【翁】","ㄨㄥ"],["寶【藏】","ㄗㄤˋ"],["道【觀】","ㄍㄨㄢˋ"],["氣【氛】","ㄈㄣ"],["主【角】","ㄐㄩㄝˊ"],["山【坡】","ㄆㄛ"],["望【族】","ㄗㄨˊ"],["諸【葛】亮","ㄍㄜˊ"],
+      ["凹【凸】不平","ㄊㄨˊ"],["肉【燥】米粉","ㄙㄠˋ"],["味【噌】魚湯","ㄘㄥ"],["千【乘】之國","ㄕㄥˋ"],["一【串】鞭炮","ㄔㄨㄢˋ"],["耳【濡】目染","ㄖㄨˊ"],["日【晒】雨淋","ㄕㄞˋ"],["貌【賽】西施","ㄙㄞˋ"],["一【廂】情願","ㄒㄧㄤ"],["細【嚼】慢嚥","ㄐㄧㄠˊ"],
+      ["委【曲】求全","ㄑㄩ"],["乳【臭】未乾","ㄒㄧㄡˋ"],["嚴【厲】指導","ㄌㄧˋ"],["遮雨【棚】","ㄆㄥˊ"],["鴻門【宴】","ㄧㄢˋ"],["每下【愈】況","ㄩˋ"],["歷經【滄】桑","ㄘㄤ"],["古老【傳】說","ㄔㄨㄢˊ"],["拍手【叫】好","ㄐㄧㄠˋ"],["時光【隧】道","ㄙㄨㄟˋ"],
+      ["正襟【危】坐","ㄨㄟˊ"],["人才【輩】出","ㄅㄟˋ"],["設身【處】地","ㄔㄨˇ"],["怨聲【載】道","ㄗㄞˋ"],["以假【亂】真","ㄌㄨㄢˋ"],["射中【靶】心","ㄅㄚˇ"],["一盤【散】沙","ㄙㄢˇ"],["兄弟【姊】妹","ㄗˇ"],["循規【蹈】矩","ㄉㄠˋ"],["黔驢【技】窮","ㄐㄧˋ"],
+      ["聰明【慧】黠","ㄏㄨㄟˋ"],["目不【暇】給","ㄒㄧㄚˊ"],["校外【教】學","ㄐㄧㄠˋ"],["傷風【敗】俗","ㄅㄞˋ"],["縮頭【藏】尾","ㄘㄤˊ"],["不可【勝】數","ㄕㄥ"],["石斗升【合】","ㄍㄜˇ"],["黃昏時【分】","ㄈㄣ"],["石門水【庫】","ㄎㄨˋ"],["百年商【行】","ㄏㄤˊ"],
+      ["鋌而走【險】","ㄒㄧㄢˇ"],["步入正【軌】","ㄍㄨㄟˇ"],["潔白無【瑕】","ㄒㄧㄚˊ"],["左顧右【盼】","ㄆㄢˋ"],["不同凡【響】","ㄒㄧㄤˇ"],["正中下【懷】","ㄏㄨㄞˊ"],["神哭鬼【號】","ㄏㄠˊ"],["速度敏【捷】","ㄐㄧㄝˊ"],["一不留【神】","ㄕㄣˊ"],["大快朵【頤】","ㄧˊ"],
+      // 試卷 2
+      ["圖【案】","ㄢˋ"],["安【慰】","ㄨㄟˋ"],["【教】導","ㄐㄧㄠˋ"],["【酋】長","ㄑㄧㄡˊ"],["尖【銳】","ㄖㄨㄟˋ"],["紅【檜】","ㄍㄨㄟˋ"],["【挑】戰","ㄊㄧㄠˇ"],["【館】長","ㄍㄨㄢˇ"],["【積】木","ㄐㄧ"],["【醒】目","ㄒㄧㄥˇ"],
+      ["帳【棚】","ㄆㄥˊ"],["【擴】散","ㄎㄨㄛˋ"],["祝【福】","ㄈㄨˊ"],["期【盼】","ㄆㄢˋ"],["【響】亮","ㄒㄧㄤˇ"],["【更】改","ㄍㄥ"],["【供】奉","ㄍㄨㄥˋ"],["【銅】錢","ㄊㄨㄥˊ"],["【褪】色","ㄊㄨㄟˋ"],["【法】國","ㄈㄚˇ"],
+      ["舞【蹈】","ㄉㄠˋ"],["【蘋】果","ㄆㄧㄥˊ"],["【什】麼","ㄕㄣˊ"],["【埋】怨","ㄇㄢˊ"],["針【灸】","ㄐㄧㄡˇ"],["【瑞】士","ㄖㄨㄟˋ"],["【突】然","ㄊㄨˊ"],["【應】該","ㄧㄥ"],["倒【映】","ㄧㄥˋ"],["【煞】車","ㄕㄚ"],
+      ["晚【霞】","ㄒㄧㄚˊ"],["【釀】酒","ㄋㄧㄤˋ"],["傳【遍】了","ㄅㄧㄢˋ"],["【瞭】望臺","ㄌㄧㄠˋ"],["賣油【翁】","ㄨㄥ"],["【逛】夜市","ㄍㄨㄤˋ"],["【舔】東西","ㄊㄧㄢˇ"],["【繫】鞋帶","ㄐㄧˋ"],["【捕】魚方法","ㄅㄨˇ"],["行【駛】汽車","ㄕˇ"],
+      ["騎著【掃】把","ㄙㄠˋ"],["一起【研】究","ㄧㄢˊ"],["【博】學多聞","ㄅㄛˊ"],["射中【靶】心","ㄅㄚˇ"],["婚禮【儀】式","ㄧˊ"],["一起【享】用","ㄒㄧㄤˇ"],["山【坡】青翠","ㄆㄛ"],["【舉】起雙手","ㄐㄩˇ"],["穿【透】雲霧","ㄊㄡˋ"],["【載】著貨物","ㄗㄞˋ"],
+      ["魔【術】師","ㄕㄨˋ"],["新【把】戲","ㄅㄚˇ"],["收【藏】品","ㄘㄤˊ"],["馬太【鞍】","ㄢ"],["油桐【花】","ㄏㄨㄚ"],["【切】蛋糕","ㄑㄧㄝ"],["【乘】坐電梯","ㄔㄥˊ"],["【拼】圖遊戲","ㄆㄧㄣ"],["一陣白【煙】","ㄧㄢ"],["海盜出【沒】","ㄇㄛˋ"],
+      ["【蒐】集資料","ㄙㄡ"],["【撒】網捕魚","ㄙㄚ"],["不【斷】練習","ㄉㄨㄢˋ"],["懂【得】合作","ㄉㄜˊ"],["搭【乘】渡輪","ㄔㄥˊ"],["【捷】運車廂","ㄐㄧㄝˊ"],["歡樂氣【氛】","ㄈㄣ"],["手忙腳【亂】","ㄌㄨㄢˋ"],["自然生【態】","ㄊㄞˋ"],["冒著白【煙】","ㄧㄢ"],
+      ["很多收【穫】","ㄏㄨㄛˋ"],["智【慧】結晶","ㄏㄨㄟˋ"],["豐【盛】佳餚","ㄕㄥˋ"],["各【處】巡邏","ㄔㄨˋ"],["旋【轉】馬車","ㄓㄨㄢˇ"],["梵語【般】若","ㄅㄛ"],["【皈】依佛門","ㄍㄨㄟ"],["不屈不【撓】","ㄋㄠˊ"],["天涯【比】鄰","ㄅㄧˋ"],["【綜】合問題","ㄗㄨㄥˋ"],
+      ["嗜痂成【癖】","ㄆㄧˇ"],["【炸】雞薯條","ㄓㄚˊ"],["【淘】沙見金","ㄊㄠˊ"],["【肅】然起敬","ㄙㄨˋ"],["杯盤狼【藉】","ㄐㄧˊ"],["【從】容不迫","ㄘㄨㄥ"],["【哺】乳動物","ㄅㄨˇ"],["參【差】不齊","ㄘ"],["丟三【落】四","ㄌㄚˋ"],["一【塌】糊塗","ㄊㄚ"],
+      ["味【噌】魚湯","ㄘㄥ"],["結實【纍】纍","ㄌㄟˊ"],["棋高一【著】","ㄓㄨㄛˊ"],["咆【哮】大怒","ㄒㄧㄠ"],["【予】取予求","ㄩˊ"],["景物蕭【瑟】","ㄙㄜˋ"],["街道巷【弄】","ㄋㄨㄥˋ"],["【滂】沱大雨","ㄆㄤ"],["【唾】手可得","ㄊㄨㄛˋ"],["百花【綻】放","ㄓㄢˋ"],
+      // 試卷 3
+      ["【相】簿","ㄒㄧㄤˋ"],["【隧】道","ㄙㄨㄟˋ"],["【沙】灘","ㄕㄚ"],["【轉】動","ㄓㄨㄢˇ"],["【難】忘","ㄋㄢˊ"],["記【錄】","ㄌㄨˋ"],["一【頁】","ㄧㄝˋ"],["【內】容","ㄋㄟˋ"],["【拼】圖","ㄆㄧㄣ"],["其【實】","ㄕˊ"],
+      ["危【險】","ㄒㄧㄢˇ"],["【廚】房","ㄔㄨˊ"],["到【底】","ㄉㄧˇ"],["【軌】道","ㄍㄨㄟˇ"],["【假】日","ㄐㄧㄚˋ"],["【參】觀","ㄘㄢ"],["熟【識】","ㄕˋ"],["【宴】請","ㄧㄢˋ"],["【盛】宴","ㄕㄥˋ"],["菜【尾】","ㄨㄟˇ"],
+      ["忘【懷】","ㄏㄨㄞˊ"],["【改】變","ㄍㄞˇ"],["【配】合","ㄆㄟˋ"],["【教】堂","ㄐㄧㄠˋ"],["記【號】","ㄏㄠˋ"],["【捷】運","ㄐㄧㄝˊ"],["車【廂】","ㄒㄧㄤ"],["【繪】本","ㄏㄨㄟˋ"],["掃【把】","ㄅㄚˇ"],["樓【梯】","ㄊㄧ"],
+      ["科【技】","ㄐㄧˋ"],["需【要】","ㄧㄠˋ"],["花【蓮】","ㄌㄧㄢˊ"],["打【造】","ㄗㄠˋ"],["三【層】","ㄘㄥˊ"],["樹【枝】","ㄓ"],["魚【蝦】","ㄒㄧㄚ"],["一【段】","ㄉㄨㄢˋ"],["【祖】先","ㄗㄨˇ"],["智【慧】","ㄏㄨㄟˋ"],
+      ["生【態】","ㄊㄞˋ"],["【淡】水","ㄉㄢˋ"],["【傳】統","ㄔㄨㄢˊ"],["阿【婆】","ㄆㄛˊ"],["堅【硬】","ㄧㄥˋ"],["回【憶】","ㄧˋ"],["搖【盪】","ㄉㄤˋ"],["臺【灣】","ㄨㄢ"],["【迷】宮","ㄇㄧˊ"],["防【盜】","ㄉㄠˋ"],
+      ["圍【牆】","ㄑㄧㄤˊ"],["【露】白","ㄌㄡˋ"],["【史】料","ㄕˇ"],["荷【蘭】","ㄌㄢˊ"],["打【敗】","ㄅㄞˋ"],["無【數】","ㄕㄨˋ"],["雲【霧】","ㄨˋ"],["風【鈴】","ㄌㄧㄥˊ"],["松【鼠】","ㄕㄨˇ"],["孔【子】","ㄗˇ"],
+      ["紅【檜】","ㄍㄨㄟˋ"],["位【置】","ㄓˋ"],["【偶】然","ㄡˇ"],["困【惑】","ㄏㄨㄛˋ"],["【遇】見","ㄩˋ"],["【語】文","ㄩˇ"],["【靶】心","ㄅㄚˇ"],["道【理】","ㄌㄧˇ"],["【瓶】子","ㄆㄧㄥˊ"],["一【枚】","ㄇㄟˊ"],
+      ["【銅】錢","ㄊㄨㄥˊ"],["【勺】子","ㄕㄠˊ"],["【舀】水","ㄧㄠˇ"],["收【藏】品","ㄘㄤˊ"],["火車【頭】","ㄊㄡˊ"],["一【輩】子","ㄅㄟˋ"],["文物【館】","ㄍㄨㄢˇ"],["馬太【鞍】","ㄢ"],["九【曲】巷","ㄑㄩ"],["串【鞭】炮","ㄅㄧㄢ"],
+      ["【搭】棚子","ㄉㄚ"],["阿美【族】","ㄗㄨˊ"],["【瞭】望台","ㄌㄧㄠˋ"],["【臭】皮匠","ㄔㄡˋ"],["陳樹【菊】","ㄐㄩˊ"],["賣油【翁】","ㄨㄥ"],["資料【夾】","ㄐㄧㄚˊ"],["白【鷺】鷥","ㄌㄨˋ"],["【數】來寶","ㄕㄨˇ"],["【悶】悶不樂","ㄇㄣˋ"],
+      ["【滔】滔不絕","ㄊㄠ"],["億【載】金城","ㄗㄞˇ"],["減【緩】暖化","ㄏㄨㄢˇ"],["此起【彼】落","ㄅㄧˇ"],["細【嚼】慢嚥","ㄐㄧㄠˊ"],["百年商【行】","ㄏㄤˊ"],["【縮】頭藏尾","ㄙㄨㄛ"],["【一】清二楚","ㄧ"],["一【鳴】驚人","ㄇㄧㄥˊ"],["【將】計就計","ㄐㄧㄤ"],
+      // 試卷 4
+      ["廣【播】","ㄅㄛ"],["【蘋】果","ㄆㄧㄥˊ"],["【嘀】咕","ㄉㄧˊ"],["【嫉】妒","ㄐㄧˊ"],["【夢】想","ㄇㄥˋ"],["【興】奮","ㄒㄧㄥ"],["腳【踝】","ㄏㄨㄞˊ"],["【供】應","ㄍㄨㄥ"],["【蠕】動","ㄖㄨˊ"],["【伐】木","ㄈㄚˊ"],
+      ["星【宿】","ㄒㄧㄡˋ"],["【參】差","ㄘㄣ"],["【舛】誤","ㄔㄨㄢˇ"],["【亞】洲","ㄧㄚˋ"],["油【炸】","ㄓㄚˊ"],["【煞】車","ㄕㄚ"],["抽【搐】","ㄔㄨˋ"],["友【誼】","ㄧˋ"],["【署】名","ㄕㄨˋ"],["【撒】嬌","ㄙㄚ"],
+      ["貪【婪】","ㄌㄢˊ"],["【惋】惜","ㄨㄢˋ"],["閒【散】","ㄙㄢˇ"],["【闈】場","ㄨㄟˊ"],["老【媼】","ㄠˇ"],["奶【酪】","ㄌㄨㄛˋ"],["【刻】印","ㄎㄜˋ"],["光【暈】","ㄩㄣˋ"],["租【賃】","ㄌㄧㄣˋ"],["請【帖】","ㄊㄧㄝˇ"],
+      ["【掂】量","ㄉㄧㄢ"],["【蝙】蝠","ㄅㄧㄢ"],["獎【券】","ㄑㄩㄢˋ"],["【抨】擊","ㄆㄥ"],["海【濤】","ㄊㄠ"],["【波】浪","ㄅㄛ"],["美【髯】公","ㄖㄢˊ"],["味【噌】湯","ㄘㄥ"],["【饒】舌歌","ㄖㄠˊ"],["修正【液】","ㄧㄝˋ"],
+      ["【嗑】瓜子","ㄎㄜˋ"],["【蒲】公英","ㄆㄨˊ"],["三【稜】鏡","ㄌㄥˊ"],["十字【鎬】","ㄍㄠˇ"],["【殯】儀館","ㄅㄧㄣˋ"],["【燜】燒鍋","ㄇㄣˋ"],["【南】無佛","ㄋㄚˊ"],["橫膈【膜】","ㄇㄛˋ"],["【捺】指紋","ㄋㄚˋ"],["墨水【匣】","ㄒㄧㄚˊ"],
+      ["男主【角】","ㄐㄩㄝˊ"],["【哮】喘病","ㄒㄧㄠ"],["【茭】白筍","ㄐㄧㄠ"],["虎頭【鍘】","ㄓㄚˊ"],["【脊】椎骨","ㄐㄧˇ"],["【蕈】狀雲","ㄒㄩㄣˋ"],["靜【悄】悄","ㄑㄧㄠˇ"],["【涮】鍋子","ㄕㄨㄢˋ"],["【行】道樹","ㄒㄧㄥˊ"],["【應】屆畢業","ㄧㄥ"],
+      ["【皚】皚白雪","ㄞˊ"],["勝任【愉】快","ㄩˊ"],["甘冒不【韙】","ㄨㄟˇ"],["一【幀】名畫","ㄓㄥˋ"],["曲高【和】寡","ㄏㄜˋ"],["事有【蹊】蹺","ㄑㄧ"],["冠【冕】堂皇","ㄇㄧㄢˇ"],["為虎作【倀】","ㄔㄤ"],["蘭嶼角【鴞】","ㄒㄧㄠ"],["侃【侃】而談","ㄎㄢˇ"],
+      ["佛家【偈】語","ㄐㄧˋ"],["氣勢【磅】礴","ㄆㄤ"],["足智多【謀】","ㄇㄡˊ"],["凹【凸】不平","ㄊㄨˊ"],["【當】選無效","ㄉㄤ"],["全【脂】奶粉","ㄓ"],["一【擁】而上","ㄩㄥˇ"],["音訊【杳】然","ㄧㄠˇ"],["【予】取予求","ㄩˊ"],["【召】集眾人","ㄓㄠ"],
+      ["【強】詞奪理","ㄑㄧㄤˇ"],["【塑】身計畫","ㄙㄨˋ"],["【蚵】仔麵線","ㄜˊ"],["奉【養】父母","ㄧㄤˋ"],["吹毛求【疵】","ㄘ"],["【載】歌載舞","ㄗㄞˋ"],["魚目【混】珠","ㄏㄨㄣˋ"],["一路【縱】隊","ㄗㄨㄥˋ"],["一【幢】房子","ㄓㄨㄤˋ"],["臺灣山【羌】","ㄑㄧㄤ"],
+      ["弱不【禁】風","ㄐㄧㄣ"],["妄自【菲】薄","ㄈㄟˇ"],["蒙古【大】夫","ㄉㄞˋ"],["【傾】盆大雨","ㄑㄧㄥ"],["不屈不【撓】","ㄋㄠˊ"],["丟三【落】四","ㄌㄚˋ"],["【彈】指之間","ㄊㄢˊ"],["嚴守【分】際","ㄈㄣˋ"],["家【貲】萬貫","ㄗ"],["【蜚】聲國際","ㄈㄟ"]
     ];
 
-    /* ==========================================================================
-       二、資料結構解析與狀態管理
-       ========================================================================== */
-    const STORAGE_KEY_BANK = 'quiz_character_bank_v2';
-    const STORAGE_KEY_STATE = 'quiz_character_state_v2';
-    const ROUND_LIMIT = 50; // 每回合固定 50 題
+    // 依據《字形.md》400 題校正資料
+    const RAW_XING_ITEMS = [
+      // 試卷 1
+      ["ㄒㄧㄚˊ 窄","狹","狹窄"],["ㄘㄤ 老","蒼","蒼老"],["ㄡˇ 然","偶","偶然"],["ㄇㄧˊ 宮","迷","迷宮"],["ㄑㄧˋ 球","氣","氣球"],
+      ["ㄊㄢˊ 天說地","談","談天說地"],["ㄧㄡˊ 價飆漲","油","油價飆漲"],["ㄆㄧㄣˇ 學兼優","品","品學兼優"],["ㄉㄧㄠˋ 銷執照","吊","吊銷執照"],["ㄌㄤˇ 讀課文","朗","朗讀課文"],
+      ["ㄘˇ 起彼落","此","此起彼落"],["ㄍㄨˇ 舞人心","鼓","鼓舞人心"],["ㄈㄥ 紀股長","風","風紀股長"],["ㄆㄧㄣ 貼圖畫","拼","拼貼圖畫"],["ㄌㄧˋ 行公事","例","例行公事"],
+      ["ㄑㄧㄠˇ 奪天工","巧","巧奪天工"],["ㄉㄧㄝˊ 喋不休","喋","喋喋不休"],["ㄕㄥ ㄕㄥ 不息","生","生生不息"],["ㄘㄥˊ 出不窮","層","層出不窮"],["ㄐㄧㄚ 具買賣","家","家具買賣"],
+      ["ㄌㄧˋ 盡滄桑","歷","歷盡滄桑"],["ㄍㄨˋ 執己見","固","固執己見"],["ㄕˋ 範教學","示","示範教學"],["ㄊㄢ 為觀止","歎","歎為觀止"],["ㄓㄢ ㄓㄢ 自喜","沾","沾沾自喜"],
+      ["ㄅㄨˇ 魚方式","捕","捕魚方式"],["ㄅㄞˇ 感交集","百","百感交集"],["ㄆㄧㄥˊ 淡無奇","平","平淡無奇"],["搖 ㄌㄢˊ","籃","搖籃"],["匿 ㄇㄧㄥˊ","名","匿名"],
+      ["欽 ㄆㄟˋ","佩","欽佩"],["管 ㄓˋ","制","管制"],["均 ㄩㄣˊ","勻","均勻"],["皮 ㄐㄧㄚˊ","夾","皮夾"],["會 ㄩㄢˊ","員","會員"],
+      ["重 ㄕˋ","視","重視"],["寒 ㄌㄥˇ","冷","寒冷"],["身 ㄈㄣˋ 證","分","身分證"],["一 ㄕㄠˊ 水","勺","一勺水"],["湛 ㄌㄢˊ 天空","藍","湛藍天空"],
+      ["海 ㄉㄠˋ 出沒","盜","海盜出沒"],["容 ㄧˋ 執行","易","容易執行"],["因 ㄘㄞˊ 施教","材","因材施教"],["畫 ㄅㄧㄥˇ 充饑","餅","畫餅充饑"],["動 ㄉㄤˋ 不安","盪","動盪不安"],
+      ["武 ㄒㄧㄚˊ 小說","俠","武俠小說"],["指 ㄌㄨˋ 為馬","鹿","指鹿為馬"],["收 ㄏㄨㄛˋ 滿滿","穫","收穫滿滿"],["忠 ㄧㄢˊ 逆耳","言","忠言逆耳"],["自 ㄊㄡˊ 羅網","投","自投羅網"],
+      ["珍 ㄍㄨㄟˋ 食材","貴","珍貴食材"],["奇 ㄓㄣ 異寶","珍","奇珍異寶"],["牛 ㄉㄠ 小試","刀","牛刀小試"],["兩 ㄑㄩㄢˊ 其美","全","兩全其美"],["疑 ㄏㄨㄛˋ 難解","惑","疑惑難解"],
+      ["事 ㄩˇ 願違","與","事與願違"],["精 ㄇㄧˋ 武器","密","精密武器"],["堅 ㄕㄡˇ 崗位","守","堅守崗位"],["一 ㄐㄧㄢˋ 雙雕","箭","一箭雙雕"],["流 ㄒㄧㄥˊ 資訊","行","流行資訊"],
+      ["水 ㄏㄨㄛˇ 不容","火","水火不容"],["不 ㄔˇ 下問","恥","不恥下問"],["景色 ㄧˊ 人","宜","景色宜人"],["開國 ㄩㄢˊ 老","元","開國元老"],["一不 ㄌㄧㄡˊ 神","留","一不留神"],
+      ["成長 ㄐㄧˋ 錄","紀","成長紀錄"],["不厭 ㄑㄧˊ 煩","其","不厭其煩"],["同流 ㄏㄜˊ 汙","合","同流合汙"],["難以 ㄨㄤˋ 懷","忘","難以忘懷"],["挑三 ㄐㄧㄢˇ 四","揀","挑三揀四"],
+      ["朝令 ㄒㄧˋ 改","夕","朝令夕改"],["粗茶 ㄉㄢˋ 飯","淡","粗茶淡飯"],["無可 ㄋㄞˋ 何","奈","無可奈何"],["聰明 ㄌㄧㄥˊ 俐","伶","聰明伶俐"],["寡不 ㄉㄧˊ 眾","敵","寡不敵眾"],
+      ["眾所 ㄓㄡ 知","周","眾所周知"],["節衣 ㄙㄨㄛ 食","縮","節衣縮食"],["事必 ㄍㄨㄥ 親","躬","事必躬親"],["掌上 ㄇㄧㄥˊ 珠","明","掌上明珠"],["不勝 ㄇㄟˊ 舉","枚","不勝枚舉"],
+      ["流連忘 ㄈㄢˇ","返","流連忘返"],["土地肥 ㄨㄛˋ","沃","土地肥沃"],["實事求 ㄕˋ","是","實事求是"],["童年回 ㄧˋ","憶","童年回憶"],["六神無 ㄓㄨˇ","主","六神無主"],
+      ["三心二 ㄧˋ","意","三心二意"],["一鳴驚 ㄖㄣˊ","人","一鳴驚人"],["射中靶 ㄒㄧㄣ","心","射中靶心"],["火車軌 ㄉㄠˋ","道","火車軌道"],["顧此失 ㄅㄧˇ","彼","顧此失彼"],
+      ["改過自 ㄒㄧㄣ","新","改過自新"],["生兒育 ㄋㄩˇ","女","生兒育女"],["大魚上 ㄍㄡ","鉤","大魚上鉤"],["開山始 ㄗㄨˇ","祖","開山始祖"],["離鄉背 ㄐㄧㄥˇ","井","離鄉背井"],
+      ["飛機模 ㄒㄧㄥˊ","型","飛機模型"],["心灰意 ㄌㄥˇ","冷","心灰意冷"],["孤掌難 ㄇㄧㄥˊ","鳴","孤掌難鳴"],["文壇巧 ㄐㄧㄤˋ","匠","文壇巧匠"],["不學無 ㄕㄨˋ","術","不學無術"],
+      // 試卷 2
+      ["倉 ㄘㄨˋ","卒","倉卒"],["ㄧˇ 子","椅","椅子"],["搖 ㄌㄢˊ","籃","搖籃"],["軍 ㄉㄨㄟˋ","隊","軍隊"],["ㄡˇ 然","偶","偶然"],
+      ["ㄔㄨˊ 房","廚","廚房"],["山 ㄆㄛ","坡","山坡"],["ㄑㄧㄠˇ 思","巧","巧思"],["ㄨㄤˇ 漁","網","網漁"],["ㄐㄧㄠˋ 堂","教","教堂"],
+      ["ㄎㄜ 目","科","科目"],["ㄗㄢˋ 嘆","讚","讚嘆"],["特 ㄕㄨ","殊","特殊"],["ㄖㄨㄥˊ 樹","榕","榕樹"],["ㄇㄧˋ 密","祕","祕密"],
+      ["ㄅㄤˋ 晚","傍","傍晚"],["四 ㄓㄡ","周","四周"],["牆 ㄅㄧˋ","壁","牆壁"],["ㄉㄧㄠˋ 車","吊","吊車"],["ㄘㄤ 老","蒼","蒼老"],
+      ["搖 ㄉㄤˋ","盪","搖盪"],["烏 ㄍㄨㄟ","龜","烏龜"],["否 ㄗㄜˊ","則","否則"],["ㄔˋ 著腳","赤","赤著腳"],["弓 ㄐㄧㄢˋ 手","箭","弓箭手"],
+      ["遊樂 ㄩㄢˊ","園","遊樂園"],["ㄕㄤ 店街","商","商店街"],["平 ㄅㄢˇ 車","板","平板車"],["騎 ㄉㄢ 車","單","騎單車"],["梅花 ㄌㄨˋ","鹿","梅花鹿"],
+      ["便利 ㄊㄧㄝ","貼","便利貼"],["科 ㄐㄧˋ 大樓","技","科技大樓"],["魚群上 ㄍㄡ","鉤","魚群上鉤"],["交通管 ㄓˋ","制","交通管制"],["ㄧㄥˋ 邦邦","硬","硬邦邦"],
+      ["ㄩˋ 到敵人","遇","遇到敵人"],["防 ㄉㄠˋ 設施","盜","防盜設施"],["同心 ㄏㄜˊ 力","合","同心協力"],["一清二 ㄔㄨˇ","楚","一清二楚"],["縮頭 ㄘㄤˊ 尾","縮","縮頭藏尾"],
+      ["溫 ㄋㄨㄢˇ 陽光","暖","溫暖陽光"],["一座古 ㄇㄧㄠˋ","廟","一座古廟"],["高 ㄙㄨㄥˇ 入雲","聳","高聳入雲"],["ㄇㄠˋ 密枝葉","茂","茂密枝葉"],["彎曲 ㄒㄧㄚˊ 窄","狹","彎曲狹窄"],
+      ["感到困 ㄏㄨㄛˋ","惑","感到困惑"],["高 ㄠˋ 自大","傲","高傲自大"],["ㄐㄧㄚˊ 道歡迎","夾","夾道歡迎"],["打掃禮 ㄊㄤˊ","堂","打掃禮堂"],["勺子 ㄧㄠˇ 湯","舀","勺子舀湯"],
+      ["歷史古 ㄐㄧ","蹟","歷史古蹟"],["珍珠耳 ㄏㄨㄢˊ","環","珍珠耳環"],["氣氛熱 ㄌㄨㄛˋ","絡","氣氛熱絡"],["守口如 ㄆㄧㄥˊ","瓶","守口如瓶"],["ㄍㄨㄢ 賞電影","觀","觀賞電影"],
+      ["千言萬 ㄩˇ","語","千言萬語"],["一不 ㄌㄧㄡˊ 神","留","一不留神"],["與世無 ㄓㄥ","爭","與世無爭"],["身體力 ㄒㄧㄥˊ","行","身體力行"],["ㄕㄣ 展筋骨","伸","伸展筋骨"],
+      ["無限 ㄕㄤ 機","商","無限商機"],["軍隊 ㄓㄨˋ 守","駐","軍隊駐守"],["穿 ㄊㄡˋ 雲霧","透","穿透雲霧"],["傳統 ㄅㄧㄥˇ 店","餅","傳統餅店"],["童年回 ㄧˋ","憶","童年回憶"],
+      ["街頭 ㄒㄧㄤˋ 尾","巷","街頭巷尾"],["欣 ㄕㄤˇ 夕陽","賞","欣賞夕陽"],["ㄔㄨㄤˋ 意比賽","創","創意比賽"],["ㄅㄨˇ 捉動物","捕","捕捉動物"],["分類 ㄗ 料","資","分類資料"],
+      ["重視 ㄧㄢˊ 究","研","重視研究"],["淡水老 ㄐㄧㄝ","街","淡水老街"],["注音 ㄈㄨˊ 號","符","注音符號"],["堅固城 ㄅㄠˇ","堡","堅固城堡"],["配 ㄉㄞˋ 眼鏡","戴","配戴眼鏡"],
+      ["火車鐵 ㄍㄨㄟˇ","軌","火車鐵軌"],["敲 ㄌㄨㄛˊ 打鼓","鑼","敲鑼打鼓"],["欣賞 ㄒㄧˋ 陽","夕","欣賞夕陽"],["交 ㄏㄨㄢˋ 位置","換","交換位置"],["曲 ㄓㄜˊ 迷宮","折","曲折迷宮"],
+      ["練習射 ㄐㄧㄢˋ","箭","練習射箭"],["造 ㄒㄧㄥˊ 特別","型","造型特別"],["投入籃 ㄎㄨㄤ","框","投入籃框"],["幾 ㄇㄟˊ 銅板","枚","幾枚銅板"],["ㄓㄢ 上醬油","沾","沾上醬油"],
+      ["強力 ㄋㄧㄢˊ 膠","黏","強力黏膠"],["技 ㄕㄨˋ 巧妙","術","技術巧妙"],["一串 ㄅㄧㄢ 炮","鞭","一串鞭炮"],["ㄏㄨㄟˋ 畫比賽","繪","繪畫比賽"],["ㄒㄧㄡ 理工具","修","修理工具"],
+      ["包著 ㄋㄧㄠˋ 布","尿","包著尿布"],["五體 ㄊㄡˊ 地","投","五體投地"],["ㄉㄢ 任班長","擔","擔任班長"],["懂得 ㄑㄧㄢ 虛","謙","懂得謙虛"],["ㄗㄨㄢ 進洞口","鑽","鑽進洞口"],
+      ["ㄐㄩˊ 躬問候","鞠","鞠躬問候"],["ㄏㄨㄞˊ 念好友","懷","懷念好友"],["搖動 ㄌㄧㄥˊ 鼓","鈴","搖動鈴鼓"],["ㄧㄢˋ 請親友","宴","宴請親友"],["ㄕㄣ 請獎金","申","申請獎金"],
+      // 試卷 3
+      ["進 ㄖㄨˋ","入","進入"],["山 ㄉㄧㄥˇ","頂","山頂"],["高 ㄐㄩˇ","舉","高舉"],["笑 ㄖㄨㄥˊ","容","笑容"],["ㄓㄣ 貴","珍","珍貴"],
+      ["年 ㄐㄧˊ","級","年級"],["ㄧˇ 經","已","已經"],["科 ㄇㄨˋ","目","科目"],["ㄒㄧㄡ 剪","修","修剪"],["ㄍㄨㄥ 具","工","工具"],
+      ["晚 ㄘㄢ","餐","晚餐"],["ㄉㄠ 子","刀","刀子"],["計 ㄙㄨㄢˋ","算","計算"],["ㄅㄠˇ 貝","寶","寶貝"],["ㄉㄧㄠˋ 車","吊","吊車"],
+      ["ㄧˇ 子","椅","椅子"],["身 ㄧㄥˇ","影","身影"],["ㄩㄢˇ 方","遠","遠方"],["ㄙㄨㄣ 子","孫","孫子"],["ㄈㄢˋ 店","飯","飯店"],
+      ["ㄑㄧˊ 待","期","期待"],["食 ㄘㄞˊ","材","食材"],["ㄒㄧㄤˇ 亮","響","響亮"],["ㄐㄧㄢˇ 單","簡","簡單"],["氣 ㄈㄣ","氛","氣氛"],
+      ["家 ㄒㄧㄤ","鄉","家鄉"],["ㄋㄧㄢˊ 貼","黏","黏貼"],["便 ㄌㄧˋ","利","便利"],["重 ㄕˋ","視","重視"],["實 ㄧㄢˋ","驗","實驗"],
+      ["破 ㄌㄧㄝˋ","裂","破裂"],["ㄇㄛˊ 女","魔","魔女"],["比 ㄙㄞˋ","賽","比賽"],["ㄍㄨㄤˋ 街","逛","逛街"],["ㄑㄧㄠˇ 思","巧","巧思"],
+      ["ㄑㄧㄤˊ 壁","牆","牆壁"],["ㄐㄩ 住","居","居住"],["ㄕ 地","溼","溼地"],["ㄅㄨˇ 魚","捕","捕魚"],["ㄓㄨˊ 子","竹","竹子"],
+      ["ㄕㄥˋ 餘","剩","剩餘"],["上 ㄍㄡ","鉤","上鉤"],["漁 ㄨㄤˇ","網","漁網"],["鐵 ㄉㄢˋ","蛋","鐵蛋"],["ㄘㄤ 老","蒼","蒼老"],
+      ["山 ㄆㄛ","坡","山坡"],["ㄒㄧˋ 陽","夕","夕陽"],["鹿 ㄍㄤˇ","港","鹿港"],["狹 ㄓㄞˇ","窄","狹窄"],["溫 ㄋㄨㄢˇ","暖","溫暖"],
+      ["ㄨㄚ 井","挖","挖井"],["模 ㄒㄧㄥˊ","型","模型"],["ㄓㄨˋ 軍","駐","駐軍"],["ㄖㄨㄥˊ 樹","榕","榕樹"],["堅 ㄍㄨˋ","固","堅固"],
+      ["郵 ㄐㄧˋ","寄","郵寄"],["ㄌㄧˋ 史","歷","歷史"],["收 ㄏㄨㄛˋ","穫","收穫"],["ㄌㄢˊ 色","藍","藍色"],["ㄔㄨㄥ 滿","充","充滿"],
+      ["神 ㄇㄧˋ","祕","神祕"],["ㄊㄡˋ 明","透","透明"],["ㄏㄢˊ 冷","寒","寒冷"],["管 ㄓˋ","制","管制"],["ㄗㄢˋ 嘆","讚","讚嘆"],
+      ["ㄕㄣ 請","申","申請"],["ㄓㄡ 四","周","週四 / 周四"],["ㄉㄧˊ 人","敵","敵人"],["ㄐㄩˊ 躬","鞠","鞠躬"],["ㄓㄨㄢ 心","專","專心"],
+      ["ㄕㄥˋ 利","勝","勝利"],["ㄌㄧㄢˋ 習","練","練習"],["射 ㄐㄧㄢˋ","箭","射箭"],["武 ㄕㄨˋ","術","武術"],["懵 ㄉㄨㄥˇ","懂","懵懂"],
+      ["平 ㄅㄢˇ 車","板","平板車"],["半 ㄅㄧㄢ 井","邊","半邊井"],["鄭成 ㄍㄨㄥ","功","鄭成功"],["圓 ㄍㄨˇ ㄍㄨˇ","鼓","圓鼓鼓"],["研 ㄐㄧㄡˋ 員","究","研究員"],
+      ["ㄇㄧㄥˊ 信片","明","明信片"],["一 ㄎㄜ 樹","棵","一棵樹"],["接力 ㄅㄤˋ","棒","接力棒"],["河 ㄉㄧ 公園","堤","河堤公園"],["兩全 ㄑㄧˊ 美","其","兩全其美"],
+      ["ㄒㄩㄥˊ ㄒㄩㄥˊ 大火","熊","熊熊大火"],["冬 ㄌㄧㄥˋ 進補","令","冬令進補"],["ㄌㄧㄥˊ 光一閃","靈","靈光一閃"],["海鮮煎 ㄅㄧㄥˇ","餅","海鮮煎餅"],["ㄧㄢˊ 熱天氣","炎","炎熱天氣"],
+      ["ㄇㄧㄥˊ 勝古蹟","名","名勝古蹟"],["唱作俱 ㄐㄧㄚ","佳","唱作俱佳"],["ㄨㄟ ㄨㄟ 點頭","微","微微點頭"],["ㄊㄢˊ 天說地","談","談天說地"],["ㄨˇ 體投地","五","五體投地"],
+      ["千 ㄧㄢˊ 萬語","言","千言萬語"],["不 ㄏㄨㄤ 不忙","慌","不慌不忙"],["ㄓㄢ ㄓㄢ 自喜","沾","沾沾自喜"],["手忙 ㄐㄧㄠˇ 亂","腳","手忙腳亂"],["同心 ㄏㄜˊ 力","合","同心協力"],
+      // 試卷 4
+      ["容 ㄧˋ","易","容易"],["搶 ㄐㄧㄝˊ","劫","搶劫"],["ㄨˇ 士","武","武士"],["小 ㄔㄡˇ","丑","小丑"],["終 ㄩˊ","於","終於"],
+      ["考 ㄕˋ","試","考試"],["煙 ㄘㄨㄥ","囪","煙囪"],["ㄖㄨㄥˇ 長","冗","冗長"],["ㄐㄧㄡˇ 菜","韭","韭菜"],["ㄎㄨㄢ 大","寬","寬大"],
+      ["ㄊㄥˊ 寫","謄","謄寫"],["說出 ㄑㄧㄡˇ 事","糗","說出糗事"],["ㄍㄡˋ 罵","詬","詬罵"],["紙 ㄒㄧㄝˋ","屑","紙屑"],["忙 ㄌㄨˋ","碌","忙碌"],
+      ["ㄗㄡˋ 樂","奏","奏樂"],["累 ㄈㄢˋ","犯","累犯"],["涼 ㄅㄢˋ 菜","拌","涼拌菜"],["ㄋㄧˊ 虹燈","霓","霓虹燈"],["賀年 ㄎㄚˇ","卡","賀年卡"],
+      ["左 ㄆㄧㄝˇ 子","撇","左撇子"],["放 ㄇㄨˋ 羊女","牧","放牧羊女"],["防 ㄈㄨˇ 劑","腐","防腐劑"],["直 ㄒㄧㄚˊ 市","轄","直轄市"],["消 ㄈㄟˋ 者","費","消費者"],
+      ["衛生 ㄓˇ","紙","衛生紙"],["吝 ㄙㄜˋ 鬼","嗇","吝嗇鬼"],["ㄧㄠˊ 控器","遙","遙控器"],["高朋滿 ㄗㄨㄛˋ","座","高朋滿座"],["ㄔㄢˊ 聯冠軍","蟬","蟬聯冠軍"],
+      ["土地肥 ㄨㄛˋ","沃","土地肥沃"],["斷壁頹 ㄩㄢˊ","垣","斷壁頹垣"],["有志難 ㄔㄡˊ","酬","有志難酬"],["撙節開 ㄓ","支","撙節開支"],["ㄑㄩㄢˊ 力以赴","全","全力以赴"],
+      ["ㄓˋ 理名言","至","至理名言"],["思慮 ㄓㄣˇ 密","縝","思慮縝密"],["得魚忘 ㄑㄩㄢˊ","筌","得魚忘筌"],["離鄉背 ㄐㄧㄥˇ","井","離鄉背井"],["按 ㄅㄨˋ 就班","部","按部就班"],
+      ["傷口 ㄎㄨㄟˋ 爛","潰","傷口潰爛"],["左右開 ㄍㄨㄥ","弓","左右開弓"],["貪官 ㄨ 吏","汙","貪官汙吏"],["電光 ㄕˊ 火","石","電光石火"],["按 ㄅㄨˋ 就班","部","按部就班"],
+      ["嚎 ㄊㄠˊ 大哭","啕","嚎啕大哭"],["ㄍㄨˇ 道熱腸","古","古道熱腸"],["五穀豐 ㄉㄥ","登","五穀豐登"],["甘 ㄅㄞˋ 下風","拜","甘拜下風"],["居心 ㄆㄛˇ 測","叵","居心叵測"],
+      ["無遠弗 ㄐㄧㄝˋ","屆","無遠弗屆"],["舊 ㄩˇ 新知","雨","舊雨新知"],["約法三 ㄓㄤ","章","約法三章"],["ㄘㄤ 海桑田","滄","滄海桑田"],["ㄕ 心自用","師","師心自用"],
+      ["分一杯 ㄍㄥ","羹","分一杯羹"],["ㄕㄥ 起爐火","生","生起爐火"],["魁 ㄨˊ 勇壯","梧","魁梧勇壯"],["ㄕㄜˊ 戰群雄","舌","舌戰群雄"],["背 ㄙㄨㄥˋ 課文","誦","背誦課文"],
+      ["ㄈㄣˋ 發圖強","奮","奮發圖強"],["皮膚白 ㄒㄧ","皙","皮膚白皙"],["汽車 ㄆㄠ 錨","拋","汽車拋錨"],["ㄒㄧㄡ 養生息","休","休養生息"],["美濃 ㄓˇ 傘","紙","美濃紙傘"],
+      ["ㄏㄥˊ 春半島","恆","恆春半島"],["慘不忍 ㄉㄨˇ","睹","慘不忍睹"],["外 ㄏㄨㄟˋ 存底","匯","外匯存底"],["有口皆 ㄅㄟ","碑","有口皆碑"],["黃 ㄌㄧㄤˊ 一夢","粱","黃粱一夢"],
+      ["繳 ㄋㄚˋ 稅款","納","繳納稅款"],["傳 ㄉㄧˋ 聖火","遞","傳遞聖火"],["ㄇㄠˋ 然行事","貿","貿然行事"],["ㄌㄡˋ 網之魚","漏","漏網之魚"],["光 ㄇㄤˊ 萬丈","芒","光芒萬丈"],
+      ["大快朵 ㄧˊ","頤","大快朵頤"],["香氣濃 ㄩˋ","郁","香氣濃郁"],["人 ㄗㄤ 俱獲","贓","人贓俱獲"],["因 ㄧㄝ 廢食","噎","因噎廢食"],["ㄊㄧˊ 名留念","題","題名留念"],
+      ["雞毛 ㄙㄨㄢˋ 皮","蒜","雞毛蒜皮"],["收 ㄏㄨㄛˋ 作物","穫","收穫作物"],["大火吞 ㄕˋ","噬","大火吞噬"],["ㄕㄡˇ 屈一指","首","首屈一指"],["興高 ㄘㄞˇ 烈","采","興高采烈"],
+      ["黃帝後 ㄧˋ","裔","黃帝後裔"],["另起爐 ㄗㄠˋ","灶","另起爐灶"],["ㄑㄧㄣˇ 食難安","寢","寢食難安"],["耳 ㄖㄨˊ 目染","濡","耳濡目染"],["ㄋㄞˋ 米科技","奈","奈米科技"],
+      ["一塵不 ㄖㄢˇ","染","一塵不染"],["故弄玄 ㄒㄩ","虛","故弄玄虛"],["步 ㄌㄩˇ 不穩","履","步履不穩"],["退居 ㄇㄨˋ 後","幕","退居幕後"],["ㄆㄧㄥˊ 心靜氣","平","平心靜氣"],
+      ["逐 ㄌㄨˋ 中原","鹿","逐鹿中原"],["ㄒㄧㄣ 喜若狂","欣","欣喜若狂"],["望梅止 ㄎㄜˇ","渴","望梅止渴"],["一 ㄑㄧㄠˋ 不通","竅","一竅不通"],["手頭寬 ㄔㄨㄛˋ","綽","手頭寬綽"]
+    ];
 
-    // 系統當前狀態
-    let appState = {
-      allQuestions: [],     // 所有已解析題庫物件
-      deckRemaining: [],    // 本輪尚未抽出的題目 ID
-      answeredCount: 0,     // 本回合已作答題數 (0 ~ 50)
-      correctCount: 0,      // 本回合答對數
-      currentRoundMistakes: [], // 本回合答錯題目記錄
-      currentQuestion: null,// 當前作答中的題目
-      showingDetail: false  // 目前是否處於「詳解」畫面
+    // 注音干擾項規則映射
+    function makeWrongZhuyin(zy) {
+      if (!zy) return 'ㄅㄛ';
+      const tones = ['ˊ', 'ˇ', 'ˋ', '˙'];
+      let last = zy.slice(-1);
+      if (tones.includes(last)) {
+        let base = zy.slice(0, -1);
+        let curToneIdx = tones.indexOf(last);
+        let nextTone = tones[(curToneIdx + 1) % tones.length];
+        return base + (nextTone === '˙' ? '' : nextTone);
+      } else {
+        return zy + 'ˋ';
+      }
+    }
+
+    // 形近字/錯別字干擾字典
+    const WRONG_CHAR_MAP = {
+      "狹":"峽","蒼":"倉","偶":"遇","迷":"謎","氣":"汽","談":"淡","油":"由","品":"晶","吊":"弔","朗":"郎",
+      "此":"些","鼓":"彭","風":"凡","拼":"併","例":"列","巧":"功","喋":"諜","生":"升","層":"曾","家":"佳",
+      "歷":"厲","固":"故","示":"市","歎":"嘆","沾":"貼","捕":"鋪","百":"白","平":"蘋","籃":"藍","名":"明",
+      "佩":"配","制":"製","勻":"勺","夾":"俠","員":"圓","視":"示","冷":"令","分":"份","勺":"勻","藍":"籃",
+      "盜":"道","易":"異","材":"財","餅":"併","盪":"蕩","俠":"夾","鹿":"塵","穫":"獲","言":"信","投":"沒",
+      "貴":"匱","珍":"真","刀":"刁","全":"金","惑":"或","與":"予","密":"蜜","守":"寸","箭":"剪","行":"形",
+      "火":"伙","恥":"齒","宜":"宣","元":"完","留":"流","紀":"記","其":"奇","合":"和","忘":"妄","揀":"撿",
+      "夕":"西","淡":"氮","奈":"耐","伶":"冷","敵":"滴","周":"舟","縮":"宿","躬":"恭","明":"名","枚":"梅",
+      "返":"反","沃":"決","是":"事","憶":"意","主":"注","意":"億","人":"入","心":"辛","道":"到","彼":"波",
+      "新":"薪","女":"安","鉤":"釣","祖":"阻","井":"並","型":"形","冷":"令","鳴":"嗚","匠":"斤","術":"述",
+      "卒":"促","椅":"奇","隊":"墜","廚":"櫥","坡":"波","讚":"贊","殊":"持","榕":"溶","祕":"秘","傍":"旁",
+      "壁":"璧","龜":"角","則":"責","赤":"亦","園":"圓","商":"傷","板":"版","單":"彈","貼":"站","技":"枝",
+      "硬":"便","遇":"偶","楚":"礎","暖":"緩","廟":"宙","聳":"耳","茂":"莫","傲":"敖","堂":"常","舀":"稻",
+      "蹟":"績","環":"還","絡":"格","瓶":"屏","觀":"關","語":"話","爭":"爭","伸":"申","駐":"住","透":"秀",
+      "巷":"港","賞":"黨","創":"倉","資":"姿","研":"形","街":"銜","符":"付","堡":"保","戴":"帶","軌":"九",
+      "鑼":"羅","換":"喚","折":"拆","框":"匡","黏":"沾","鞭":"便","繪":"會","修":"條","尿":"尾","擔":"旦",
+      "謙":"兼","鑽":"占","鞠":"局","懷":"壞","鈴":"令","宴":"晏","申":"甲","入":"人","頂":"頁","舉":"譽",
+      "容":"蓉","級":"及","已":"己","目":"日","工":"土","餐":"參","算":"筆","寶":"保","影":"景","遠":"元",
+      "孫":"遜","飯":"反","期":"欺","簡":"問","氛":"分","鄉":"響","利":"力","驗":"臉","裂":"烈","魔":"摩",
+      "賽":"塞","逛":"狂","牆":"嗇","居":"局","溼":"濕","竹":"竺","剩":"乘","網":"罔","蛋":"旦","港":"巷",
+      "窄":"作","挖":"穵","寄":"奇","充":"允","寒":"塞","勝":"騰","練":"煉","懂":"董","邊":"遍","功":"攻",
+      "究":"九","棵":"顆","棒":"捧","堤":"提","熊":"能","令":"今","靈":"零","炎":"火","佳":"住","微":"徽",
+      "五":"伍","慌":"荒","腳":"角","劫":"力","武":"式","丑":"互","於":"于","試":"式","囪":"囪","冗":"沉",
+      "韭":"非","寬":"完","謄":"勝","糗":"臭","詬":"後","屑":"肖","碌":"綠","奏":"泰","犯":"氾","拌":"伴",
+      "霓":"兒","卡":"卞","撇":"蔽","牧":"枚","腐":"府","轄":"害","費":"弗","紙":"氏","嗇":"薔","遙":"搖",
+      "座":"坐","蟬":"單","垣":"恒","酬":"州","支":"十","至":"致","縝":"真","筌":"全","部":"陪","潰":"貴",
+      "弓":"引","汙":"污","石":"右","啕":"萄","古":"右","登":"癸","拜":"手","叵":"口","屆":"由","雨":"兩",
+      "章":"早","滄":"倉","師":"帥","羹":"美","梧":"吾","舌":"古","誦":"甬","奮":"奪","皙":"析","拋":"抱",
+      "休":"體","恆":"亙","睹":"者","匯":"淮","碑":"卑","粱":"梁","納":"內","遞":"弟","貿":"留","漏":"陋",
+      "芒":"茫","頤":"頁","郁":"有","贓":"臧","噎":"壹","題":"提","蒜":"示","噬":"巫","首":"手","采":"彩",
+      "裔":"衣","灶":"土","寢":"侵","濡":"需","奈":"大","染":"丸","虛":"盧","履":"復","幕":"莫","平":"評",
+      "欣":"欠","渴":"喝","竅":"巧","綽":"卓"
     };
 
-    /**
-     * 解析單行 Pipe 格式題目
-     * 形|題幹|目標字|正確國字|形近錯別字|注音提示|釋義
-     */
-    function parseQuestionLine(line, index) {
-      if (!line || !line.trim()) return null;
-      const parts = line.trim().split('|');
-      if (parts.length < 7) return null;
-      return {
-        id: index !== undefined ? index : Math.random().toString(36).substring(2, 9),
-        type: parts[0],
-        prompt: parts[1],
-        target: parts[2],
-        correct: parts[3],
-        wrong: parts[4],
-        zhuyin: parts[5],
-        explanation: parts[6]
-      };
+    function makeWrongChar(c) {
+      if (WRONG_CHAR_MAP[c]) return WRONG_CHAR_MAP[c];
+      return '各';
     }
 
-    /**
-     * 初始化載入題庫
-     */
-    function loadBank() {
-      const savedBank = localStorage.getItem(STORAGE_KEY_BANK);
-      let rawLines = [];
-      if (savedBank) {
-        try {
-          rawLines = JSON.parse(savedBank);
-        } catch(e) {
-          rawLines = DEFAULT_QUESTION_BANK;
-        }
-      } else {
-        rawLines = DEFAULT_QUESTION_BANK;
-      }
+    let questionBank = [];
+    let unseenPoolP = [];
+    let unseenPoolS = [];
+    let currentRoundQuestions = [];
+    let currentRoundIdx = 0;
+    let roundScore = 0;
+    let currentQ = null;
+    let mistakeLog = [];
 
-      appState.allQuestions = rawLines
-        .map((line, idx) => parseQuestionLine(line, idx))
-        .filter(q => q !== null);
-    }
+    // 初始化建庫
+    function buildFullBank() {
+      const bank = [];
+      let id = 1;
 
-    /**
-     * 洗牌演算法 (Fisher-Yates)
-     */
-    function shuffleArray(arr) {
-      const copy = [...arr];
-      for (let i = copy.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
-      }
-      return copy;
-    }
-
-    /**
-     * 重設牌堆並開啟全新的一輪
-     */
-    function resetRound(fullReset = false) {
-      appState.deckRemaining = shuffleArray(appState.allQuestions.map(q => q.id));
-      appState.answeredCount = 0;
-      appState.correctCount = 0;
-      appState.currentRoundMistakes = [];
-      appState.showingDetail = false;
-      appState.currentQuestion = null;
-      saveProgress();
-      renderNextQuestion();
-      showToast("🎉 已重新洗牌，開啟全新一輪！");
-    }
-
-    /**
-     * 保存狀態至 LocalStorage
-     */
-    function saveProgress() {
-      const stateToSave = {
-        deckRemaining: appState.deckRemaining,
-        answeredCount: appState.answeredCount,
-        correctCount: appState.correctCount,
-        currentRoundMistakes: appState.currentRoundMistakes,
-        currentQuestionId: appState.currentQuestion ? appState.currentQuestion.id : null,
-        showingDetail: appState.showingDetail,
-        lastChoice: appState.lastChoice || null
-      };
-      localStorage.setItem(STORAGE_KEY_STATE, JSON.stringify(stateToSave));
-      updateDashboardUI();
-    }
-
-    /**
-     * 讀取暫存作答狀態
-     */
-    function restoreState() {
-      loadBank();
-      const savedState = localStorage.getItem(STORAGE_KEY_STATE);
-      if (savedState) {
-        try {
-          const parsed = JSON.parse(savedState);
-          const validIds = new Set(appState.allQuestions.map(q => q.id));
-          appState.deckRemaining = (parsed.deckRemaining || []).filter(id => validIds.has(id));
-          appState.answeredCount = parsed.answeredCount || 0;
-          appState.correctCount = parsed.correctCount || 0;
-          appState.currentRoundMistakes = parsed.currentRoundMistakes || [];
-          appState.showingDetail = !!parsed.showingDetail;
-          appState.lastChoice = parsed.lastChoice;
-
-          if (parsed.currentQuestionId !== null) {
-            appState.currentQuestion = appState.allQuestions.find(q => q.id === parsed.currentQuestionId) || null;
-          }
-        } catch(e) {
-          console.error("狀態解析失敗，回歸預設洗牌", e);
-        }
-      }
-
-      if (!appState.deckRemaining || appState.deckRemaining.length === 0 || !appState.currentQuestion) {
-        resetRound();
-      } else {
-        if (appState.showingDetail && appState.currentQuestion && appState.lastChoice) {
-          renderDetailView(appState.lastChoice === appState.currentQuestion.correct, appState.lastChoice);
-        } else {
-          renderQuestionView();
-        }
-      }
-      updateDashboardUI();
-    }
-
-    /* ==========================================================================
-       三、音效回饋 (Web Audio API - 純原生免外部依賴)
-       ========================================================================== */
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playBeep(isSuccess) {
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      if (isSuccess) {
-        // 清脆悅耳的答對雙和弦
-        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
-        osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1); // A5
-        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.35);
-      } else {
-        // 溫和低沉的提醒音
-        osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
-        osc.frequency.setValueAtTime(180, audioCtx.currentTime + 0.12);
-        gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.3);
-      }
-    }
-
-    /* ==========================================================================
-       四、畫面渲染與互動邏輯
-       ========================================================================== */
-    const container = document.getElementById('appContainer');
-
-    function updateDashboardUI() {
-      document.getElementById('statAnswered').textContent = `${appState.answeredCount} / ${ROUND_LIMIT}`;
-      document.getElementById('statRemaining').textContent = appState.deckRemaining.length;
-      
-      const acc = appState.answeredCount > 0 
-        ? Math.round((appState.correctCount / appState.answeredCount) * 100) 
-        : 100;
-      document.getElementById('statAccuracy').textContent = `${acc}%`;
-
-      const covered = appState.allQuestions.length - appState.deckRemaining.length;
-      document.getElementById('statCoverage').textContent = `${covered} / ${appState.allQuestions.length}`;
-    }
-
-    function renderNextQuestion() {
-      if (appState.answeredCount >= ROUND_LIMIT) {
-        renderRoundSummary();
-        return;
-      }
-
-      if (appState.deckRemaining.length === 0) {
-        appState.deckRemaining = shuffleArray(appState.allQuestions.map(q => q.id));
-        showToast("題庫已全部抽完一輪，已自動為您無重複重新洗牌！");
-      }
-
-      const nextId = appState.deckRemaining.pop();
-      appState.currentQuestion = appState.allQuestions.find(q => q.id === nextId);
-      appState.showingDetail = false;
-      appState.lastChoice = null;
-
-      saveProgress();
-      renderQuestionView();
-    }
-
-    function renderQuestionView() {
-      const q = appState.currentQuestion;
-      if (!q) return;
-
-      const formattedPrompt = q.prompt.replace(/（\s*）|\(\s*\)/g, `<span class="blank-box">？</span>`);
-      const isCorrectLeft = Math.random() > 0.5;
-      const leftOption = isCorrectLeft ? q.correct : q.wrong;
-      const rightOption = isCorrectLeft ? q.wrong : q.correct;
-
-      container.innerHTML = `
-        <div class="zhuyin-badge">
-          <span>注音提示</span>
-          <span>【 ${q.zhuyin} 】</span>
-        </div>
-        <div class="question-prompt">
-          ${formattedPrompt}
-        </div>
-        <div class="options-grid">
-          <button class="btn-choice" data-choice="${leftOption}">${leftOption}</button>
-          <button class="btn-choice" data-choice="${rightOption}">${rightOption}</button>
-        </div>
-      `;
-
-      container.querySelectorAll('.btn-choice').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          handleAnswerSelect(e.currentTarget.getAttribute('data-choice'));
+      // 1. 裝載 400 題字音
+      RAW_YIN_ITEMS.forEach(item => {
+        let prompt = item[0];
+        let correct = item[1];
+        let match = prompt.match(/【(.*?)】/);
+        let focus = match ? match[1] : '';
+        let wrong = makeWrongZhuyin(correct);
+        bank.push({
+          id: id++,
+          type: '音',
+          prompt: prompt,
+          focus: focus,
+          correct: correct,
+          wrong: wrong,
+          hint: correct,
+          expl: `【${focus}】標準注音為「${correct}」。`
         });
       });
+
+      // 2. 裝載 400 題字形
+      RAW_XING_ITEMS.forEach(item => {
+        let qText = item[0];
+        let correct = item[1];
+        let fullWord = item[2];
+        let zhuyinMatch = qText.match(/([ㄅ-ㄩˊˇˋ˙\s]+)/);
+        let hint = zhuyinMatch ? zhuyinMatch[0].trim() : '';
+        let prompt = fullWord.replace(correct, '（ ）');
+        let wrong = makeWrongChar(correct);
+        bank.push({
+          id: id++,
+          type: '形',
+          prompt: prompt,
+          focus: correct,
+          correct: correct,
+          wrong: wrong,
+          hint: hint,
+          expl: `完整詞語為「${fullWord}」，正確國字作「${correct}」。`
+        });
+      });
+
+      return bank;
     }
 
-    function handleAnswerSelect(selectedChar) {
-      const q = appState.currentQuestion;
-      const isCorrect = (selectedChar === q.correct);
+    window.addEventListener('DOMContentLoaded', () => {
+      initDatabase();
+      updateDashboard();
+      initScreen();
+    });
 
-      appState.answeredCount += 1;
-      appState.lastChoice = selectedChar;
-      appState.showingDetail = true;
+    function initDatabase() {
+      const storedBank = localStorage.getItem('quiz_800_calibrated_bank');
+      if (!storedBank) {
+        questionBank = buildFullBank();
+        localStorage.setItem('quiz_800_calibrated_bank', JSON.stringify(questionBank));
+      } else {
+        questionBank = JSON.parse(storedBank);
+      }
+
+      unseenPoolP = JSON.parse(localStorage.getItem('calibrated_unseen_p') || '[]');
+      unseenPoolS = JSON.parse(localStorage.getItem('calibrated_unseen_s') || '[]');
+
+      if (unseenPoolP.length === 0) resetTypePool('音');
+      if (unseenPoolS.length === 0) resetTypePool('形');
+    }
+
+    function resetTypePool(type) {
+      const ids = questionBank.filter(q => q.type === type).map(q => q.id);
+      shuffle(ids);
+      if (type === '音') {
+        unseenPoolP = ids;
+        localStorage.setItem('calibrated_unseen_p', JSON.stringify(unseenPoolP));
+      } else {
+        unseenPoolS = ids;
+        localStorage.setItem('calibrated_unseen_s', JSON.stringify(unseenPoolS));
+      }
+    }
+
+    function updateDashboard() {
+      const totalP = questionBank.filter(q => q.type === '音').length;
+      const totalS = questionBank.filter(q => q.type === '形').length;
+      const coveredP = totalP - unseenPoolP.length;
+      const coveredS = totalS - unseenPoolS.length;
+
+      document.getElementById('cov-p').innerText = `${coveredP}/${totalP}`;
+      document.getElementById('cov-s').innerText = `${coveredS}/${totalS}`;
+      document.getElementById('stat-p-remain').innerText = `${unseenPoolP.length} / ${totalP}`;
+      document.getElementById('stat-s-remain').innerText = `${unseenPoolS.length} / ${totalS}`;
+
+      const roundsCount = Math.floor(Math.max(coveredP, coveredS) / 25) + 1;
+      document.getElementById('stat-rounds').innerText = `第 ${Math.min(roundsCount, 16)} / 16 回合`;
+    }
+
+    function initScreen() {
+      hideAllScreens();
+      document.getElementById('screen-start').classList.remove('hidden');
+      document.getElementById('game-stats').classList.add('hidden');
+      updateDashboard();
+    }
+
+    function startRound() {
+      const drawP = Math.min(25, unseenPoolP.length);
+      const drawS = Math.min(25, unseenPoolS.length);
+
+      if (unseenPoolP.length < 25) resetTypePool('音');
+      if (unseenPoolS.length < 25) resetTypePool('形');
+
+      const pIds = unseenPoolP.splice(0, 25);
+      const sIds = unseenPoolS.splice(0, 25);
+      localStorage.setItem('calibrated_unseen_p', JSON.stringify(unseenPoolP));
+      localStorage.setItem('calibrated_unseen_s', JSON.stringify(unseenPoolS));
+
+      const pQuestions = pIds.map(id => questionBank.find(q => q.id === id)).filter(Boolean);
+      const sQuestions = sIds.map(id => questionBank.find(q => q.id === id)).filter(Boolean);
+
+      currentRoundQuestions = [...pQuestions, ...sQuestions];
+      currentRoundIdx = 0;
+      roundScore = 0;
+      mistakeLog = [];
+
+      document.getElementById('round-total-idx').innerText = currentRoundQuestions.length;
+      document.getElementById('game-stats').classList.remove('hidden');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      currentQ = currentRoundQuestions[currentRoundIdx];
+      hideAllScreens();
+      document.getElementById('screen-quiz').classList.remove('hidden');
+
+      document.getElementById('current-q-idx').innerText = currentRoundIdx + 1;
+      document.getElementById('current-score').innerText = roundScore;
+
+      const badge = document.getElementById('stage-badge');
+      const hint = document.getElementById('quiz-hint');
+
+      if (currentQ.type === '音') {
+        badge.innerText = `🔊 字音階段 (${currentRoundIdx + 1}/50)`;
+        badge.className = 'stage-tag stage-p';
+        hint.innerText = '請選出目標字的正確注音：';
+        document.getElementById('quiz-prompt').innerHTML = currentQ.prompt.replace(
+          /【(.*?)】/,
+          '<span class="highlight-char">$1</span>'
+        );
+      } else {
+        badge.innerText = `✍️ 字形階段 (${currentRoundIdx + 1}/50)`;
+        badge.className = 'stage-tag stage-s';
+        hint.innerText = `注音提示：【 ${currentQ.hint} 】 請選出正確國字：`;
+        document.getElementById('quiz-prompt').innerHTML = currentQ.prompt.replace(
+          /（ ）|\(\s*\)/,
+          '<span class="blank-box">（ ）</span>'
+        );
+      }
+
+      const opts = [currentQ.correct, currentQ.wrong];
+      shuffle(opts);
+
+      const btn0 = document.getElementById('opt-btn-0');
+      const btn1 = document.getElementById('opt-btn-1');
+      btn0.innerText = opts[0];
+      btn1.innerText = opts[1];
+      btn0.dataset.val = opts[0];
+      btn1.dataset.val = opts[1];
+    }
+
+    function handleChoice(btnIdx) {
+      const selected = document.getElementById(`opt-btn-${btnIdx}`).dataset.val;
+      const isCorrect = (selected === currentQ.correct);
 
       if (isCorrect) {
-        appState.correctCount += 1;
-        playBeep(true);
+        roundScore += 2;
       } else {
-        playBeep(false);
-        appState.currentRoundMistakes.push({
-          question: q,
-          userChoice: selectedChar
+        mistakeLog.push({
+          q: currentQ,
+          yourAns: selected
         });
       }
 
-      saveProgress();
-      renderDetailView(isCorrect, selectedChar);
+      showDetailScreen(isCorrect);
     }
 
-    function renderDetailView(isCorrect, selectedChar) {
-      const q = appState.currentQuestion;
-      const completeWord = q.prompt.replace(/（\s*）|\(\s*\)/g, q.correct);
+    function showDetailScreen(isCorrect) {
+      hideAllScreens();
+      document.getElementById('screen-detail').classList.remove('hidden');
 
-      container.innerHTML = `
-        <div class="detail-card">
-          <div class="feedback-banner ${isCorrect ? 'banner-correct' : 'banner-wrong'}">
-            <span>${isCorrect ? '🎉 答對了！太棒了！' : '💪 差一點點！仔細觀察字形結構喔！'}</span>
-          </div>
-
-          <div class="detail-word-header">
-            <span class="detail-target-word">${completeWord}</span>
-            <button class="btn-tts" id="btnSpeakWord" title="點擊發音朗讀">
-              <span>🔊</span> 朗讀語詞
-            </button>
-          </div>
-
-          <div class="analysis-box">
-            <div class="analysis-row">
-              <div>
-                <span class="analysis-pill pill-green">標準正確字</span>
-                <strong style="font-size:22px; color:#047857;">${q.correct}</strong>
-                <span style="color:#64748B; margin-left:8px;">注音：【 ${q.zhuyin} 】</span>
-              </div>
-              <div>
-                <span class="analysis-pill pill-red">常見形近字</span>
-                <strong style="font-size:22px; color:#DC2626;">${q.wrong}</strong>
-                <span style="color:#64748B; margin-left:8px;">(請注意偏旁與部首差異)</span>
-              </div>
-              <div style="margin-top: 8px;">
-                <span class="analysis-pill pill-blue">辭典釋義與字理</span>
-                <div style="margin-top:6px; color:#334155; font-size:17px;">
-                  ${q.explanation}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <button class="btn-next" id="btnNextAction">
-            <span>下一題</span>
-            <span>➔</span>
-          </button>
-        </div>
-      `;
-
-      document.getElementById('btnSpeakWord').addEventListener('click', () => {
-        speakText(completeWord);
-      });
-
-      document.getElementById('btnNextAction').addEventListener('click', () => {
-        renderNextQuestion();
-      });
-    }
-
-    function renderRoundSummary() {
-      const accuracy = Math.round((appState.correctCount / ROUND_LIMIT) * 100);
-      let mistakesHtml = '';
-
-      if (appState.currentRoundMistakes.length === 0) {
-        mistakesHtml = `
-          <div style="text-align: center; color: #047857; padding: 20px; font-size: 18px; font-weight: 800;">
-            🌟 太厲害了！本回合 50 題完全答對，榮登國小三年級字形大師！
-          </div>
-        `;
+      const badge = document.getElementById('result-badge');
+      if (isCorrect) {
+        badge.innerText = '回答正確 🎉';
+        badge.style.backgroundColor = '#d1fae5';
+        badge.style.color = '#065f46';
       } else {
-        mistakesHtml = appState.currentRoundMistakes.map((m, idx) => `
-          <div class="mistake-item">
-            <div style="font-size: 17px; font-weight: 800;">
-              ${idx + 1}. 詞語：${m.question.prompt.replace(/（\s*）|\(\s*\)/g, `【${m.question.correct}】`)}
-            </div>
-            <div style="font-size: 15px;">
-              誤選：<span style="color:#DC2626; font-weight:bold;">${m.userChoice}</span> 
-              ➜ 正解：<span style="color:#047857; font-weight:bold;">${m.question.correct}</span>
-              （${m.question.zhuyin}）
-            </div>
-            <div style="font-size: 13px; color:#475569;">
-              辨析：${m.question.explanation}
-            </div>
-          </div>
-        `).join('');
+        badge.innerText = '差一點點，記住正確用法喔 💪';
+        badge.style.backgroundColor = '#ffe4e6';
+        badge.style.color = '#9f1239';
       }
 
-      container.innerHTML = `
-        <div class="summary-card">
-          <h2 class="summary-title">🏆 挑戰回合完成！</h2>
-          <div class="score-circle">
-            <div class="score-val">${accuracy}%</div>
-            <div class="score-sub">答對 ${appState.correctCount} / ${ROUND_LIMIT} 題</div>
-          </div>
-
-          <h3 style="font-size: 20px; font-weight: 800; text-align: left; margin-bottom: 8px;">
-            📝 本回合錯題回顧與訂正（共 ${appState.currentRoundMistakes.length} 題）
-          </h3>
-          <div class="mistake-list">
-            ${mistakesHtml}
-          </div>
-
-          <button class="btn-next" id="btnRestartRound">
-            <span>開始新一輪 50 題</span>
-            <span>🚀</span>
-          </button>
-        </div>
-      `;
-
-      document.getElementById('btnRestartRound').addEventListener('click', () => {
-        resetRound();
-      });
+      document.getElementById('detail-word').innerText = currentQ.focus;
+      document.getElementById('detail-zhuyin').innerText = currentQ.hint || currentQ.correct;
+      document.getElementById('detail-expl').innerText = currentQ.expl;
     }
 
-    /* ==========================================================================
-       五、Web Speech API 語音發音
-       ========================================================================== */
-    function speakText(text) {
-      if (!('speechSynthesis' in window)) {
-        showToast("您的瀏覽器暫不支援語音朗讀功能。");
-        return;
+    function nextQuestion() {
+      currentRoundIdx++;
+      if (currentRoundIdx < currentRoundQuestions.length) {
+        renderQuestion();
+      } else {
+        showSummary();
       }
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(text);
+    }
+
+    function showSummary() {
+      hideAllScreens();
+      document.getElementById('screen-summary').classList.remove('hidden');
+      document.getElementById('game-stats').classList.add('hidden');
+
+      document.getElementById('final-score').innerText = roundScore;
+      const totalPossible = currentRoundQuestions.length * 2;
+      const rate = Math.round((roundScore / totalPossible) * 100);
+      document.getElementById('final-rate').innerText = `${rate}%`;
+
+      document.getElementById('mistake-count').innerText = mistakeLog.length;
+      const listContainer = document.getElementById('mistake-list');
+      listContainer.innerHTML = '';
+
+      if (mistakeLog.length === 0) {
+        listContainer.innerHTML = '<div style="color: #059669; font-weight: bold; padding: 14px; background-color: #ecfdf5; border-radius: 12px; text-align: center;">滿分通關！50題全對！太厲害了！✨</div>';
+      } else {
+        mistakeLog.forEach(m => {
+          const item = document.createElement('div');
+          item.className = 'mistake-card';
+          item.innerHTML = `
+            <div style="font-weight: bold; color: #1e293b; font-size: 15px;">${m.q.prompt}</div>
+            <div style="margin: 4px 0; display: flex; gap: 14px; font-size: 13px;">
+              <span style="color: #e11d48; font-weight: bold;">你的作答：${m.yourAns}</span>
+              <span style="color: #059669; font-weight: bold;">正確解答：${m.q.correct}</span>
+            </div>
+            <div style="font-size: 12px; color: #64748b;">${m.q.expl}</div>
+          `;
+          listContainer.appendChild(item);
+        });
+      }
+
+      updateDashboard();
+    }
+
+    function speakCurrentWord() {
+      if (!currentQ || !('speechSynthesis' in window)) return;
+      const textToSpeak = currentQ.focus || currentQ.correct;
+      const utter = new SpeechSynthesisUtterance(textToSpeak);
       utter.lang = 'zh-TW';
-      utter.rate = 0.85; // 適度慢速，適合國小三年級清晰聆聽
-      utter.pitch = 1.05;
+      utter.rate = 0.8;
       window.speechSynthesis.speak(utter);
     }
 
-    /* ==========================================================================
-       六、題庫管理彈窗與批次匯入/匯出
-       ========================================================================== */
-    const modalBank = document.getElementById('modalBank');
-    const txtBankData = document.getElementById('txtBankData');
+    function resetPool() {
+      if (confirm('確定要重設已作答題庫嗎？800 題將全部重新進入未抽牌堆。')) {
+        resetTypePool('音');
+        resetTypePool('形');
+        updateDashboard();
+        initScreen();
+      }
+    }
 
-    document.getElementById('btnManageBank').addEventListener('click', () => {
-      const lines = appState.allQuestions.map(q => 
-        `${q.type}|${q.prompt}|${q.target}|${q.correct}|${q.wrong}|${q.zhuyin}|${q.explanation}`
-      );
-      txtBankData.value = lines.join('\n');
-      modalBank.style.display = 'flex';
-    });
+    function toggleModal(show) {
+      document.getElementById('modal-import').classList.toggle('hidden', !show);
+    }
 
-    document.getElementById('btnCloseModal').addEventListener('click', () => {
-      modalBank.style.display = 'none';
-    });
+    function executeImport() {
+      const text = document.getElementById('import-text').value.trim();
+      if (!text) return;
 
-    modalBank.addEventListener('click', (e) => {
-      if (e.target === modalBank) modalBank.style.display = 'none';
-    });
+      const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0 && l.includes('|'));
+      const parsed = lines.map((line, idx) => {
+        const parts = line.split('|');
+        return {
+          id: questionBank.length + idx + 1,
+          type: parts[0] || '音',
+          prompt: parts[1] || '',
+          focus: parts[2] || '',
+          correct: parts[3] || '',
+          wrong: parts[4] || '',
+          hint: parts[5] || '',
+          expl: parts[6] || ''
+        };
+      }).filter(q => q.prompt && q.correct);
 
-    document.getElementById('btnRestoreDefault').addEventListener('click', () => {
-      txtBankData.value = DEFAULT_QUESTION_BANK.join('\n');
-      showToast("已載入預設 400 題題庫，請記得點擊儲存！");
-    });
-
-    document.getElementById('btnSaveBank').addEventListener('click', () => {
-      const rawLines = txtBankData.value.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-      const parsedList = rawLines.map((l, i) => parseQuestionLine(l, i)).filter(q => q !== null);
-
-      if (parsedList.length < 5) {
-        showToast("⚠️ 題庫題目過少，請至少保留 5 題以上！");
+      if (parsed.length === 0) {
+        alert('格式不正確，每行請確認使用 | 符號分隔！');
         return;
       }
 
-      localStorage.setItem(STORAGE_KEY_BANK, JSON.stringify(rawLines));
-      loadBank();
-      modalBank.style.display = 'none';
-      resetRound();
-      showToast(`✅ 題庫更新成功！共載入 ${parsedList.length} 題。`);
-    });
+      questionBank = [...questionBank, ...parsed];
+      localStorage.setItem('quiz_800_calibrated_bank', JSON.stringify(questionBank));
+      resetTypePool('音');
+      resetTypePool('形');
 
-    document.getElementById('btnResetRound').addEventListener('click', () => {
-      resetRound();
-    });
-
-    let toastTimer = null;
-    function showToast(msg) {
-      const toast = document.getElementById('toastMessage');
-      toast.textContent = msg;
-      toast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2400);
+      alert(`成功擴充！目前題庫共有 ${questionBank.length} 題。`);
+      document.getElementById('import-text').value = '';
+      toggleModal(false);
+      updateDashboard();
+      initScreen();
     }
 
-    /* ==========================================================================
-       七、啟動初始化
-       ========================================================================== */
-    window.addEventListener('DOMContentLoaded', () => {
-      restoreState();
-    });
+    function restoreFullBank() {
+      if (confirm('確定要還原回 800 題完整標準校正題庫嗎？')) {
+        questionBank = buildFullBank();
+        localStorage.setItem('quiz_800_calibrated_bank', JSON.stringify(questionBank));
+        resetTypePool('音');
+        resetTypePool('形');
+        toggleModal(false);
+        updateDashboard();
+        initScreen();
+      }
+    }
+
+    function hideAllScreens() {
+      ['screen-start', 'screen-quiz', 'screen-detail', 'screen-summary'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+    }
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
   </script>
 </body>
 </html>
