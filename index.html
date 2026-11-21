@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>國小三年級字音字形大闖關（含教育部簡編本查詞版）</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: "TW-Kai", "BiauKai", "DFKai-SB", "Kaiti TC", "STKaiti", "KaiTi", "標楷體", sans-serif !important;
@@ -264,8 +265,6 @@
     * {
       font-family: "TW-Kai", "BiauKai", "DFKai-SB", "Kaiti TC", "STKaiti", "KaiTi", "標楷體", serif !important;
     }
-
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&display=swap');
 
     body, button, input, textarea, span, div, h1, h2, h3, p {
       font-family: "Kaiti TC", "BiauKai", "TW-Kai", "STKaiti", "KaiTi", "標楷體", "Noto Serif TC", serif !important;
@@ -1332,16 +1331,16 @@
     });
 
     function initDatabase() {
-      const storedPipe = localStorage.getItem('quiz_800_pipe_data_v8');
+      const storedPipe = localStorage.getItem('quiz_800_pipe_data_v11');
       if (!storedPipe) {
         questionBank = parseAllPipeText(BUILTIN_PIPE_TEXT);
-        localStorage.setItem('quiz_800_pipe_data_v8', BUILTIN_PIPE_TEXT);
+        localStorage.setItem('quiz_800_pipe_data_v11', BUILTIN_PIPE_TEXT);
       } else {
         questionBank = parseAllPipeText(storedPipe);
       }
 
-      unseenPoolP = JSON.parse(localStorage.getItem('pool_p_pipe_v8') || '[]');
-      unseenPoolS = JSON.parse(localStorage.getItem('pool_s_pipe_v8') || '[]');
+      unseenPoolP = JSON.parse(localStorage.getItem('pool_p_pipe_v11') || '[]');
+      unseenPoolS = JSON.parse(localStorage.getItem('pool_s_pipe_v11') || '[]');
 
       if (unseenPoolP.length === 0) resetTypePool('音');
       if (unseenPoolS.length === 0) resetTypePool('形');
@@ -1352,10 +1351,10 @@
       shuffle(ids);
       if (type === '音') {
         unseenPoolP = ids;
-        localStorage.setItem('pool_p_pipe_v8', JSON.stringify(unseenPoolP));
+        localStorage.setItem('pool_p_pipe_v11', JSON.stringify(unseenPoolP));
       } else {
         unseenPoolS = ids;
-        localStorage.setItem('pool_s_pipe_v8', JSON.stringify(unseenPoolS));
+        localStorage.setItem('pool_s_pipe_v11', JSON.stringify(unseenPoolS));
       }
     }
 
@@ -1388,8 +1387,8 @@
 
       const pIds = unseenPoolP.splice(0, 25);
       const sIds = unseenPoolS.splice(0, 25);
-      localStorage.setItem('pool_p_pipe_v8', JSON.stringify(unseenPoolP));
-      localStorage.setItem('pool_s_pipe_v8', JSON.stringify(unseenPoolS));
+      localStorage.setItem('pool_p_pipe_v11', JSON.stringify(unseenPoolP));
+      localStorage.setItem('pool_s_pipe_v11', JSON.stringify(unseenPoolS));
 
       const pQuestions = pIds.map(id => questionBank.find(q => q.id === id)).filter(Boolean);
       const sQuestions = sIds.map(id => questionBank.find(q => q.id === id)).filter(Boolean);
@@ -1540,8 +1539,8 @@
       if (currentQ.type === '音') {
         queryWord = currentQ.prompt.replace(/[【】]/g, '');
       } else {
-        // 從說明中擷取完整詞語，例如：完整詞語為「狹窄」
-        const m = currentQ.expl.match(/完整詞語為「(.*?)」/);
+        // 從說明開頭擷取完整詞語，例如：【狹窄】...
+        const m = currentQ.expl.match(/^【(.*?)】/);
         queryWord = m ? m[1] : (currentQ.focus || currentQ.correct);
       }
       const targetUrl = `https://dict.concised.moe.edu.tw/search.jsp?md=1&word=${encodeURIComponent(queryWord)}`;
@@ -1561,7 +1560,7 @@
       const modal = document.getElementById('modal-import');
       modal.classList.toggle('hidden', !show);
       if (show) {
-        const currentPipe = localStorage.getItem('quiz_800_pipe_data_v8') || BUILTIN_PIPE_TEXT;
+        const currentPipe = localStorage.getItem('quiz_800_pipe_data_v11') || BUILTIN_PIPE_TEXT;
         document.getElementById('import-text').value = currentPipe;
       }
     }
@@ -1578,7 +1577,7 @@
       }
 
       questionBank = parsed;
-      localStorage.setItem('quiz_800_pipe_data_v8', text);
+      localStorage.setItem('quiz_800_pipe_data_v11', text);
       resetTypePool('音');
       resetTypePool('形');
 
@@ -1591,7 +1590,7 @@
     function restoreFullBank() {
       if (confirm('確定要還原回預設 800 題完整校正庫嗎？這會覆蓋目前的修改。')) {
         questionBank = parseAllPipeText(BUILTIN_PIPE_TEXT);
-        localStorage.setItem('quiz_800_pipe_data_v8', BUILTIN_PIPE_TEXT);
+        localStorage.setItem('quiz_800_pipe_data_v11', BUILTIN_PIPE_TEXT);
         resetTypePool('音');
         resetTypePool('形');
         document.getElementById('import-text').value = BUILTIN_PIPE_TEXT;
