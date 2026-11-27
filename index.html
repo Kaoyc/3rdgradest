@@ -646,7 +646,7 @@
 音|【更】改|更|ㄍㄥ|ㄍㄥˋ|ㄍㄥ|【更改】改變原有的內容、習慣或規定。「更」作動詞變更讀ㄍㄥ。
 音|【供】奉|供|ㄍㄨㄥˋ|ㄍㄨㄥ|ㄍㄨㄥˋ|【供奉】擺設祭品祭拜神佛或祖先。「供」作祭祀解讀ㄍㄨㄥˋ。
 音|【銅】錢|銅|ㄊㄨㄥˊ|ㄊㄨㄥˇ|ㄊㄨㄥˊ|【銅錢】古代以銅合金鑄造的流通貨幣。「銅」讀「ㄊㄨㄥˊ」。
-音|【褪】色|褪|ㄊㄨㄟˋ|ㄊㄨㄟ|ㄊㄨㄟˋ|【褪色】顏色脫落變淡或失真。「褪」讀「ㄊㄨㄟˋ」。
+音|【褪】色|褪|ㄊㄨㄣˋ|ㄊㄨㄟˋ|ㄊㄨㄣˋ|【褪色】顏色失去鮮豔或脫落變淡。「褪」依教育部《國語辭典簡編本》讀「ㄊㄨㄣˋ」（不讀ㄊㄨㄟˋ）。
 音|【法】國|法|ㄈㄚˇ|ㄈㄚˋ|ㄈㄚˇ|【法國】歐洲西部的國家名。「法」讀「ㄈㄚˇ」。
 音|舞【蹈】|蹈|ㄉㄠˋ|ㄉㄠˇ|ㄉㄠˋ|【舞蹈】依照節奏起舞的肢體藝術。「蹈」教育部審訂音讀「ㄉㄠˋ」。
 音|【蘋】果|蘋|ㄆㄧㄥˊ|ㄆㄧㄥˇ|ㄆㄧㄥˊ|【蘋果】一種常見且富含營養的圓形溫帶水果。「蘋」讀ㄆㄧㄥˊ。
@@ -1362,16 +1362,16 @@
     });
 
     function initDatabase() {
-      const storedPipe = localStorage.getItem('quiz_800_pipe_data_v14');
+      const storedPipe = localStorage.getItem('quiz_800_pipe_data_v15');
       if (!storedPipe) {
         questionBank = parseAllPipeText(BUILTIN_PIPE_TEXT);
-        localStorage.setItem('quiz_800_pipe_data_v14', BUILTIN_PIPE_TEXT);
+        localStorage.setItem('quiz_800_pipe_data_v15', BUILTIN_PIPE_TEXT);
       } else {
         questionBank = parseAllPipeText(storedPipe);
       }
 
-      unseenPoolP = JSON.parse(localStorage.getItem('pool_p_pipe_v14') || '[]');
-      unseenPoolS = JSON.parse(localStorage.getItem('pool_s_pipe_v14') || '[]');
+      unseenPoolP = JSON.parse(localStorage.getItem('pool_p_pipe_v15') || '[]');
+      unseenPoolS = JSON.parse(localStorage.getItem('pool_s_pipe_v15') || '[]');
 
       if (unseenPoolP.length === 0) resetTypePool('音');
       if (unseenPoolS.length === 0) resetTypePool('形');
@@ -1382,10 +1382,10 @@
       shuffle(ids);
       if (type === '音') {
         unseenPoolP = ids;
-        localStorage.setItem('pool_p_pipe_v14', JSON.stringify(unseenPoolP));
+        localStorage.setItem('pool_p_pipe_v15', JSON.stringify(unseenPoolP));
       } else {
         unseenPoolS = ids;
-        localStorage.setItem('pool_s_pipe_v14', JSON.stringify(unseenPoolS));
+        localStorage.setItem('pool_s_pipe_v15', JSON.stringify(unseenPoolS));
       }
     }
 
@@ -1418,8 +1418,8 @@
 
       const pIds = unseenPoolP.splice(0, 25);
       const sIds = unseenPoolS.splice(0, 25);
-      localStorage.setItem('pool_p_pipe_v14', JSON.stringify(unseenPoolP));
-      localStorage.setItem('pool_s_pipe_v14', JSON.stringify(unseenPoolS));
+      localStorage.setItem('pool_p_pipe_v15', JSON.stringify(unseenPoolP));
+      localStorage.setItem('pool_s_pipe_v15', JSON.stringify(unseenPoolS));
 
       const pQuestions = pIds.map(id => questionBank.find(q => q.id === id)).filter(Boolean);
       const sQuestions = sIds.map(id => questionBank.find(q => q.id === id)).filter(Boolean);
@@ -1591,7 +1591,7 @@
       const modal = document.getElementById('modal-import');
       modal.classList.toggle('hidden', !show);
       if (show) {
-        const currentPipe = localStorage.getItem('quiz_800_pipe_data_v14') || BUILTIN_PIPE_TEXT;
+        const currentPipe = localStorage.getItem('quiz_800_pipe_data_v15') || BUILTIN_PIPE_TEXT;
         document.getElementById('import-text').value = currentPipe;
       }
     }
@@ -1608,7 +1608,7 @@
       }
 
       questionBank = parsed;
-      localStorage.setItem('quiz_800_pipe_data_v14', text);
+      localStorage.setItem('quiz_800_pipe_data_v15', text);
       resetTypePool('音');
       resetTypePool('形');
 
@@ -1621,7 +1621,7 @@
     function restoreFullBank() {
       if (confirm('確定要還原回預設 801 題完整校正庫嗎？這會覆蓋目前的修改。')) {
         questionBank = parseAllPipeText(BUILTIN_PIPE_TEXT);
-        localStorage.setItem('quiz_800_pipe_data_v14', BUILTIN_PIPE_TEXT);
+        localStorage.setItem('quiz_800_pipe_data_v15', BUILTIN_PIPE_TEXT);
         resetTypePool('音');
         resetTypePool('形');
         document.getElementById('import-text').value = BUILTIN_PIPE_TEXT;
