@@ -138,9 +138,16 @@
       gap: 16px;
       margin-top: 18px;
     }
+    .kbd-hint {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #94a3b8;
+      font-weight: 700;
+    }
     @media (max-width: 640px) {
       .grid-btns { grid-template-columns: 1fr; }
       .prompt-text { font-size: 40px; }
+      .kbd-hint { display: none; }
     }
     .opt-btn {
       padding: 20px 14px;
@@ -327,6 +334,7 @@
         <button id="opt-btn-0" onclick="handleChoice(0)" class="opt-btn">--</button>
         <button id="opt-btn-1" onclick="handleChoice(1)" class="opt-btn">--</button>
       </div>
+      <div class="kbd-hint">⌨️ 鍵盤操作：按 <strong>←</strong> 選左邊選項、按 <strong>→</strong> 選右邊選項</div>
     </div>
 
     <!-- 3. 詳解畫面 -->
@@ -351,6 +359,7 @@
         <div id="detail-expl" class="expl-content">--</div>
       </div>
       <button onclick="nextQuestion()" class="btn-action btn-next">下一題 ➔</button>
+      <div class="kbd-hint">⌨️ 鍵盤操作：按 <strong>←</strong> 或 <strong>→</strong> 進入下一題</div>
     </div>
 
     <!-- 4. 回合結算介面 -->
@@ -1329,6 +1338,27 @@
       initDatabase();
       updateDashboard();
       initScreen();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.repeat) return;
+      const modal = document.getElementById('modal-import');
+      if (modal && !modal.classList.contains('hidden')) return;
+      const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        const quizScreen = document.getElementById('screen-quiz');
+        const detailScreen = document.getElementById('screen-detail');
+
+        if (quizScreen && !quizScreen.classList.contains('hidden')) {
+          e.preventDefault();
+          handleChoice(e.key === 'ArrowLeft' ? 0 : 1);
+        } else if (detailScreen && !detailScreen.classList.contains('hidden')) {
+          e.preventDefault();
+          nextQuestion();
+        }
+      }
     });
 
     function initDatabase() {
